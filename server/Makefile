@@ -46,7 +46,7 @@ db:
 	psql -h 127.0.0.1 -p 5432 -U pg -W postgres
 
 .PHONY: lint
-check:
+lint:
 	python -m flake8 app
 	python -m black --check app
 	python -m isort --check app

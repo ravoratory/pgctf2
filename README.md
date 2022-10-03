@@ -28,7 +28,7 @@ make createsuperuser
 ```
 を実行してsuper userを作成
 
-[https://localhost:8080/admin](https://localhost:8080/admin)でログイン画面
+[http://localhost:8080/admin](http://localhost:8080/admin)でログイン画面
 ```
 ID: root
 Password: password
@@ -36,10 +36,11 @@ Password: password
 
 
 ## minio
-[https://localhost:9090](https://localhost:9090)でminioのコンソールに入れます
+[http://localhost:9090](http://localhost:9090)でminioのコンソールに入れます
 ```
 ID: minio
 Password: password
+バケット名: pgctf-bucket
 ```
 
 ## django startapp
