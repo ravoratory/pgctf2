@@ -1,7 +1,7 @@
-FROM python:3.10-slim-buster as builder
+FROM python:3.10.7-slim-buster as builder
 
-WORKDIR /code
-COPY requirements.txt /code/
+WORKDIR /app
+COPY requirements.txt /app/
 
 RUN apt update
 RUN apt install -y gcc
@@ -10,8 +10,14 @@ RUN pip install -r requirements.txt
 
 FROM python:3.10-slim-buster
 
-COPY --from=builder /usr/local/lib/python3.10/site-packages /usr/local/lib/python3.10/site-packages
-COPY --from=builder /usr/local/bin/uwsgi /usr/local/bin/uwsgi
+RUN useradd -r -s /bin/false django
 
-WORKDIR /code
-COPY . /code/
+COPY --from=builder --chown=100:django /usr/local/lib/python3.10/site-packages /usr/local/lib/python3.10/site-packages
+COPY --from=builder --chown=100:django  /usr/local/bin/uwsgi /usr/local/bin/uwsgi
+
+WORKDIR /app
+
+COPY --chown=100:django server/. /app/
+
+USER django
+EXPOSE 8080

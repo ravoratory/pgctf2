@@ -1,0 +1,7 @@
+#!/bin/bash
+
+if [ -n "`docker compose ps $1 | grep -e running -e Up`"] ; then
+  docker compose exec -T $@
+else
+  docker compose run -T --rm $@
+fi

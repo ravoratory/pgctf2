@@ -8,4 +8,4 @@ repos:
     hooks:
       - id: isort
         name: isort (python)
-        args: ['--check', 'app']
+        args: ['--check', 'server']

@@ -1,8 +1,8 @@
 import json
 
 import requests
+from decouple import config
 
-from django.conf import settings
 from django.core.signals import got_request_exception
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -14,9 +14,9 @@ from users.models import User
 
 from .models import Announcement
 
-webhook_system_notify_url = settings.DISCORD_WEBHOOK_SYSTEM_NOTIFY_URL
-webhook_solved_notify_url = settings.DISCORD_WEBHOOK_SOLVED_NOTIFY_URL
-webhook_error_notify_url = settings.DISCORD_WEBHOOK_ERROR_NOTIFY_URL
+webhook_system_notify_url = config("DISCORD_WEBHOOK_SYSTEM_NOTIFY_URL")
+webhook_solved_notify_url = config("DISCORD_WEBHOOK_SOLVED_NOTIFY_URL")
+webhook_error_notify_url = config("DISCORD_WEBHOOK_ERROR_NOTIFY_URL")
 
 
 def discord_webhook_sender(payload, webhook_url):
@@ -124,4 +124,7 @@ def got_request_exception_receiver(sender: None, request: HttpRequest, **kwargs)
             }
         ],
     }
-    discord_webhook_sender(payload, webhook_system_notify_url)
+    try:
+        discord_webhook_sender(payload, webhook_system_notify_url)
+    except Exception:
+        pass

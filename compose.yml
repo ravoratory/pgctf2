@@ -9,7 +9,7 @@ services:
     volumes:
       - ./db:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U pg -d postgres "]
+      test: ['CMD-SHELL', 'pg_isready -U pg -d postgres ']
       interval: 1s
       timeout: 5s
       retries: 5
@@ -17,13 +17,15 @@ services:
 
   web:
     container_name: pgctf2_web
-    build: ./app
+    build:
+      context: .
+      dockerfile: ./docker/server/Dockerfile
     volumes:
-      - ./app:/code
+      - ./server:/code
     ports:
       - '8080:8080'
     env_file:
-      - ./.env
+      - ./server/.env
     depends_on:
       db:
         condition: service_healthy

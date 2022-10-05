@@ -7,7 +7,7 @@ makemigrations:
 
 .PHONY: startapp
 startapp:
-	cd app; \
+	cd server; \
 	python manage.py startapp --template ../django_app_template.tar.gz $(APP_NAME)
 
 .PHONY: createsuperuser
@@ -22,11 +22,11 @@ db:
 
 .PHONY: lint
 lint:
-	python -m flake8 app
-	python -m black --check app
-	python -m isort --check app
+	python -m flake8 server
+	python -m black --check server
+	python -m isort --check server
 
 .PHONY: format
 format:
-	python -m black app
-	python -m isort app
+	python -m black server
+	python -m isort server

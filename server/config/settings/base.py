@@ -10,9 +10,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
-import os
 from pathlib import Path
-from typing import NamedTuple
+
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -22,12 +22,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
+SECRET_KEY = config("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -94,11 +94,11 @@ WSGI_APPLICATION = "config.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.getenv("DB_NAME", "postgres"),
-        "USER": os.getenv("DB_USER", "pg"),
-        "PASSWORD": os.getenv("DB_PASSWORD", "password"),
-        "HOST": os.getenv("DB_HOST", "db"),
-        "PORT": os.getenv("DB_PORT", 5432),
+        "NAME": config("DB_NAME", "postgres"),
+        "USER": config("DB_USER", "pg"),
+        "PASSWORD": config("DB_PASSWORD", "password"),
+        "HOST": config("DB_HOST", "db"),
+        "PORT": config("DB_PORT", 5432),
     }
 }
 
@@ -151,7 +151,7 @@ AUTH_USER_MODEL = "users.User"
 SITE_ID = 1
 SOCIALACCOUNT_PROVIDERS = {
     "PGrit": {
-        "APP": {"client_id": os.getenv("CLIENT_ID", "clientid"), "secret": os.getenv("CLIENT_SECRET", "secret")},
+        "APP": {"client_id": config("CLIENT_ID", "clientid"), "secret": config("CLIENT_SECRET", "secret")},
     }
 }
 
@@ -167,37 +167,10 @@ ACCOUNT_EMAIL_REQUIRED = True
 
 USE_X_FORWARDED_HOST = True
 
-DISCORD_WEBHOOK_SYSTEM_NOTIFY_URL = os.getenv("DISCORD_WEBHOOK_SYSTEM_NOTIFY_URL", "")
-DISCORD_WEBHOOK_SOLVED_NOTIFY_URL = os.getenv("DISCORD_WEBHOOK_SOLVED_NOTIFY_URL", "")
-DISCORD_WEBHOOK_ERROR_NOTIFY_URL = os.getenv("DISCORD_WEBHOOK_ERROR_NOTIFY_URL", "")
-
-AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
-AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
-AWS_STORAGE_BUCKET_NAME = os.getenv("AWS_STORAGE_BUCKET_NAME")
-AWS_S3_ENDPOINT_URL = os.getenv("AWS_S3_ENDPOINT_URL")
-AWS_S3_REGION_NAME = os.getenv("AWS_S3_REGION_NAME", "ap-northeast-1")
+AWS_ACCESS_KEY_ID = config("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = config("AWS_SECRET_ACCESS_KEY")
+AWS_STORAGE_BUCKET_NAME = config("AWS_STORAGE_BUCKET_NAME")
+AWS_S3_ENDPOINT_URL = config("AWS_S3_ENDPOINT_URL")
+AWS_S3_REGION_NAME = config("AWS_S3_REGION_NAME", default="ap-northeast-1")
 
 DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
-
-
-class GameConfiguration(NamedTuple):
-    field: str
-    value: str = "0"
-    description: str = ""
-
-
-DEFAULT_GAME_CONFIGURATIONS = [
-    GameConfiguration("quiz_viewable", "0", "(bool) CTF開催期間外でも問題画面にアクセスできるか"),
-    GameConfiguration("game_paused", "0", "(bool) CTF中断用 問題画面へのアクセスは可能"),
-    GameConfiguration("start_ts", "0", "(timestamp) ゲーム開始時刻"),
-    GameConfiguration("end_ts", "0", "(timestamp) ゲーム終了時刻"),
-    GameConfiguration("auto_announce", "1", "(bool) 問題公開アナウンスを自動作成するか"),
-    GameConfiguration("min_score", "50", "(int) 問題のスコアの最小値"),
-    GameConfiguration("max_score", "500", "(int) 問題のスコアの最大値"),
-    GameConfiguration("winners_threshould", "10", "(int) 超えるとスコアが最小になる正解者数"),
-    GameConfiguration("update_score", "1", "(bool) 回答者の割合によって問題のスコアを更新するか"),
-    GameConfiguration("ranking", "1", "(bool) ranking_freeze_tsに関わらずランキングを更新するか"),
-    GameConfiguration("ranking_freeze_ts", "0", "(timestamp) ランキング更新を停止する時刻 0: 常に更新"),
-    GameConfiguration("ranking_viewable", "1", "(bool) ランキングを公開するか"),
-    GameConfiguration("ranking_limit", "10", "(int) ランキングの表示上限"),
-]
