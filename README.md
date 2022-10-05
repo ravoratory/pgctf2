@@ -2,24 +2,26 @@
 A new playground-ctf site.
 
 # Server
-## Requirements
-- Docker
-- compose v2
-- GNU make
-- flake8 (linter)
-- black (formatter)
-- isort (formatter)
+## 主な使用技術
+- [Python](https://www.python.org/) 3.10
+- [Django](https://www.djangoproject.com/) 4.1
+- [Django REST framework](https://www.django-rest-framework.org/) 3.14
+- [PostgreSQL](https://www.postgresql.org/)
 
-## Environments
-- Python 3.10
-- Django 4.1.1
-- Django-REST-framework 3.14.0
-- PostgreSQL
+## ローカル環境
+- [Docker](https://www.docker.com/)
+- [compose v2](https://docs.docker.com/compose/)
+- [GNU Make](https://www.gnu.org/software/make/)
+- [venv](https://docs.python.org/ja/3/library/venv.html)
+- [flake8](https://github.com/PyCQA/flake8)
+- [black](https://github.com/psf/black)
+- [isort](https://github.com/PyCQA/isort)
 
 ## ローカルで実行
 ```sh
 cp example.env .env
-make up
+docker compose build
+docker compose up
 ```
 
 ## Django admin画面

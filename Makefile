@@ -1,30 +1,5 @@
 SHELL = /bin/sh
 
-.PHONY: setup
-setup:
-	cp example.env .env
-
-.PHONY: up
-up: build
-	docker compose up
-
-.PHONY: build
-build:
-	docker compose build
-
-.PHONY: exec
-exec:
-	docker compose exec web bash
-
-.PHONY: down
-down:
-	docker compose down
-
-.PHONY: cleanup
-clean:
-	-docker $(RM) `docker ps -aq`
-	docker system prune -af
-
 .PHONY: makemigrations
 makemigrations:
 	docker compose exec web \
