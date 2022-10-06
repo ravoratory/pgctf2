@@ -1,8 +1,8 @@
 # pgctf2
 A new playground-ctf site.
 
-# Server
 ## 主な使用技術
+<!-- 増えたら追加していってください -->
 - [Python](https://www.python.org/) 3.10
 - [Django](https://www.djangoproject.com/) 4.1
 - [Django REST framework](https://www.django-rest-framework.org/) 3.14
@@ -19,9 +19,14 @@ A new playground-ctf site.
 
 ## ローカルで実行
 ```sh
-cp example.env .env
-docker compose build
-docker compose up
+cp server/example.env server/.env
+docker compose up --build
+```
+
+## pre-commit
+```sh
+pip install pre-commit
+pre-commit install
 ```
 
 ## Django admin画面

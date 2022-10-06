@@ -1,1 +1,5 @@
-python-decouple==3.6
+black
+django==4.1.1
+flake8
+isort
+pre-commit
