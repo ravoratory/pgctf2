@@ -17,7 +17,7 @@ COPY --from=builder --chown=100:django  /usr/local/bin/uwsgi /usr/local/bin/uwsg
 
 WORKDIR /app
 
-COPY --chown=100:django server/. /app/
+COPY --chown=100:django server/ .
 
 USER django
 EXPOSE 8080

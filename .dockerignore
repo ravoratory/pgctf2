@@ -1,3 +1,5 @@
 db/
 node_modules
 example.env
+.env
+venv
