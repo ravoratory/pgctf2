@@ -9,3 +9,9 @@ repos:
       - id: isort
         name: isort (python)
         args: ['--check', 'server']
+  - repo: https://github.com/psf/black
+    rev: 22.8.0
+    hooks:
+      - id: black
+        name: black (python)
+        args: ['--check', 'server']
