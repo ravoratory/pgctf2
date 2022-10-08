@@ -3,13 +3,13 @@ services:
     container_name: pgctf2_db
     image: postgres
     environment:
-      - POSTGRES_DB=postgres
-      - POSTGRES_USER=pg
-      - POSTGRES_PASSWORD=password
+      POSTGRES_DB: postgres
+      POSTGRES_USER: pg
+      POSTGRES_PASSWORD: password
     volumes:
-      - dbdata:/var/lib/postgresql/data:delegated
+      - db-data:/var/lib/postgresql/data:delegated
     healthcheck:
-      test: ['CMD-SHELL', 'pg_isready -U pg -d postgres ']
+      test: ['CMD-SHELL', 'pg_isready -U pg -d postgres']
       interval: 1s
       timeout: 5s
       retries: 5
@@ -40,17 +40,13 @@ services:
     ports:
       - '9000:9000'
       - '9001:9001'
-    # environment:
-    #   MINIO_ROOT_USER: minioadmin
-    #   MINIO_ROOT_PASSWORD: minioadmin
     volumes:
-      - miniodata:/data:delegated
-    command: ['server', '--console-address', ':9090', '--compat', '/data']
+      - minio-data:/data:delegated
+    command: ['server', '--console-address', ':9001', '--compat', '/data']
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
-      interval: 30s
-      timeout: 20s
-      retries: 5
+      interval: 1s
+      retries: 10
 
   createbuckets:
     image: minio/mc
@@ -66,9 +62,9 @@ services:
       "
 
 volumes:
-  dbdata:
-    external:
-      name: pgctf2_dbdata
-  miniodata:
-    external:
-      name: pgctf2_miniodata
+  db-data:
+    name: pgctf2-dbdata
+    external: true
+  minio-data:
+    name: pgctf2-miniodata
+    external: true

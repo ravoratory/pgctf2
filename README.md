@@ -19,11 +19,16 @@ A new playground-ctf site.
 
 ## ローカルで実行
 ```sh
+# 初回のみ
 cp server/example.env server/.env
+docker volume create pgctf2-dbdata
+docker volume create pgctf2-miniodata
+# 毎回
 docker compose up --build
 ```
 
 ## pre-commit
+pre-commitを使用するとcommit前にlintが走るようになります
 ```sh
 pip install pre-commit
 pre-commit install
@@ -41,12 +46,11 @@ ID: root
 Password: password
 ```
 
-
 ## minio
-[http://localhost:9090](http://localhost:9090)でminioのコンソールに入れます
+[http://localhost:9001](http://localhost:9001)でminioのコンソールに入れます
 ```
-ID: minio
-Password: password
+ID: minioadmin
+Password: minioadmin
 バケット名: pgctf-bucket
 ```
 
