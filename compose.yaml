@@ -1,0 +1,74 @@
+services:
+  db:
+    container_name: pgctf2_db
+    image: postgres
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=pg
+      - POSTGRES_PASSWORD=password
+    volumes:
+      - dbdata:/var/lib/postgresql/data:delegated
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U pg -d postgres ']
+      interval: 1s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  web:
+    container_name: pgctf2_web
+    build:
+      context: .
+      dockerfile: ./docker/server/Dockerfile
+    volumes:
+      - ./server:/code
+    ports:
+      - '8080:8080'
+    env_file:
+      - ./server/.env
+    depends_on:
+      db:
+        condition: service_healthy
+    command: >
+      /bin/sh -c
+        'python manage.py migrate &&
+        python manage.py runserver 0.0.0.0:8080'
+
+  minio:
+    container_name: pgctf2_minio
+    image: minio/minio
+    ports:
+      - '9000:9000'
+      - '9001:9001'
+    # environment:
+    #   MINIO_ROOT_USER: minioadmin
+    #   MINIO_ROOT_PASSWORD: minioadmin
+    volumes:
+      - miniodata:/data:delegated
+    command: ['server', '--console-address', ':9090', '--compat', '/data']
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 5
+
+  createbuckets:
+    image: minio/mc
+    depends_on:
+      minio:
+        condition: service_healthy
+    entrypoint: >
+      /bin/sh -c "
+      until (/usr/bin/mc alias set myminio http://minio:9000 minioadmin minioadmin) do echo '...waiting...' && sleep 1; done;
+      /usr/bin/mc mb myminio/pgctf-bucket;
+      /usr/bin/mc policy set public myminio/pgctf-bucket;
+      exit 0;
+      "
+
+volumes:
+  dbdata:
+    external:
+      name: pgctf2_dbdata
+  miniodata:
+    external:
+      name: pgctf2_miniodata
