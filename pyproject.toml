@@ -1,4 +1,16 @@
 [tool.black]
 line-length=120
 target-version=['py310']
-exclude="migrations/*"
+exclude='''
+/(
+    \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.venv
+  | _build
+  | build
+  | dist
+  | [a-z_]+/migrations
+)/
+'''
