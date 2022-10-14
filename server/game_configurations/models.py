@@ -2,7 +2,6 @@ import time
 from datetime import datetime
 from typing import NamedTuple
 
-from django.conf import settings
 from django.db import models
 from django.db.models import BooleanField, FloatField
 from django.db.models.functions import Cast
@@ -184,7 +183,7 @@ class GameConfiguration(NamedTuple):
     description: str = ""
 
 
-DEFAULT_GAME_CONFIGURATIONS = [
+default_game_configurations = [
     GameConfiguration("quiz_viewable", "0", "(bool) CTF開催期間外でも問題画面にアクセスできるか"),
     GameConfiguration("game_paused", "0", "(bool) CTF中断用 問題画面へのアクセスは可能"),
     GameConfiguration("start_ts", "0", "(timestamp) ゲーム開始時刻"),
@@ -203,7 +202,7 @@ DEFAULT_GAME_CONFIGURATIONS = [
 
 def create_default_configuration(sender, **kwargs):
     print("Creating default configuration")
-    for field, value, description in settings.DEFAULT_GAME_CONFIGURATIONS:
+    for field, value, description in default_game_configurations:
         print(f"  Creating {field} with value {value}")
         try:
             _, created = Configuration.objects.get_or_create(field=field, value=value, description=description)
