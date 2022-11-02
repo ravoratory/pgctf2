@@ -21,6 +21,8 @@ def recalculate_quiz_score(quiz_id=None):
         quizzes = quizzes.filter(id=quiz_id)
 
     for quiz in quizzes:
+        if quiz.fixed:
+            continue
         solve_count: int = quiz.solved_users.filter(is_staff=False).count()
         value = (((min_score - max_score) / (winners_threshould**2)) * (solve_count**2)) + max_score
         value = math.ceil(value)

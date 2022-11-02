@@ -78,6 +78,7 @@ class Quiz(models.Model):
 
     difficulty = models.PositiveIntegerField("Difficulty")
     point = models.PositiveIntegerField("Point")
+    fixed = models.BooleanField("Fixed", default=False, help_text="Trueにするとgame_configurationの設定に関わらずスコアが変動しなくなります")
 
     author = models.CharField("Author", max_length=100, blank=True, null=True)
 
@@ -92,7 +93,7 @@ class Quiz(models.Model):
     created_at = models.DateTimeField("Created at", editable=False)
     updated_at = models.DateTimeField("Updated at", default=timezone.now)
 
-    is_extra = models.BooleanField("Is extra", default=False)
+    is_extra = models.BooleanField("Is extra", default=False, help_text="Trueにするとextra問題として扱われます")
 
     class Meta:
         verbose_name_plural = "Quizzes"

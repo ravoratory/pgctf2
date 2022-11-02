@@ -176,6 +176,42 @@ class Configuration(models.Model):
             .winners_threshould
         )
 
+    @staticmethod
+    def webhook_enabled() -> bool:
+        return (
+            Configuration.objects.filter(field="webhook_enabled")
+            .annotate(webhook_enabled=Cast("value", output_field=BooleanField()))
+            .first()
+            .webhook_enabled
+        )
+
+    @staticmethod
+    def webhook_system_notify_url() -> str:
+        return (
+            Configuration.objects.filter(field="webhook_system_notify_url")
+            .annotate(webhook_system_notify_url=Cast("value", output_field=models.CharField()))
+            .first()
+            .webhook_system_notify_url
+        )
+
+    @staticmethod
+    def webhook_solved_notify_url() -> str:
+        return (
+            Configuration.objects.filter(field="webhook_solved_notify_url")
+            .annotate(webhook_solved_notify_url=Cast("value", output_field=models.CharField()))
+            .first()
+            .webhook_solved_notify_url
+        )
+
+    @staticmethod
+    def webhook_error_notify_url() -> str:
+        return (
+            Configuration.objects.filter(field="webhook_error_notify_url")
+            .annotate(webhook_error_notify_url=Cast("value", output_field=models.CharField()))
+            .first()
+            .webhook_error_notify_url
+        )
+
 
 class GameConfiguration(NamedTuple):
     field: str
@@ -197,6 +233,10 @@ default_game_configurations = [
     GameConfiguration("ranking_freeze_ts", "0", "(timestamp) ランキング更新を停止する時刻 0: 常に更新"),
     GameConfiguration("ranking_viewable", "1", "(bool) ランキングを公開するか"),
     GameConfiguration("ranking_limit", "10", "(int) ランキングの表示上限"),
+    GameConfiguration("webhook_enabled", "1", "(bool) Webhookを有効にするか"),
+    GameConfiguration("webhook_system_notify_url", "", "(string) システム通知用のWebhook URL"),
+    GameConfiguration("webhook_solved_notify_url", "", "(string) 解答通知用のWebhook URL"),
+    GameConfiguration("webhook_error_notify_url", "", "(string) エラー通知用のWebhook URL"),
 ]
 
 
