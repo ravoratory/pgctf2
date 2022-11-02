@@ -15,7 +15,7 @@ from pathlib import Path
 from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 
 # Quick-start development settings - unsuitable for production
@@ -41,11 +41,14 @@ INSTALLED_APPS = [
     "allauth.socialaccount",
     "corsheaders",
     "dj_rest_auth",
+    "import_export",
     "rest_framework",
     "rest_framework.authtoken",
     "storages",
+    "material",
+    "material.admin",
     # Django
-    "django.contrib.admin",
+    # "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
@@ -171,3 +174,18 @@ AWS_S3_ENDPOINT_URL = config("AWS_S3_ENDPOINT_URL")
 AWS_S3_REGION_NAME = config("AWS_S3_REGION_NAME", default="ap-northeast-1")
 
 DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+
+MATERIAL_ADMIN_SITE = {
+    "HEADER": "PG-CTF2管理サイト",
+    "TITLE": "PG-CTF2管理サイト",
+    "APP_ICONS": {
+        "account": "account_box",
+        "socialaccount": "account_circle",
+    },
+    "MODEL_ICONS": {
+        "emailaddress": "email",
+        "socialaccount": "account_circle",
+        "socialtoken": "vpn_key",
+        "socialapp": "apps",
+    },
+}

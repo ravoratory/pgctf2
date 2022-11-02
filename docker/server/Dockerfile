@@ -1,14 +1,15 @@
 FROM python:3.10.7-slim-buster as builder
 
 WORKDIR /app
-COPY requirements.txt /app/
 
 RUN apt update
 RUN apt install -y gcc
 RUN pip install --upgrade pip
+
+COPY requirements.txt /app/
 RUN pip install -r requirements.txt
 
-FROM python:3.10-slim-buster
+FROM python:3.10.7-slim-buster
 
 RUN useradd -r -s /bin/false django
 

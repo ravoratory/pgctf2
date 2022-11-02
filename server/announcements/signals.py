@@ -1,7 +1,6 @@
 import json
 
 import requests
-from decouple import config
 
 from django.core.signals import got_request_exception
 from django.db.models.signals import post_save
@@ -14,12 +13,10 @@ from users.models import User
 
 from .models import Announcement
 
-webhook_system_notify_url = config("DISCORD_WEBHOOK_SYSTEM_NOTIFY_URL")
-webhook_solved_notify_url = config("DISCORD_WEBHOOK_SOLVED_NOTIFY_URL")
-webhook_error_notify_url = config("DISCORD_WEBHOOK_ERROR_NOTIFY_URL")
-
 
 def discord_webhook_sender(payload, webhook_url):
+    if not webhook_url or not Configuration.webhook_enabled():
+        return
     headers = {"Content-Type": "application/json"}
 
     response = requests.post(webhook_url, data=json.dumps(payload), headers=headers)
@@ -39,14 +36,14 @@ def quiz_create_receiver(sender, instance, created, **kwargs):
             {
                 "fields": [
                     {
-                        "name": f"{instance.number}: [{instance.category.name}]",
+                        "name": f"{instance.number}: [{instance.category.name if instance.category else ''}]",
                         "value": instance.title,
                     }
                 ]
             }
         ],
     }
-    discord_webhook_sender(payload, webhook_system_notify_url)
+    discord_webhook_sender(payload, Configuration.webhook_system_notify_url())
 
     if instance.published and Configuration.auto_announce():
         Announcement.objects.create(title="問題公開", body=f"{instance.number}を公開しました")
@@ -61,7 +58,7 @@ def quiz_solved_receiver(sender, instance, created, **kwargs):
     payload = {
         "content": f":partying_face: {instance.user.username} solved {instance.quiz.number}: {instance.quiz.title}"
     }
-    discord_webhook_sender(payload, webhook_solved_notify_url)
+    discord_webhook_sender(payload, Configuration.webhook_solved_notify_url())
 
 
 # Announcementが作成された際の通知
@@ -83,7 +80,7 @@ def announcement_create_receiver(sender, instance, created, **kwargs):
             }
         ],
     }
-    discord_webhook_sender(payload, webhook_system_notify_url)
+    discord_webhook_sender(payload, Configuration.webhook_system_notify_url())
 
 
 # Userが登録された際の通知
@@ -93,7 +90,7 @@ def user_register_receiver(sender, instance, created, **kwargs):
         return
 
     payload = {"content": f":tada: @{instance.username} has been registered!"}
-    discord_webhook_sender(payload, webhook_system_notify_url)
+    discord_webhook_sender(payload, Configuration.webhook_system_notify_url())
 
 
 # Viewで例外(Status code 5xx)が発生した際の通知
@@ -125,6 +122,6 @@ def got_request_exception_receiver(sender: None, request: HttpRequest, **kwargs)
         ],
     }
     try:
-        discord_webhook_sender(payload, webhook_system_notify_url)
+        discord_webhook_sender(payload, Configuration.webhook_system_notify_url())
     except Exception:
         pass

@@ -2,7 +2,6 @@ import time
 from datetime import datetime
 from typing import NamedTuple
 
-from django.conf import settings
 from django.db import models
 from django.db.models import BooleanField, FloatField
 from django.db.models.functions import Cast
@@ -177,6 +176,42 @@ class Configuration(models.Model):
             .winners_threshould
         )
 
+    @staticmethod
+    def webhook_enabled() -> bool:
+        return (
+            Configuration.objects.filter(field="webhook_enabled")
+            .annotate(webhook_enabled=Cast("value", output_field=BooleanField()))
+            .first()
+            .webhook_enabled
+        )
+
+    @staticmethod
+    def webhook_system_notify_url() -> str:
+        return (
+            Configuration.objects.filter(field="webhook_system_notify_url")
+            .annotate(webhook_system_notify_url=Cast("value", output_field=models.CharField()))
+            .first()
+            .webhook_system_notify_url
+        )
+
+    @staticmethod
+    def webhook_solved_notify_url() -> str:
+        return (
+            Configuration.objects.filter(field="webhook_solved_notify_url")
+            .annotate(webhook_solved_notify_url=Cast("value", output_field=models.CharField()))
+            .first()
+            .webhook_solved_notify_url
+        )
+
+    @staticmethod
+    def webhook_error_notify_url() -> str:
+        return (
+            Configuration.objects.filter(field="webhook_error_notify_url")
+            .annotate(webhook_error_notify_url=Cast("value", output_field=models.CharField()))
+            .first()
+            .webhook_error_notify_url
+        )
+
 
 class GameConfiguration(NamedTuple):
     field: str
@@ -184,7 +219,7 @@ class GameConfiguration(NamedTuple):
     description: str = ""
 
 
-DEFAULT_GAME_CONFIGURATIONS = [
+default_game_configurations = [
     GameConfiguration("quiz_viewable", "0", "(bool) CTF開催期間外でも問題画面にアクセスできるか"),
     GameConfiguration("game_paused", "0", "(bool) CTF中断用 問題画面へのアクセスは可能"),
     GameConfiguration("start_ts", "0", "(timestamp) ゲーム開始時刻"),
@@ -198,12 +233,16 @@ DEFAULT_GAME_CONFIGURATIONS = [
     GameConfiguration("ranking_freeze_ts", "0", "(timestamp) ランキング更新を停止する時刻 0: 常に更新"),
     GameConfiguration("ranking_viewable", "1", "(bool) ランキングを公開するか"),
     GameConfiguration("ranking_limit", "10", "(int) ランキングの表示上限"),
+    GameConfiguration("webhook_enabled", "1", "(bool) Webhookを有効にするか"),
+    GameConfiguration("webhook_system_notify_url", "", "(string) システム通知用のWebhook URL"),
+    GameConfiguration("webhook_solved_notify_url", "", "(string) 解答通知用のWebhook URL"),
+    GameConfiguration("webhook_error_notify_url", "", "(string) エラー通知用のWebhook URL"),
 ]
 
 
 def create_default_configuration(sender, **kwargs):
     print("Creating default configuration")
-    for field, value, description in settings.DEFAULT_GAME_CONFIGURATIONS:
+    for field, value, description in default_game_configurations:
         print(f"  Creating {field} with value {value}")
         try:
             _, created = Configuration.objects.get_or_create(field=field, value=value, description=description)
