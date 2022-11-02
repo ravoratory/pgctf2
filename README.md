@@ -17,7 +17,7 @@ A new playground-ctf site.
 - [black](https://github.com/psf/black)
 - [isort](https://github.com/PyCQA/isort)
 
-## ローカルで実行
+## ローカルでAPIサーバ(Django)を動かす
 ```sh
 # 初回のみ
 cp server/example.env server/.env
@@ -28,7 +28,7 @@ docker compose up --build
 ```
 
 ## pre-commit
-pre-commitを使用するとcommit前にlintが走るようになります
+pre-commitを使用するとcommit前にlintが走るようになります(formatはされません)
 ```sh
 pip install pre-commit
 pre-commit install
