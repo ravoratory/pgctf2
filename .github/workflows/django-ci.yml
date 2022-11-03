@@ -43,5 +43,9 @@ jobs:
         DJANGO_SETTINGS_MODULE: config.settings.production
         DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
         DB_HOST: localhost
+        AWS_ACCESS_KEY_ID: test
+        AWS_SECRET_ACCESS_KEY: test
+        AWS_STORAGE_BUCKET_NAME: test
+        AWS_S3_ENDPOINT_URL: localhost
       run: |
         python ./server/manage.py test
