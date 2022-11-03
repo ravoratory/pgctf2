@@ -44,4 +44,4 @@ jobs:
         DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
         DB_HOST: localhost
       run: |
-        python manage.py test
+        python ./server/manage.py test
