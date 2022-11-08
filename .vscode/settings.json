@@ -1,7 +1,10 @@
 {
     "[python]": {
         "editor.tabSize": 4,
-        "editor.formatOnSave": true
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": true
+        }
     },
     "python.languageServer": "Pylance",
     "python.linting.flake8Enabled": true,
