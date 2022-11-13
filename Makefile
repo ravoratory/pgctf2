@@ -2,7 +2,12 @@ SHELL = /bin/sh
 
 .PHONY: makemigrations
 makemigrations:
-	docker compose exec web \
+	./bin/docker-compose-exec-or-run web \
+	python manage.py makemigrations
+
+.PHONY: migrate
+migrate:
+	./bin/docker-compose-exec-or-run web \
 	python manage.py makemigrations
 
 .PHONY: startapp
@@ -12,7 +17,7 @@ startapp:
 
 .PHONY: createsuperuser
 createsuperuser:
-	docker compose exec web \
+	./bin/docker-compose-exec-or-run web \
 	python manage.py createsuperuser --noinput
 
 .PHONY: db
