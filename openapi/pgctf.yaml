@@ -1,0 +1,585 @@
+openapi: 3.0.2
+
+info:
+  title: PG-CTF2 API
+  description: |-
+    PG-CTF2のAPI
+  version: 1.0.0
+
+servers:
+  - url: http://{host}:{port}/api
+    description: ローカル開発用
+    variables:
+      host:
+        default: localhost
+      port:
+        default: '8080'
+
+tags:
+  - name: users
+    description: ユーザ
+  - name: quizzes
+    description: 問題
+  - name: announces
+    description: アナウンス
+  - name: ranking
+    description: ランキング
+  - name: categories
+    description: カテゴリ
+
+paths:
+  /users/self:
+    get:
+      tags:
+        - users
+      summary: 自分自身のプロフィールを取得
+      operationId: GetSelfUserDetail
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDetail'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+  /users/{username}:
+    get:
+      tags:
+        - users
+      summary: 指定したユーザのプロフィールを取得
+      operationId: GetUserDetail
+      parameters:
+        - $ref: '#/components/parameters/UsernameParameter'
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDetail'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /users/{username}/chart/radar:
+    get:
+      tags:
+        - users
+      summary: 指定したユーザのレーダーチャート用データを取得
+      operationId: GetUserRadarChart
+      parameters:
+        - $ref: '#/components/parameters/UsernameParameter'
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserRadarChart'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /users/{username}/chart/line:
+    get:
+      tags:
+        - users
+      summary: 指定したユーザの折れ線グラフ用データを取得
+      operationId: GetUserLineChart
+      parameters:
+        - $ref: '#/components/parameters/UsernameParameter'
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserLineChart'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /quizzes:
+    get:
+      tags:
+        - quizzes
+      summary: クイズ一覧を取得
+      operationId: GetQuizzes
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QuizOverviews'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+  /quizzes/{quiz_number}:
+    get:
+      tags:
+        - quizzes
+      summary: クイズを取得
+      operationId: GetQuiz
+      parameters:
+        - $ref: '#/components/parameters/QuizNumberParameter'
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QuizDetail'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /quizzes/{quiz_number}/winners:
+    get:
+      tags:
+        - quizzes
+      summary: クイズの正解者一覧を取得
+      operationId: GetQuizWinners
+      parameters:
+        - $ref: '#/components/parameters/QuizNumberParameter'
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QuizWinners'
+  /quizzes/{quiz_number}/answer:
+    post:
+      tags:
+        - quizzes
+      summary: Flag送信
+      operationId: PostQuizAnswer
+      parameters:
+        - $ref: '#/components/parameters/QuizNumberParameter'
+      requestBody:
+        $ref: '#/components/requestBodies/AnswerBodies'
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnswerResult'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /categories:
+    get:
+      tags:
+        - categories
+      summary: クイズのカテゴリ一覧を取得
+      operationId: GetQuizCategories
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Categories'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+  /ranking:
+    get:
+      tags:
+        - ranking
+      summary: クイズ参加者のランキング(総得点順)
+      operationId: GetRanking
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserOverviews'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+  /ranking/chart/line:
+    get:
+      tags:
+        - ranking
+      summary: クイズ参加者の得点推移
+      operationId: GetLineChart
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RankingChart'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+  /announces:
+    get:
+      tags:
+        - announces
+      summary: 運営からのアナウンス一覧を取得
+      operationId: GetAnnounces
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Announces'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+components:
+  requestBodies:
+    AnswerBodies:
+      description: クイズの解答
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              flag:
+                $ref: '#/components/schemas/Flag'
+
+  responses:
+    BadRequest:
+      description: BadRequest
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/BadRequestError'
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UnauthorizedError'
+    Forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ForbiddenError'
+    NotFound:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/NotFoundError'
+
+  schemas:
+    BadRequestError:
+      type: object
+      properties:
+        detail:
+          type: string
+          example: Bad Request
+      required:
+        - detail
+    UnauthorizedError:
+      type: object
+      properties:
+        detail:
+          type: string
+          example: Unauthorized
+      required:
+        - detail
+    ForbiddenError:
+      type: object
+      properties:
+        detail:
+          type: string
+          example: Forbidden
+      required:
+        - detail
+    NotFoundError:
+      type: object
+      properties:
+        detail:
+          type: string
+          example: Not Found
+      required:
+        - detail
+    Username:
+      type: string
+      description: PGritのユーザ名
+      pattern: '\w+'
+      maxLength: 30
+      example: conop
+    Points:
+      type: integer
+      description: 得点
+      example: 500
+    SolvedAt:
+      type: string
+      format: date-time
+      description: 解答日時
+      example: '2022-08-31T21:42:41.002+09:00'
+    SolvedQuizCount:
+      type: integer
+      description: 正答数
+      example: 5
+    QuizNumber:
+      type: string
+      description: クイズの問題番号
+      example: Q1
+    QuizTitle:
+      type: string
+      description: クイズのタイトル
+      example: 'Hello World!'
+    Category:
+      type: string
+      description: クイズのカテゴリ
+      example: Web
+    Categories:
+      type: array
+      items:
+        $ref: '#/components/schemas/Category'
+      example:
+        - Web
+        - Crypto
+        - PWN
+        - Steganography
+        - Reversing
+    Difficulty:
+      type: integer
+      description: 難易度
+      example: 1
+    Winners:
+      type: integer
+      description: 正答者数
+      example: 10
+    Solved:
+      type: boolean
+      description: ログイン中のユーザがこの問題を正解しているかどうか
+      example: true
+    QuizStatement:
+      type: string
+      description: クイズの問題文
+      example: |-
+        <p>PG-CTFへようこそ!</p>
+        <p>CTFとは、問題の中から正解となる鍵(Flag)を探し出すパズルのようなものです</p>
+        <p>早速ですが、下のリンク先からpgctf{....}の様なFlagを見つけて下の入力欄に入力し、Submitボタンを押してみましょう！</p>
+        <a href="https://github.com/ravoratory/pgctf2">Wiki</a>
+    Author:
+      type: string
+      description: クイズ制作者名
+      example: conop
+    QuizFile:
+      type: string
+      format: uri
+      description: クイズの追加ファイル
+      example: 'https://example.s3.amazonaws.com/quiz_files/example.tar.gz'
+    QuizFiles:
+      type: array
+      items:
+        $ref: '#/components/schemas/QuizFile'
+    QuizAppendedURL:
+      type: string
+      format: uri
+      description: クイズの追加URL
+      example: 'https://example.com/foo/bar'
+    QuizAppendedURLs:
+      type: array
+      items:
+        $ref: '#/components/schemas/QuizAppendedURL'
+    Flag:
+      type: string
+      pattern: '^pgctf\{\w+}$'
+      maxLength: 100
+      description: クイズのFlag
+      example: 'pgctf{Hello_World123}'
+    IsCorrect:
+      type: boolean
+      description: クイズに正解したかどうか
+      example: true
+    AnnounceTitle:
+      type: string
+      description: アナウンスのタイトル
+      example: |-
+        問題追加
+    AnnounceContent:
+      type: string
+      description: アナウンスの内容
+      example: |-
+        A問題を追加しました
+    AnnouncePublishedAt:
+      type: string
+      format: date-time
+      description: 問題公開日時
+      example: '2022-08-31T21:42:41.002+09:00'
+    UserOverview:
+      type: object
+      properties:
+        username:
+          $ref: '#/components/schemas/Username'
+        points:
+          $ref: '#/components/schemas/Points'
+        last_solved:
+          $ref: '#/components/schemas/SolvedAt'
+    UserOverviews:
+      type: array
+      items:
+        $ref: '#/components/schemas/UserOverview'
+    UserDetail:
+      type: object
+      properties:
+        username:
+          $ref: '#/components/schemas/Username'
+        points:
+          $ref: '#/components/schemas/Points'
+        solved_quiz_count:
+          $ref: '#/components/schemas/SolvedQuizCount'
+        last_solved:
+          $ref: '#/components/schemas/SolvedAt'
+        solved_quizzes:
+          $ref: '#/components/schemas/SolvedQuizzes'
+    QuizWinner:
+      type: object
+      properties:
+        username:
+          $ref: '#/components/schemas/Username'
+        solved_at:
+          $ref: '#/components/schemas/SolvedAt'
+    QuizWinners:
+      type: array
+      items:
+        $ref: '#/components/schemas/QuizWinner'
+    QuizOverview:
+      type: object
+      properties:
+        number:
+          $ref: '#/components/schemas/QuizNumber'
+        title:
+          $ref: '#/components/schemas/QuizTitle'
+        category:
+          $ref: '#/components/schemas/Category'
+        difficulty:
+          $ref: '#/components/schemas/Difficulty'
+        points:
+          $ref: '#/components/schemas/Points'
+        winners:
+          $ref: '#/components/schemas/Winners'
+        solved:
+          $ref: '#/components/schemas/Solved'
+    QuizOverviews:
+      type: array
+      items:
+        $ref: '#/components/schemas/QuizOverview'
+    QuizDetail:
+      type: object
+      properties:
+        number:
+          $ref: '#/components/schemas/QuizNumber'
+        title:
+          $ref: '#/components/schemas/QuizTitle'
+        category:
+          $ref: '#/components/schemas/Category'
+        statement:
+          $ref: '#/components/schemas/QuizStatement'
+        difficulty:
+          $ref: '#/components/schemas/Difficulty'
+        points:
+          $ref: '#/components/schemas/Points'
+        author:
+          $ref: '#/components/schemas/Author'
+        files:
+          $ref: '#/components/schemas/QuizFiles'
+        urls:
+          $ref: '#/components/schemas/QuizAppendedURLs'
+        solved_users:
+          $ref: '#/components/schemas/UserOverviews'
+    SolvedQuiz:
+      type: object
+      properties:
+        number:
+          $ref: '#/components/schemas/QuizNumber'
+        title:
+          $ref: '#/components/schemas/QuizTitle'
+        category:
+          $ref: '#/components/schemas/Category'
+        difficulty:
+          $ref: '#/components/schemas/Difficulty'
+        points:
+          $ref: '#/components/schemas/Points'
+        solved_at:
+          $ref: '#/components/schemas/SolvedAt'
+    SolvedQuizzes:
+      type: array
+      items:
+        $ref: '#/components/schemas/SolvedQuiz'
+    RankingChart:
+      type: object
+      description: |-
+        pgctf1のランキングデータが./ranking-chart.jsonにあります
+      example: 'ranking-chart.json'
+      properties:
+        datetime:
+          $ref: '#/components/schemas/SolvedAt'
+        points:
+          description: ユーザ名と各時刻における得点の配列
+        username:
+          $ref: '#/components/schemas/Username'
+    UserLineChart:
+      description: ユーザの得点推移グラフ用データ
+    UserRadarChart:
+      description: ユーザのカテゴリ別解答割合レーダーチャート用データ
+    AnswerResult:
+      type: object
+      properties:
+        correct:
+          $ref: '#/components/schemas/IsCorrect'
+    Announce:
+      type: object
+      properties:
+        title:
+          $ref: '#/components/schemas/AnnounceTitle'
+        content:
+          $ref: '#/components/schemas/AnnounceContent'
+        published_at:
+          $ref: '#/components/schemas/AnnouncePublishedAt'
+    Announces:
+      type: array
+      items:
+        $ref: '#/components/schemas/Announce'
+
+  parameters:
+    UsernameParameter:
+      name: username
+      in: path
+      description: PGritのユーザ名
+      required: true
+      schema:
+        $ref: '#/components/schemas/Username'
+    QuizNumberParameter:
+      name: quiz_number
+      in: path
+      description: クイズの問題番号
+      required: true
+      schema:
+        $ref: '#/components/schemas/QuizNumber'
