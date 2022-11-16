@@ -34,6 +34,8 @@ paths:
         - users
       summary: 自分自身のプロフィールを取得
       operationId: GetSelfUserDetail
+      security:
+        - Token: []
       responses:
         '200':
           description: ok
@@ -51,6 +53,8 @@ paths:
         - users
       summary: 指定したユーザのプロフィールを取得
       operationId: GetUserDetail
+      security:
+        - Token: []
       parameters:
         - $ref: '#/components/parameters/UsernameParameter'
       responses:
@@ -72,6 +76,8 @@ paths:
         - users
       summary: 指定したユーザのレーダーチャート用データを取得
       operationId: GetUserRadarChart
+      security:
+        - Token: []
       parameters:
         - $ref: '#/components/parameters/UsernameParameter'
       responses:
@@ -93,6 +99,8 @@ paths:
         - users
       summary: 指定したユーザの折れ線グラフ用データを取得
       operationId: GetUserLineChart
+      security:
+        - Token: []
       parameters:
         - $ref: '#/components/parameters/UsernameParameter'
       responses:
@@ -114,6 +122,8 @@ paths:
         - quizzes
       summary: クイズ一覧を取得
       operationId: GetQuizzes
+      security:
+        - Token: []
       responses:
         '200':
           description: ok
@@ -131,6 +141,8 @@ paths:
         - quizzes
       summary: クイズを取得
       operationId: GetQuiz
+      security:
+        - Token: []
       parameters:
         - $ref: '#/components/parameters/QuizNumberParameter'
       responses:
@@ -152,6 +164,8 @@ paths:
         - quizzes
       summary: クイズの正解者一覧を取得
       operationId: GetQuizWinners
+      security:
+        - Token: []
       parameters:
         - $ref: '#/components/parameters/QuizNumberParameter'
       responses:
@@ -167,6 +181,8 @@ paths:
         - quizzes
       summary: Flag送信
       operationId: PostQuizAnswer
+      security:
+        - Token: []
       parameters:
         - $ref: '#/components/parameters/QuizNumberParameter'
       requestBody:
@@ -190,6 +206,8 @@ paths:
         - categories
       summary: クイズのカテゴリ一覧を取得
       operationId: GetQuizCategories
+      security:
+        - Token: []
       responses:
         '200':
           description: ok
@@ -207,6 +225,8 @@ paths:
         - ranking
       summary: クイズ参加者のランキング(総得点順)
       operationId: GetRanking
+      security:
+        - Token: []
       responses:
         '200':
           description: ok
@@ -224,6 +244,8 @@ paths:
         - ranking
       summary: クイズ参加者の得点推移
       operationId: GetLineChart
+      security:
+        - Token: []
       responses:
         '200':
           description: ok
@@ -241,6 +263,8 @@ paths:
         - announces
       summary: 運営からのアナウンス一覧を取得
       operationId: GetAnnounces
+      security:
+        - Token: []
       responses:
         '200':
           description: ok
@@ -583,3 +607,8 @@ components:
       required: true
       schema:
         $ref: '#/components/schemas/QuizNumber'
+  securitySchemes:
+    Token:
+      type: apiKey
+      name: Authorization
+      in: header
