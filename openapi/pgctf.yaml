@@ -276,6 +276,18 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '403':
           $ref: '#/components/responses/Forbidden'
+  /health:
+    get:
+      tags:
+        - health
+      summary: ヘルスチェック
+      operationId: GetHealth
+      security:
+        - Token: []
+      responses:
+        '200':
+          description: ok
+
 
 components:
   requestBodies:
