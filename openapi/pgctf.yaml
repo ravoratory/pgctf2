@@ -7,13 +7,15 @@ info:
   version: 1.0.0
 
 servers:
-  - url: http://{host}:{port}/api
+  - url: http://{host}:{port}/{prefix}
     description: ローカル開発用
     variables:
       host:
         default: localhost
       port:
         default: '8080'
+      prefix:
+        default: api/
 
 tags:
   - name: users
