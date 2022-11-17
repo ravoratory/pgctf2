@@ -23,7 +23,7 @@ services:
     volumes:
       - ./server:/app
     ports:
-      - '8080:8080'
+      - 8000
     env_file:
       - ./server/.env
     depends_on:
@@ -31,8 +31,22 @@ services:
         condition: service_healthy
     command: >
       /bin/sh -c
-        'python manage.py migrate &&
-        python manage.py runserver 0.0.0.0:8080'
+      'python manage.py runserver 0.0.0.0:8000'
+
+  nginx:
+    container_name: pgctf2_nginx
+    build:
+      context: .
+      dockerfile: ./docker/nginx/Dockerfile
+      target: dev
+    environment:
+      SERVER_HOST: web
+    volumes:
+      - ./openapi:/var/www/schema
+    ports:
+      - "8080:8080"
+    depends_on:
+      - web
 
   minio:
     container_name: pgctf2_minio

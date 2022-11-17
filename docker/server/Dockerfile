@@ -21,4 +21,4 @@ WORKDIR /app
 COPY --chown=100:django server/ .
 
 USER django
-EXPOSE 8080
+EXPOSE 8000
