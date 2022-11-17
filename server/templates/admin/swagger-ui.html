@@ -1,0 +1,47 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block extrastyle %}
+  {{ block.super }}
+  <link
+    rel="stylesheet"
+    type="text/css"
+    href="//unpkg.com/swagger-ui-dist@3/swagger-ui.css"
+  />
+  <style>
+    #content {
+      justify-content: center;
+    }
+    #swagger-ui {
+      background-color: white;
+      width: 90%;
+    }
+  </style>
+{% endblock %}
+
+{% block extrahead %}{{ block.super }}
+  <script src="{% url 'admin:jsi18n' %}"></script>
+{{ media }}
+{% endblock %}
+
+{% block title %} Swagger UI {% endblock %}
+
+{% block content %}{{ block.super }}
+  <div id="swagger-ui"></div>
+  <script src="//unpkg.com/swagger-ui-dist@3/swagger-ui-bundle.js"></script>
+  <script>
+    const ui = SwaggerUIBundle({
+      url: '/schema/pgctf.yaml',
+      dom_id: '#swagger-ui',
+      presets: [
+        SwaggerUIBundle.presets.apis,
+        SwaggerUIBundle.SwaggerUIStandalonePreset,
+      ],
+      layout: 'BaseLayout',
+      requestInterceptor: (request) => {
+        request.headers['X-CSRFToken'] = '{{ csrf_token }}'
+        return request
+      },
+    })
+  </script>
+{% endblock %}
