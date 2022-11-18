@@ -3,7 +3,7 @@ name: 'Python lint'
 on:
   push:
     paths:
-      - 'server/*.py'
+      - '*.py'
 
 jobs:
   lint:
