@@ -27,5 +27,4 @@ LOGGING = {
     },
 }
 
-import os
 import sys  # github workflowテスト用
