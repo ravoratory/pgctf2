@@ -25,7 +25,6 @@ class CustomAdminSite(MaterialAdminSite):
             {
                 "name": "Swagger UI",
                 "app_label": "Swagger UI",
-                # "app_url": "/admin/test_view",
                 "models": [
                     {
                         "name": "Swagger",
