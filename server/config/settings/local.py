@@ -27,5 +27,5 @@ LOGGING = {
     },
 }
 
-import csv
+import os
 import sys  # github workflowテスト用
