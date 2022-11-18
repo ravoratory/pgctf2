@@ -3,12 +3,12 @@ name: Django CI
 on:
   push:
     paths:
-      - 'server/'
+      - 'server/**'
       - 'requirements.txt'
     branches: [ "main" ]
   pull_request:
     paths:
-      - 'server/'
+      - 'server/**'
       - 'requirements.txt'
     branches: [ "main" ]
 
