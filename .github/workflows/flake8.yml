@@ -16,14 +16,18 @@ jobs:
       - name: Install dependencies
         run: |
           pip install --upgrade pip
-          pip install flake8 black
-      - name: Run flake8
-        uses: suo/flake8-github-action@releases/v1
-        with:
-          checkName: 'lint'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          pip install black flake8 isort
+      # - name: Run flake8
+      #   uses: suo/flake8-github-action@releases/v1
+      #   with:
+      #     checkName: 'lint'
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Run black
         uses: psf/black@stable
         with:
           options: "--check --config pyproject.toml server"
+      - name: Run isort
+        uses: jamescurtin/isort-action@master
+        with:
+          sortPaths: "server"
