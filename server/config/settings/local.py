@@ -26,3 +26,5 @@ LOGGING = {
         "": {"handlers": ["console"], "level": "INFO"},
     },
 }
+
+import sys  # github workflowテスト用
