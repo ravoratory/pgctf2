@@ -49,6 +49,7 @@ jobs:
         DJANGO_SETTINGS_MODULE: config.settings.production
         DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
         ALLOWED_HOSTS: '*'
+        CSRF_TRUSTED_ORIGINS: ''
         DB_HOST: localhost
         AWS_ACCESS_KEY_ID: test
         AWS_SECRET_ACCESS_KEY: test
