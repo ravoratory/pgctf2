@@ -62,3 +62,21 @@ make startapp APP_NAME=app_name
 を実行して作成してください
 
 `urls.py`や`serializers.py`があらかじめ含まれた状態になります
+
+
+## puma-dev
+Railsアプリで使われているツールですが、[puma-dev](https://github.com/puma/puma-dev)を使用すると`pgctf2.text`のようなホスト名で開発環境に入れます
+
+Install (Mac OS X)
+```sh
+brew install puma/puma/puma-dev
+```
+
+起動
+```sh
+sudo puma-dev -setup
+puma-dev -install
+echo "http://localhost:8080" > ~/.puma-dev/pgctf2
+```
+
+[http://pgctf2.test](http://pgctf2.test)にアクセスできるようになります
