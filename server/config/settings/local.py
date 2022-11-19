@@ -7,7 +7,7 @@ SECRET_KEY = "secret_key"
 DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
-CSRF_TRUSTED_ORIGINS = ["http://localhost:8080"]
+CSRF_TRUSTED_ORIGINS = ["http://localhost:8080", "http://pgctf2.test"]
 
 LOGGING = {
     "version": 1,
