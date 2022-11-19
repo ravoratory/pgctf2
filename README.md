@@ -42,7 +42,7 @@ make createsuperuser
 
 [http://localhost:8080/admin](http://localhost:8080/admin)でログイン画面
 ```
-ID: root
+ID: admin
 Password: password
 ```
 
