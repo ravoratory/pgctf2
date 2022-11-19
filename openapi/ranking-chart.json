@@ -225,7 +225,7 @@
     "2022-09-06T15:17:04.579+09:00"
   ],
   "points": {
-    "tak848": [
+    "hoge": [
       0,
       50,
       330,
@@ -450,7 +450,7 @@
       "NaN",
       "NaN"
     ],
-    "yuji": [
+    "fuga": [
       "NaN",
       "NaN",
       "NaN",
@@ -675,7 +675,7 @@
       "NaN",
       "NaN"
     ],
-    "miharun": [
+    "piyo": [
       "NaN",
       "NaN",
       "NaN",
@@ -900,7 +900,7 @@
       "NaN",
       "NaN"
     ],
-    "ymdkk": [
+    "hogera": [
       "NaN",
       "NaN",
       "NaN",
@@ -1125,7 +1125,7 @@
       "NaN",
       "NaN"
     ],
-    "maasa": [
+    "foo": [
       "NaN",
       "NaN",
       "NaN",
@@ -1350,7 +1350,7 @@
       "NaN",
       "NaN"
     ],
-    "ShunjiTakeshita": [
+    "bar": [
       "NaN",
       "NaN",
       "NaN",
@@ -1575,7 +1575,7 @@
       "NaN",
       "NaN"
     ],
-    "hiroyoshi": [
+    "fizz": [
       "NaN",
       "NaN",
       "NaN",
@@ -1800,7 +1800,7 @@
       "NaN",
       "NaN"
     ],
-    "moai": [
+    "buzz": [
       "NaN",
       "NaN",
       "NaN",
@@ -2025,7 +2025,7 @@
       "NaN",
       "NaN"
     ],
-    "Shunsuke": [
+    "lorem": [
       "NaN",
       "NaN",
       "NaN",
@@ -2250,7 +2250,7 @@
       "NaN",
       "NaN"
     ],
-    "okapi": [
+    "ipsum": [
       "NaN",
       "NaN",
       "NaN",
@@ -2477,15 +2477,15 @@
     ]
   },
   "usernames": [
-    "tak848",
-    "yuji",
-    "miharun",
-    "ymdkk",
-    "maasa",
-    "ShunjiTakeshita",
-    "hiroyoshi",
-    "moai",
-    "Shunsuke",
-    "okapi"
+    "hoge",
+    "fuga",
+    "piyo",
+    "hogera",
+    "foo",
+    "bar",
+    "fizz",
+    "buzz",
+    "lorem",
+    "ipsum"
   ]
 }
