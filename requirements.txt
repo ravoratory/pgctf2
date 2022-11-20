@@ -4,7 +4,7 @@ botocore==1.27.80
 certifi==2022.9.14
 cffi==1.15.1
 charset-normalizer==2.1.1
-cryptography==38.0.1
+cryptography==38.0.3
 defusedxml==0.7.1
 dj-rest-auth==2.2.5
 Django==4.1.3
