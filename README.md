@@ -65,7 +65,7 @@ make startapp APP_NAME=app_name
 
 
 ## puma-dev
-Railsアプリで使われているツールですが、[puma-dev](https://github.com/puma/puma-dev)を使用すると`pgctf2.text`のようなホスト名で開発環境に入れます
+Railsアプリで使われているツールですが、[puma-dev](https://github.com/puma/puma-dev)を使用すると`pgctf2.test`のようなホスト名で開発環境に入れます
 
 Install (Mac OS X)
 ```sh
