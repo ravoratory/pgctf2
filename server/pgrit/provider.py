@@ -18,7 +18,7 @@ class PGritAccount(ProviderAccount):
 
 class PGritProvider(OAuth2Provider):
     id = "pgrit"
-    name = "PGCTF"
+    name = "PGrit"
     account_class = PGritAccount
 
     def get_auth_url(self, requeset, action):
