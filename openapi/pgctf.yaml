@@ -28,6 +28,8 @@ tags:
     description: ランキング
   - name: categories
     description: カテゴリ
+  - name: auth
+    description: 認証認可
 
 paths:
   /users/self:
@@ -292,7 +294,7 @@ paths:
   /login:
     post:
       tags:
-        - users
+        - auth
       summary: PGritのアクセストークンでログイン
       operationId: PostLogin
       requestBody:
@@ -304,6 +306,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UserBearerToken'
+  /logout:
+    post:
+      tags:
+        - auth
+      summary: ログアウト
+      operationId: PostLogout
+      requestBody:
+        content:
+          application/json:
+            schema: {}
+            example: 'リクエストボディは空'
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LogoutDetail'
 
 components:
   requestBodies:
@@ -640,6 +660,12 @@ components:
       properties:
         key:
           $ref: '#/components/schemas/Key'
+    LogoutDetail:
+      type: object
+      properties:
+        detail:
+          type: string
+          example: 'Successfully logged out.'
 
   parameters:
     UsernameParameter:
