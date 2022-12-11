@@ -289,7 +289,21 @@ paths:
       responses:
         '200':
           description: ok
-
+  /login:
+    post:
+      tags:
+        - users
+      summary: PGritのアクセストークンでログイン
+      operationId: PostLogin
+      requestBody:
+        $ref: '#/components/requestBodies/AccessTokenBodies'
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserBearerToken'
 
 components:
   requestBodies:
@@ -303,6 +317,16 @@ components:
             properties:
               flag:
                 $ref: '#/components/schemas/Flag'
+    AccessTokenBodies:
+      description: アクセストークン
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              access_token:
+                $ref: '#/components/schemas/AccessToken'
 
   responses:
     BadRequest:
@@ -471,6 +495,14 @@ components:
       format: date-time
       description: 問題公開日時
       example: '2022-08-31T21:42:41.002+09:00'
+    AccessToken:
+      type: string
+      description: ソーシャルログイン用アクセストークン
+      example: 8n3zI1P0EE3YNKjcmONtWMMWxpN7iPPF5eFhPjGUHNi
+    Key:
+      type: string
+      description: PG-CTF2認証キー
+      example: fef7a451aaeca20ab1cc8f6e969605f60c27a4f1
     UserOverview:
       type: object
       properties:
@@ -603,6 +635,11 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/Announce'
+    UserBearerToken:
+      type: object
+      properties:
+        key:
+          $ref: '#/components/schemas/Key'
 
   parameters:
     UsernameParameter:
