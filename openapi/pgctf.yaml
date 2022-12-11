@@ -15,7 +15,7 @@ servers:
       port:
         default: '8080'
       prefix:
-        default: api/
+        default: api
 
 tags:
   - name: users
@@ -550,8 +550,6 @@ components:
           $ref: '#/components/schemas/QuizFiles'
         urls:
           $ref: '#/components/schemas/QuizAppendedURLs'
-        solved_users:
-          $ref: '#/components/schemas/UserOverviews'
     SolvedQuiz:
       type: object
       properties:
@@ -597,7 +595,7 @@ components:
       properties:
         title:
           $ref: '#/components/schemas/AnnounceTitle'
-        content:
+        body:
           $ref: '#/components/schemas/AnnounceContent'
         published_at:
           $ref: '#/components/schemas/AnnouncePublishedAt'
