@@ -36,12 +36,14 @@ INSTALLED_APPS = [
     "quizzes.apps.QuizzesConfig",
     "announcements.apps.AnnouncementsConfig",
     "game_configurations.apps.GameConfigurationsConfig",
+    "pgrit",
     # Third-party
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
     "corsheaders",
     "dj_rest_auth",
+    "dj_rest_auth.registration",
     "import_export",
     "rest_framework",
     "rest_framework.authtoken",
@@ -49,7 +51,6 @@ INSTALLED_APPS = [
     "material",
     "material.admin",
     # Django
-    # "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",

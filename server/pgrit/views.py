@@ -2,8 +2,9 @@ import requests
 from allauth.socialaccount.models import SocialToken
 from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 from allauth.socialaccount.providers.oauth2.views import OAuth2Adapter, OAuth2CallbackView, OAuth2LoginView
+from dj_rest_auth.registration.views import SocialLoginView
 
-from .providers import PGritProvider
+from .provider import PGritProvider
 
 
 class PGritAPI(OAuth2Client):
@@ -35,3 +36,7 @@ class PGritOAuth2Adapter(OAuth2Adapter):
 
 oauth2_login = OAuth2LoginView.adapter_view(PGritOAuth2Adapter)
 oauth2_callback = OAuth2CallbackView.adapter_view(PGritOAuth2Adapter)
+
+
+class PGritLoginView(SocialLoginView):
+    adapter_class = PGritOAuth2Adapter

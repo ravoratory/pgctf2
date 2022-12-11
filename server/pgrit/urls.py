@@ -1,5 +1,7 @@
-from allauth.socialaccount.providers.oauth2.urls import default_urlpatterns
+from django.urls import path
 
-from .providers import PGritProvider
+from .views import PGritLoginView
 
-urlpatterns = default_urlpatterns(PGritProvider)
+urlpatterns = [
+    path("login", PGritLoginView.as_view(), name="login"),
+]

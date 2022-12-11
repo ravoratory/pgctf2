@@ -24,6 +24,7 @@ from users.views import RankingView, ranking_chart
 urlpatterns = [
     path("admin/", site.urls),
     path("api/", include([
+        path("", include("pgrit.urls")),
         path("announces/", include("announcements.urls")),
         path("categories", CategoriesView.as_view(), name="categories"),
         path("health", HealthView.as_view(), name="health"),
