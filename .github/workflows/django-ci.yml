@@ -46,7 +46,7 @@ jobs:
         pip install -r requirements.txt
     - name: Run Tests
       env:
-        DJANGO_SETTINGS_MODULE: config.settings.production
+        DJANGO_SETTINGS_MODULE: config.settings.test
         DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
         ALLOWED_HOSTS: '*'
         CSRF_TRUSTED_ORIGINS: ''
@@ -56,4 +56,4 @@ jobs:
         AWS_STORAGE_BUCKET_NAME: test
         AWS_S3_ENDPOINT_URL: localhost
       run: |
-        python ./server/manage.py test
+        python ./server/manage.py test --parallel auto --noinput
