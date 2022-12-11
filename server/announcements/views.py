@@ -1,6 +1,11 @@
-from rest_framework import status
-from rest_framework.generics import GenericAPIView
+from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
 
-# Create your views here.
+from .models import Announcement
+from .serializers import AnnouncementSerializer
+
+
+class AnnouncementView(ListAPIView):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = AnnouncementSerializer
+    queryset = Announcement.objects.all()

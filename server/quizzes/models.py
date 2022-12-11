@@ -6,7 +6,7 @@ from django.utils import timezone
 
 
 class FlagValidator(RegexValidator):
-    regex = r"^pgctf\{[\w_]{1,}\}$"
+    regex = r"^pgctf\{[\w_]{1,100}\}$"
     message = "Invalid flag format"
     flags = 0
 

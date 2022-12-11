@@ -94,13 +94,46 @@ class User(AbstractBaseUser, PermissionsMixin):
         score = Solved.objects.filter(user=self, quiz__published=True).aggregate(points=Sum("quiz__point"))["points"]
         return score or 0
 
+    def solved_quiz_count(self):
+        return Solved.objects.filter(user=self, quiz__published=True).count()
+
+    def last_solved_at(self):
+        solved = Solved.objects.filter(user=self, quiz__published=True).order_by("-solved_at").first()
+        return solved.solved_at if solved else None
+
     # ランキングが凍結されていれば凍結直前のスコアを返す
     def ranking_score(self):
         enable, freeze_time = Configuration.enable_ranking()
         if enable:
             return self.total_score()
 
-        score = Solved.objects.filter(user=self, solved_at_lt=freeze_time, quiz__published=True).aggregate(
+        score = Solved.objects.filter(user=self, solved_at__lt=freeze_time, quiz__published=True).aggregate(
             points=Sum("quiz__point")
         )["points"]
         return score or 0
+
+    def ranking_solved_quiz_count(self):
+        enable, freeze_time = Configuration.enable_ranking()
+        if enable:
+            return self.solved_quiz_count()
+
+        return Solved.objects.filter(user=self, solved_at__lt=freeze_time, quiz__published=True).count()
+
+    def ranking_last_solved_at(self):
+        enable, freeze_time = Configuration.enable_ranking()
+        if enable:
+            return self.last_solved_at()
+
+        solved = (
+            Solved.objects.filter(user=self, solved_at__lt=freeze_time, quiz__published=True)
+            .order_by("-solved_at")
+            .first()
+        )
+        return solved.solved_at if solved else None
+
+    def ranking_solved_quizzes(self):
+        enable, freeze_time = Configuration.enable_ranking()
+        if enable:
+            return self.solved_quizzes.filter(published=True)
+
+        return self.solved_quizzes.filter(published=True, solved__solved_at__lt=freeze_time)
