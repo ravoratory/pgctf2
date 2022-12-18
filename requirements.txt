@@ -10,7 +10,7 @@ dj-rest-auth==2.2.5
 Django==4.1.4
 django-allauth==0.51.0
 django-cors-headers==3.13.0
-django-import-export==3.0.1
+django-import-export==3.0.2
 django-material-admin==1.8.6
 django-storages==1.13.1
 djangorestframework==3.14.0
