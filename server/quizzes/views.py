@@ -39,12 +39,12 @@ class AnswerView(GenericAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = QuizFlagSerializer
 
-    def post(self, reuquest, number):
-        serializer = self.get_serializer(data=reuquest.data)
+    def post(self, request, number):
+        serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
         quiz = Quiz.objects.get(number=number)
-        user = reuquest.user
+        user = request.user
 
         if Solved.objects.filter(quiz=quiz, user=user).exists():
             return Response({"detail": "すでに正解済みです"}, status=status.HTTP_400_BAD_REQUEST)
