@@ -417,6 +417,10 @@ components:
       type: integer
       description: 得点
       example: 500
+    Rank:
+      type: integer
+      description: 順位
+      example: 1
     SolvedAt:
       type: string
       format: date-time
@@ -526,6 +530,8 @@ components:
     UserOverview:
       type: object
       properties:
+        rank:
+          $ref: '#/components/schemas/Rank'
         username:
           $ref: '#/components/schemas/Username'
         points:
