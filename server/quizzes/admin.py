@@ -47,6 +47,8 @@ class QuizAdmin(ImportExportActionModelAdmin):
 
     icon_name = "flag"
 
+    ordering = ["-created_at"]
+
     resource_class = QuizResource
 
     def winners(self, obj):
@@ -74,6 +76,7 @@ class SolvedAdmin(admin.ModelAdmin):
     list_filter = ["quiz", "user", "solved_at"]
     search_fields = ["quiz__number", "user__username", "solved_at"]
     icon_name = "check_circle"
+    ordering = ["-solved_at"]
 
 
 class SubmitLogAdmin(admin.ModelAdmin):
@@ -81,6 +84,7 @@ class SubmitLogAdmin(admin.ModelAdmin):
     list_filter = ["quiz", "user"]
     search_fields = ["quiz__number", "user__username", "submitted_at"]
     icon_name = "description"
+    ordering = ["-created_at"]
 
     def correct(self, obj):
         return obj.solved is not None
