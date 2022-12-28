@@ -20,6 +20,11 @@ createsuperuser:
 	./bin/docker-compose-exec-or-run web \
 	python manage.py createsuperuser --noinput
 
+.PHONY: loaddata
+loaddata:
+	./bin/docker-compose-exec-or-run web \
+	python manage.py loaddata ./fixtures/fixtures.yaml
+
 .PHONY: db
 db:
 	docker compose exec db \
