@@ -18,7 +18,7 @@ from game_configurations.models import Configuration
 from quizzes.models import Solved
 
 from .models import User
-from .serializers import UserDetailSerializer
+from .serializers import UserDetailSerializer, UserOverviewSerializer
 
 
 class UserSelfView(RetrieveAPIView):
@@ -52,7 +52,7 @@ class UserLineChartView(GenericAPIView):
 
 class RankingView(ListAPIView):
     permission_classes = (IsAuthenticated,)
-    serializer_class = UserDetailSerializer
+    serializer_class = UserOverviewSerializer
 
     def get_queryset(self):
         enable, freeze_datetime = Configuration.enable_ranking()

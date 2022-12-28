@@ -17,3 +17,13 @@ class UserDetailSerializer(serializers.ModelSerializer):
 
     def get_solved_quizzes(self, obj):
         return QuizOverviewSerializer(obj.ranking_solved_quizzes(), many=True, context=self.context).data
+
+
+class UserOverviewSerializer(serializers.ModelSerializer):
+    rank = serializers.IntegerField()
+    points = serializers.IntegerField()
+    last_solved = serializers.DateTimeField(source="last_solve")
+
+    class Meta:
+        model = User
+        fields = ("username", "rank", "points", "last_solved")
