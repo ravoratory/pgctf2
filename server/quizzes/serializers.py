@@ -9,6 +9,7 @@ class QuizOverviewSerializer(serializers.ModelSerializer):
     points = serializers.IntegerField(source="point")
     solved = serializers.SerializerMethodField()
     winners = serializers.SerializerMethodField()
+    category = serializers.CharField(source="category.name")
 
     class Meta:
         model = Quiz
@@ -16,7 +17,7 @@ class QuizOverviewSerializer(serializers.ModelSerializer):
 
     def get_winners(self, obj):
         enable, freeze_time = Configuration.enable_ranking()
-        solved = Solved.objects.filter(quiz__number=obj.number, user__is_staff=False, user__is_active=False)
+        solved = Solved.objects.filter(quiz__number=obj.number, user__is_staff=False, user__is_superuser=False)
         if enable:
             return solved.count()
         return solved.filter(solved_at_lt=freeze_time).count()
