@@ -227,14 +227,14 @@
   pk: 0
   fields:
     title: "lorem"
-    file: "https://example.com"
+    file: "lorem_ipsum.txt"
     uploaded_at: 2022-01-01 00:00:00+09:00
     updated_at: 2022-01-01 00:00:00+09:00
 - model: quizzes.QuizFile
   pk: 1
   fields:
     title: "ipsum"
-    file: "https://example.com"
+    file: "lorem_ipsum.txt"
     uploaded_at: 2022-01-01 00:00:00+09:00
     updated_at: 2022-01-01 00:00:00+09:00
 
