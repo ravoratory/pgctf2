@@ -4,7 +4,6 @@ import { getSession, useSession } from 'next-auth/react'
 import useSWR from 'swr'
 import LeftColumn from '../components/organisms/left-column'
 import RightColumn from '../components/organisms/problems'
-import { parseCookies } from 'nookies'
 
 const Problems = (props: any) => {
   const router = useRouter()
@@ -46,18 +45,3 @@ const Container = styled.div`
   gap: 40px;
   padding: 32px;
 `
-
-export async function getInitialProps(ctx) {
-  // const session = await getSession(ctx)
-  // console.log('session on problem:', session)
-  // const json = await fetch('http://localhost:8080/api/quizzes/', {
-  //   headers: {
-  //     Authorization: `Bearer ${''}`,
-  //   },
-  // }).then((r) => r.json())
-  // return {
-  //   props: {
-  //     problems: json,
-  //   },
-  // }
-}

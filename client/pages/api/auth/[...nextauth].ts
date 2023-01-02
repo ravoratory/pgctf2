@@ -29,19 +29,16 @@ export default NextAuth({
     async signIn({ user, account, profile, email, credentials }) {
       const rep = await fetch('http://localhost:8080/api/login', {
         method: 'POST',
-        mode: 'cors',
-        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
-          'Access-Control-Allow-Credentials': 'true',
         },
         body: JSON.stringify({
           access_token: account.access_token,
         }),
       }).then((r) => {
+        console.log(r.headers.get('set-cookie'))
         return r.json()
       })
-      console.log(rep.json())
       if (account) account.access_key = rep.key
       return true
     },
