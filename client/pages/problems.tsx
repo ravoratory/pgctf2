@@ -26,8 +26,8 @@ const Problems = (props: any) => {
       return r.json()
     },
   )
+  console.log(data, error)
   if (status === 'authenticated' && error === undefined) {
-    console.log(data)
     const problems =
       data !== undefined
         ? data.reduce(
