@@ -1,6 +1,6 @@
 asgiref==3.6.0
-boto3==1.26.37
-botocore==1.29.37
+boto3==1.26.41
+botocore==1.29.41
 certifi==2022.12.7
 cffi==1.15.1
 charset-normalizer==2.1.1
@@ -8,7 +8,7 @@ cryptography==38.0.4
 defusedxml==0.7.1
 dj-rest-auth==2.2.5
 Django==4.1.4
-django-allauth==0.51.0
+django-allauth==0.52.0
 django-cors-headers==3.13.0
 django-import-export==3.0.2
 django-material-admin==1.8.6
@@ -32,3 +32,4 @@ sqlparse==0.4.3
 types-cryptography==3.3.23.2
 urllib3==1.26.13
 uWSGI==2.0.21
+whitenoise==6.3.0
