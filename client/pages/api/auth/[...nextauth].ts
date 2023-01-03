@@ -38,7 +38,7 @@ export default NextAuth({
           }),
         },
       ).then((r) => {
-        console.log(r.headers.get('set-cookie'))
+        console.info(r.headers.get('set-cookie'))
         return r.json()
       })
       if (account) account.access_key = rep.key
@@ -47,7 +47,7 @@ export default NextAuth({
     async session({ session, user, token }) {
       session.accessKey = token.accessKey
       session.accessToken = token.accessToken
-      console.log('session info: ', session)
+      console.info('session info: ', session)
       return session
     },
     async jwt({ token, user, account, profile, isNewUser }) {
