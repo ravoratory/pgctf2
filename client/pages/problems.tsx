@@ -17,6 +17,7 @@ const Problems = (props: any) => {
     `${process.env.NEXT_PUBLIC_RESTAPI_URL}/api/quizzes/`,
     async (url: string) => {
       const r = await fetch(url, {
+        mode: 'cors',
         credentials: 'include',
         headers: {
           Authorization: `Bearer ${session?.accessKey}`,

@@ -30,6 +30,8 @@ export default NextAuth({
         `${process.env.NEXT_PUBLIC_RESTAPI_URL}/api/login`,
         {
           method: 'POST',
+          mode: 'cors',
+          credentials: 'include',
           headers: {
             'Content-Type': 'application/json',
           },
