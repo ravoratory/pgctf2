@@ -15,7 +15,9 @@ MIDDLEWARE += [  # noqa: F405
 ]
 
 STATIC_ROOT = BASE_DIR / "staticfiles"  # noqa: F405
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+# キャッシュが悪さしてるっぽいので一旦Off
+# STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
 
 LOGGING = {
     "version": 1,
