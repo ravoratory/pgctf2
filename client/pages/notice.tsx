@@ -15,26 +15,28 @@ const NoticesPage = (props: any) => {
       router.replace('/')
     },
   })
-  const { data } = useSWR(
+  const { data, error } = useSWR(
     `${process.env.NEXT_PUBLIC_RESTAPI_URL}/api/announces/`,
     async (url: string) => {
       const r = await fetch(url, {
         credentials: 'include',
         headers: {
-          Authorization: `Bearer ${session?.accessKey}`,
+          Authorization: `Token ${session?.accessKey}`,
         },
       })
       return r.json()
     },
   )
 
-  console.log(data)
-  return (
-    <Container>
-      <LeftColumn></LeftColumn>
-      <Notices notices={data ?? []}></Notices>
-    </Container>
-  )
+  if (status === 'authenticated' && error === undefined) {
+    return (
+      <Container>
+        <LeftColumn></LeftColumn>
+        <Notices notices={data ?? []}></Notices>
+      </Container>
+    )
+  }
+  return <></>
 }
 
 export default NoticesPage

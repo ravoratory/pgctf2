@@ -13,38 +13,37 @@ const Problems = (props: any) => {
       router.replace('/')
     },
   })
-  const { data } = useSWR(
+  const { data, error } = useSWR(
     `${process.env.NEXT_PUBLIC_RESTAPI_URL}/api/quizzes/`,
     async (url: string) => {
       const r = await fetch(url, {
         mode: 'cors',
         credentials: 'include',
         headers: {
-          Authorization: `Bearer ${session?.accessKey}`,
+          Authorization: `Token ${session?.accessKey}`,
         },
       })
       return r.json()
     },
   )
-  if (status === 'authenticated') {
+  if (status === 'authenticated' && error === undefined) {
     console.log(data)
-    const problems = {}
-    // const problems =
-    //   data !== undefined
-    //     ? data.reduce(
-    //         (
-    //           prev: { [x: string]: any[] },
-    //           curr: { category: string | number },
-    //         ) => {
-    //           if (prev[curr.category] === undefined) {
-    //             prev[curr.category] = []
-    //           }
-    //           prev[curr.category].push(curr)
-    //           return prev
-    //         },
-    //         {},
-    //       )
-    //     : {}
+    const problems =
+      data !== undefined
+        ? data.reduce(
+            (
+              prev: { [x: string]: any[] },
+              curr: { category: string | number },
+            ) => {
+              if (prev[curr.category] === undefined) {
+                prev[curr.category] = []
+              }
+              prev[curr.category].push(curr)
+              return prev
+            },
+            {},
+          )
+        : {}
     return (
       <Container>
         <LeftColumn />
