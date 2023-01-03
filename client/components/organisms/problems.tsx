@@ -3,47 +3,31 @@ import ProblemCard from '../molecules/problem-card'
 import color from '../../lib/color'
 
 interface CategoryProps {
-  category: string
-  problems: { title: string; level: number; point: number; solved: boolean }[]
+  [category: string]: {
+    title: string
+    difficulty: number
+    points: number
+    solved: boolean
+  }[]
 }
 
-interface ProblemProps {}
+interface ProblemProps {
+  problems: CategoryProps
+}
 
 const Problem = (props: ProblemProps) => {
-  const mockData = [
-    {
-      category: 'welcome',
-      problems: [
-        { title: 'meshitero', level: 1, point: 40000, solved: true },
-        { title: 'meshitero', level: 2, point: 40000, solved: false },
-        { title: 'meshitero', level: 1, point: 40000, solved: false },
-        { title: 'meshitero', level: 1, point: 40000, solved: false },
-        { title: 'meshitero', level: 1, point: 40000, solved: false },
-      ],
-    },
-    {
-      category: 'welcome2',
-      problems: [
-        { title: 'meshitero', level: 1, point: 40000, solved: true },
-        { title: 'meshitero', level: 2, point: 40000, solved: false },
-        { title: 'meshitero', level: 2, point: 40000, solved: false },
-        { title: 'meshitero', level: 2, point: 40000, solved: false },
-        { title: 'meshitero', level: 2, point: 40000, solved: false },
-        { title: 'meshitero', level: 2, point: 40000, solved: false },
-        { title: 'meshitero', level: 2, point: 40000, solved: false },
-      ],
-    },
-  ]
-
   return (
     <Container>
-      {mockData.map((d) => {
+      {Object.entries(props.problems).map(([category, problems]) => {
         return (
-          <Category key={d.category}>
-            <Text>{d.category}</Text>
+          <Category key={category}>
+            <Text>{category}</Text>
             <Problems>
-              {d.problems.map((p, idx) => (
-                <ProblemCard key={`${p.title}-${idx}`} {...p}></ProblemCard>
+              {problems.map((problem, idx) => (
+                <ProblemCard
+                  key={`${problem.title}-${idx}`}
+                  {...problem}
+                ></ProblemCard>
               ))}
             </Problems>
           </Category>

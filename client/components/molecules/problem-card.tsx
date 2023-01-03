@@ -7,8 +7,8 @@ import color from '../../lib/color'
 
 interface ProblemCardProps {
   title: string
-  level: number
-  point: number
+  difficulty: number
+  points: number
   solved: boolean
   onClick?: (e: MouseEvent) => {}
 }
@@ -31,11 +31,11 @@ const ProblemCard = (props: ProblemCardProps) => {
       <Info>
         <div>
           <Text textColor={color.gray}>Level</Text>
-          <Text>{props.level}</Text>
+          <Text>{props.difficulty}</Text>
         </div>
         <div>
           <Text textColor={color.gray}>Point</Text>
-          <Text>{props.point} pt</Text>
+          <Text>{props.points} pt</Text>
         </div>
       </Info>
     </Card>

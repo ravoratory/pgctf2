@@ -14,7 +14,7 @@ const Problems = (props: any) => {
     },
   })
   const { data } = useSWR(
-    'http://localhost:8080/api/quizzes/',
+    `${process.env.NEXT_PUBLIC_RESTAPI_URL}/api/quizzes/`,
     async (url: string) => {
       const r = await fetch(url, {
         credentials: 'include',
@@ -27,10 +27,20 @@ const Problems = (props: any) => {
   )
   if (status === 'authenticated') {
     console.log(data)
+    const problems =
+      data !== undefined
+        ? data.reduce((prev, curr) => {
+            if (prev[curr.category] === undefined) {
+              prev[curr.category] = []
+            }
+            prev[curr.category].push(curr)
+            return prev
+          }, {})
+        : []
     return (
       <Container>
         <LeftColumn />
-        <RightColumn />
+        <RightColumn problems={problems} />
       </Container>
     )
   }
