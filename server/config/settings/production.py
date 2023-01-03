@@ -10,6 +10,7 @@ DEBUG = False
 ALLOWED_HOSTS = config("ALLOWED_HOSTS", cast=Csv())
 CSRF_TRUSTED_ORIGINS = config("CSRF_TRUSTED_ORIGINS", cast=Csv())
 
+STATIC_ROOT = BASE_DIR / "static/"  # noqa: F405
 
 LOGGING = {
     "version": 1,
