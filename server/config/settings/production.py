@@ -11,6 +11,7 @@ ALLOWED_HOSTS = config("ALLOWED_HOSTS", cast=Csv())
 CSRF_TRUSTED_ORIGINS = config("CSRF_TRUSTED_ORIGINS", cast=Csv())
 CORS_ORIGIN_WHITELIST = config("CORS_ORIGIN_WHITELIST", cast=Csv())
 SESSION_COOKIE_SAMESITE = "None"
+CORS_ALLOW_CREDENTIALS = True
 
 MIDDLEWARE += [  # noqa: F405
     "whitenoise.middleware.WhiteNoiseMiddleware",
