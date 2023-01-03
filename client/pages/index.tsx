@@ -23,7 +23,9 @@ const Home = () => {
         <h1>PGCTF2</h1>
         <TopButton
           onClick={() =>
-            signIn('PGrit', { callbackUrl: 'http://localhost:3000/problems' })
+            signIn('PGrit', {
+              callbackUrl: `${process.env.NEXTAUTH_URL}/problems`,
+            })
           }
           text="Sign in with PGrit"
         />
