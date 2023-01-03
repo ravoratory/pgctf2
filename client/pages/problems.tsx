@@ -28,22 +28,23 @@ const Problems = (props: any) => {
   )
   if (status === 'authenticated') {
     console.log(data)
-    const problems =
-      data !== undefined
-        ? data.reduce(
-            (
-              prev: { [x: string]: any[] },
-              curr: { category: string | number },
-            ) => {
-              if (prev[curr.category] === undefined) {
-                prev[curr.category] = []
-              }
-              prev[curr.category].push(curr)
-              return prev
-            },
-            {},
-          )
-        : []
+    const problems = {}
+    // const problems =
+    //   data !== undefined
+    //     ? data.reduce(
+    //         (
+    //           prev: { [x: string]: any[] },
+    //           curr: { category: string | number },
+    //         ) => {
+    //           if (prev[curr.category] === undefined) {
+    //             prev[curr.category] = []
+    //           }
+    //           prev[curr.category].push(curr)
+    //           return prev
+    //         },
+    //         {},
+    //       )
+    //     : {}
     return (
       <Container>
         <LeftColumn />
