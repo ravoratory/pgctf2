@@ -1,5 +1,4 @@
 import NextAuth from 'next-auth'
-import { setCookie } from 'nookies'
 
 export default NextAuth({
   secret: 'secretNExt',
@@ -27,15 +26,18 @@ export default NextAuth({
   ],
   callbacks: {
     async signIn({ user, account, profile, email, credentials }) {
-      const rep = await fetch('http://localhost:8080/api/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+      const rep = await fetch(
+        `${process.env.NEXT_PUBLIC_RESTAPI_URL}/api/login`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            access_token: account?.access_token,
+          }),
         },
-        body: JSON.stringify({
-          access_token: account?.access_token,
-        }),
-      }).then((r) => {
+      ).then((r) => {
         console.log(r.headers.get('set-cookie'))
         return r.json()
       })
