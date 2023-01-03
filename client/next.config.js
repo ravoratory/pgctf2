@@ -3,11 +3,11 @@ require('dotenv').config()
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-  compiler: {
-    removeConsole: {
-      exclude: ['error'],
-    },
-  },
+  // compiler: {
+  //   removeConsole: {
+  //     exclude: ['error'],
+  //   },
+  // },
   images: {
     unoptimized: true,
   },
