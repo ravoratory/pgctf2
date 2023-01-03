@@ -6,8 +6,8 @@ export default {
   component: ProblemCard,
   argTypes: {
     title: { control: 'text' },
-    level: { control: 'number' },
-    point: { control: 'number' },
+    difficulty: { control: 'number' },
+    points: { control: 'number' },
     solved: { control: 'boolean' },
   },
 } as ComponentMeta<typeof ProblemCard>
@@ -19,7 +19,7 @@ const Template: ComponentStory<typeof ProblemCard> = (args) => (
 export const Problem = Template.bind({})
 Problem.args = {
   title: 'Welcome',
-  level: 1,
-  point: 40000,
+  difficulty: 1,
+  points: 40000,
   solved: false,
 }

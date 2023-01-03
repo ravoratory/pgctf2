@@ -5,33 +5,35 @@ import { faBullhorn, faChartSimple } from '@fortawesome/free-solid-svg-icons'
 import LeftColumnButton from '../molecules/left-column-button'
 import logo from '../../public/assets/ravoratory.svg'
 import { MouseEvent } from 'react'
+import { useRouter } from 'next/router'
 
 interface LeftColumnProps {}
 
 const LeftColumn = (props: LeftColumnProps) => {
-  const test = (event: MouseEvent<HTMLButtonElement>) => {
-    console.log('Clicked!')
+  const router = useRouter()
+  const onclick = (label: string) => (event: MouseEvent<HTMLButtonElement>) => {
+    router.replace(label)
   }
   const columnProps = [
     {
       text: 'PROBLEMS',
       icon: faFlag,
-      onClick: test,
+      onClick: onclick('problems'),
     },
     {
       text: 'NOTICE',
       icon: faBullhorn,
-      onClick: test,
+      onClick: onclick('notice'),
     },
     {
       text: 'RANKING',
       icon: faChartSimple,
-      onClick: test,
+      onClick: onclick('ranking'),
     },
     {
       text: 'PROFILE',
       icon: faUser,
-      onClick: test,
+      onClick: onclick('profile'),
     },
   ]
 

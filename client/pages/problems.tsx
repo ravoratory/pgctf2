@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
-import { getSession, useSession } from 'next-auth/react'
+import { useSession } from 'next-auth/react'
 import useSWR from 'swr'
 import LeftColumn from '../components/organisms/left-column'
 import RightColumn from '../components/organisms/problems'
@@ -19,7 +19,7 @@ const Problems = (props: any) => {
       const r = await fetch(url, {
         credentials: 'include',
         headers: {
-          Authorization: `Bearer ${session.accessKey}`,
+          Authorization: `Bearer ${session?.accessKey}`,
         },
       })
       return r.json()
@@ -29,13 +29,19 @@ const Problems = (props: any) => {
     console.log(data)
     const problems =
       data !== undefined
-        ? data.reduce((prev, curr) => {
-            if (prev[curr.category] === undefined) {
-              prev[curr.category] = []
-            }
-            prev[curr.category].push(curr)
-            return prev
-          }, {})
+        ? data.reduce(
+            (
+              prev: { [x: string]: any[] },
+              curr: { category: string | number },
+            ) => {
+              if (prev[curr.category] === undefined) {
+                prev[curr.category] = []
+              }
+              prev[curr.category].push(curr)
+              return prev
+            },
+            {},
+          )
         : []
     return (
       <Container>

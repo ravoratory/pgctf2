@@ -33,7 +33,7 @@ export default NextAuth({
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          access_token: account.access_token,
+          access_token: account?.access_token,
         }),
       }).then((r) => {
         console.log(r.headers.get('set-cookie'))
