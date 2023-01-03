@@ -10,7 +10,12 @@ DEBUG = False
 ALLOWED_HOSTS = config("ALLOWED_HOSTS", cast=Csv())
 CSRF_TRUSTED_ORIGINS = config("CSRF_TRUSTED_ORIGINS", cast=Csv())
 
-STATIC_ROOT = BASE_DIR / "static/"  # noqa: F405
+MIDDLEWARE += [  # noqa: F405
+    "whitenoise.middleware.WhiteNoiseMiddleware",
+]
+
+STATIC_ROOT = BASE_DIR / "staticfiles"  # noqa: F405
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 LOGGING = {
     "version": 1,
