@@ -1,7 +1,7 @@
 import ReactMarkdown from 'react-markdown'
 import styled from 'styled-components'
 import remarkGfm from 'remark-gfm'
-import color from '../../lib/color'
+import color from '../../theme/color'
 
 interface NoticeProps {
   title: string

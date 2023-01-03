@@ -3,7 +3,7 @@ import Image from 'next/image'
 import styled from 'styled-components'
 import flag from '../../public/assets/flag.svg'
 import cleard from '../../public/assets/cleared.svg'
-import color from '../../lib/color'
+import color from '../../theme/color'
 
 interface ProblemCardProps {
   title: string

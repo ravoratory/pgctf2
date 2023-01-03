@@ -2,7 +2,7 @@ import { MouseEventHandler } from 'react'
 import styled from 'styled-components'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { IconDefinition } from '@fortawesome/free-regular-svg-icons'
-import color from '../../lib/color'
+import color from '../../theme/color'
 
 interface LeftColumnButtonProps {
   text: string

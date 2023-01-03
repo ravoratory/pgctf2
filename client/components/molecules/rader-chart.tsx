@@ -5,7 +5,7 @@ import {
   PolarAngleAxis,
   ResponsiveContainer,
 } from 'recharts'
-import color from '../../lib/color'
+import color from '../../theme/color'
 
 interface ProblemsChartProps {
   data?: any[]

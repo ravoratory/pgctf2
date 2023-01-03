@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import color from '../../lib/color'
+import color from '../../theme/color'
 
 interface TopButtonProps {
   text: string

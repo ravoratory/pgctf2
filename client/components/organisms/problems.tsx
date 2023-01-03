@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import ProblemCard from '../molecules/problem-card'
-import color from '../../lib/color'
+import color from '../../theme/color'
 
 interface CategoryProps {
   [category: string]: {
