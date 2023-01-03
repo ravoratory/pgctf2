@@ -6,6 +6,7 @@ import logo from '../public/assets/ravoratory.svg'
 import TopButton from '../components/atoms/top-button'
 
 const Home = () => {
+  console.log(process.env.NEXT_PUBLIC_NEXTAUTH_URL)
   return (
     <Container>
       <Head>
@@ -24,7 +25,7 @@ const Home = () => {
         <TopButton
           onClick={() =>
             signIn('PGrit', {
-              callbackUrl: `${process.env.NEXTAUTH_URL}/problems`,
+              callbackUrl: `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/problems`,
             })
           }
           text="Sign in with PGrit"
