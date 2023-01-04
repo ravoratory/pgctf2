@@ -5,7 +5,7 @@ const nextConfig = {
   swcMinify: true,
   compiler: {
     removeConsole: {
-      exclude: ['error', 'info'],
+      exclude: ['error'],
     },
   },
   images: {

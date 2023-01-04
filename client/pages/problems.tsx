@@ -28,10 +28,9 @@ const Problems = (props: any) => {
       return res.json()
     },
   )
-  console.log(data, error)
-  if (status === 'authenticated' && !error) {
+  if (status === 'authenticated') {
     const problems =
-      data !== undefined && data?.detail === undefined
+      data !== undefined && !error
         ? data.reduce(
             (
               prev: { [x: string]: any[] },
@@ -54,7 +53,7 @@ const Problems = (props: any) => {
     )
   }
 
-  return <></>
+  return <div>loading...</div>
 }
 
 export default Problems

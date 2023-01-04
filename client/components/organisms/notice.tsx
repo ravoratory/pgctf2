@@ -15,7 +15,7 @@ const Notices = (props: NoticesProps) => {
   const welcomeBody =
     'うぇるかむかも～ん！\n\n' +
     'CTFとはなにかわからない方は[こちら](https://cybersecurity-jp.com/column/33780)を参照してください。\n\n' +
-    '各問題から`pgctf{w+}`形式のflagを見つけてください。\n\n' +
+    '各問題から`pgctf{\\w+}`形式のflagを見つけてください。\n\n' +
     '点数は多くの人が解いた問題ほど低くなるようになっています。\n\n' +
     '指定された場所以外への攻撃はしないでください。\n\n' +
     '問題は随時追加していく予定です。\n\n' +

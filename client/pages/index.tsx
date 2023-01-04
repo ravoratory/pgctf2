@@ -6,7 +6,6 @@ import logo from '../public/assets/ravoratory.svg'
 import TopButton from '../components/atoms/top-button'
 
 const Home = () => {
-  console.log(process.env.NEXT_PUBLIC_NEXTAUTH_URL)
   return (
     <Container>
       <Head>

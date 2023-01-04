@@ -10,7 +10,7 @@ interface NoticeProps {
 }
 
 const Notice = (props: NoticeProps) => {
-  const time = new Date(props.created_at ?? '2022-01-01').toLocaleDateString(
+  const time = new Date(props.created_at ?? '2023-01-01').toLocaleDateString(
     'ja-JP',
   )
   return (
