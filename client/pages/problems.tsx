@@ -22,12 +22,14 @@ const Problems = (props: any) => {
           Authorization: `Token ${session?.accessKey}`,
         },
       })
-      console.log(res)
+      if (!res.ok) {
+        throw !res.ok
+      }
       return res.json()
     },
   )
   console.log(data, error)
-  if (status === 'authenticated') {
+  if (status === 'authenticated' && !error) {
     const problems =
       data !== undefined && data?.detail === undefined
         ? data.reduce(
