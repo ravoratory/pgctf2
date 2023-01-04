@@ -17,18 +17,16 @@ const NoticesPage = (props: any) => {
   })
   const { data, error } = useSWR(
     `${process.env.NEXT_PUBLIC_RESTAPI_URL}/api/announces/`,
-    async (url: string) => {
-      const r = await fetch(url, {
+    async (url: string) =>
+      await fetch(url, {
         credentials: 'include',
         headers: {
           Authorization: `Token ${session?.accessKey}`,
         },
-      })
-      return r.json()
-    },
+      }).then((r) => r.json()),
   )
 
-  if (status === 'authenticated' && error === undefined) {
+  if (status === 'authenticated' && data?.detail === undefined) {
     return (
       <Container>
         <LeftColumn></LeftColumn>

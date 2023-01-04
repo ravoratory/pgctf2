@@ -16,20 +16,20 @@ const Problems = (props: any) => {
   const { data, error } = useSWR(
     `${process.env.NEXT_PUBLIC_RESTAPI_URL}/api/quizzes/`,
     async (url: string) => {
-      const r = await fetch(url, {
-        mode: 'cors',
+      const res = await fetch(url, {
         credentials: 'include',
         headers: {
           Authorization: `Token ${session?.accessKey}`,
         },
       })
-      return r.json()
+      console.log(res)
+      return res.json()
     },
   )
   console.log(data, error)
-  if (status === 'authenticated' && error === undefined) {
+  if (status === 'authenticated') {
     const problems =
-      data !== undefined
+      data !== undefined && data?.detail === undefined
         ? data.reduce(
             (
               prev: { [x: string]: any[] },
