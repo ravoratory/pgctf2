@@ -28,27 +28,29 @@ const Problems = (props: any) => {
       return res.json()
     },
   )
-  if (status === 'authenticated') {
-    const problems =
-      data !== undefined && !error
-        ? data.reduce(
-            (
-              prev: { [x: string]: any[] },
-              curr: { category: string | number },
-            ) => {
-              if (prev[curr.category] === undefined) {
-                prev[curr.category] = []
-              }
-              prev[curr.category].push(curr)
-              return prev
-            },
-            {},
-          )
-        : {}
+  if (status === 'authenticated' && !error) {
     return (
       <Container>
         <LeftColumn />
-        <RightColumn problems={problems} />
+        {
+          <RightColumn
+            problems={
+              data?.reduce(
+                (
+                  prev: { [x: string]: any[] },
+                  curr: { category: string | number },
+                ) => {
+                  if (prev[curr.category] === undefined) {
+                    prev[curr.category] = []
+                  }
+                  prev[curr.category].push(curr)
+                  return prev
+                },
+                {},
+              ) ?? []
+            }
+          />
+        }
       </Container>
     )
   }

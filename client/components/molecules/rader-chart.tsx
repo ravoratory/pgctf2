@@ -12,21 +12,15 @@ interface ProblemsChartProps {
 }
 
 const ProblemsChart = (props: ProblemsChartProps) => {
-  const data = props.data ?? [
-    { subject: 'pwnable', A: 50, fullmark: 100 },
-    { subject: 'web', A: 90, fullmark: 100 },
-    { subject: 'crypto', A: 20, fullmark: 100 },
-    { subject: 'reversing', A: 30, fullmark: 100 },
-    { subject: 'misc', A: 0, fullmark: 100 },
-    { subject: 'steganography', A: 65, fullmark: 100 },
-  ]
+  const data = props.data
+  console.log(data)
   return (
     <ResponsiveContainer width="100%" height="100%">
       <RadarChart cx="50%" cy="50%" outerRadius="80%" data={data}>
         <PolarGrid color={color.white} />
         <PolarAngleAxis dataKey="subject" />
         <Radar
-          name="Takashi"
+          name=""
           dataKey="A"
           stroke={color.orange}
           fill={color.orange}

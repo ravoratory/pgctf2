@@ -1,66 +1,26 @@
 import styled from 'styled-components'
+import color from '../../theme/color'
 
 import ProblemsChart from '../molecules/rader-chart'
 
 interface MyPageProps {
-  username?: string
-  point?: number
-  problems?: any[]
-  chartData?: any[]
+  username: string
+  points: number
+  solved_quizzes: any[]
+  radar: any[]
 }
 
 const Mypage = (props: MyPageProps) => {
-  const data = {
-    username: 'AYATO KADOTA',
-    point: 2000,
-    problems: [
-      {
-        title: 'meshitero',
-        clearDate: '',
-        category: 'web',
-        level: 3,
-        points: 3000,
-      },
-      {
-        title: 'meshitero',
-        clearDate: '2022/12/31',
-        category: 'web',
-        level: 3,
-        points: 3000,
-      },
-      {
-        title: 'meshitero',
-        clearDate: '',
-        category: 'web',
-        level: 3,
-        points: 3000,
-      },
-      {
-        title: 'meshitero',
-        clearDate: '',
-        category: 'web',
-        level: 3,
-        points: 3000,
-      },
-    ],
-    chartData: [
-      { subject: 'pwnable', A: 50, fullmark: 100 },
-      { subject: 'web', A: 90, fullmark: 100 },
-      { subject: 'crypto', A: 20, fullmark: 100 },
-      { subject: 'reversing', A: 30, fullmark: 100 },
-      { subject: 'misc', A: 0, fullmark: 100 },
-      { subject: 'steganography', A: 65, fullmark: 100 },
-    ],
-  }
   return (
     <Container>
-      <div>
-        {data.username} {data.point} pts
-      </div>
-      <span>solved problems</span>
+      <Name>
+        <span>{props.username}</span>
+        <span>[ {props.points} pts ] </span>
+      </Name>
+      <Title>Solved problems</Title>
       <ProblemsBox>
         <ChartView>
-          <ProblemsChart></ProblemsChart>
+          <ProblemsChart data={props.radar} />
         </ChartView>
         <Table>
           <thead>
@@ -74,14 +34,16 @@ const Mypage = (props: MyPageProps) => {
             </tr>
           </thead>
           <tbody>
-            {data.problems.map((d, idx) => {
+            {props.solved_quizzes?.map((d, idx) => {
               return (
-                <tr key={`${d.title}-${idx}`}>
+                <tr key={`${d.title}-${d.number}`}>
+                  <td>{d.number}</td>
+                  <td>
+                    <a>{d.title}</a>
+                  </td>
                   <td></td>
-                  <td>{d.title}</td>
-                  <td>{d.clearDate}</td>
                   <td>{d.category}</td>
-                  <td>{d.level}</td>
+                  <td>{d.difficulty}</td>
                   <td>{d.points}</td>
                 </tr>
               )
@@ -103,6 +65,7 @@ const Container = styled.div`
 `
 
 const ProblemsBox = styled.div`
+  padding: 24px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -112,9 +75,46 @@ const ProblemsBox = styled.div`
     inset 5px 5px 12px rgba(35, 35, 35, 0.9);
 `
 
-const Table = styled.table``
+const Table = styled.table`
+  border-collapse: collapse;
+  & thead {
+    border-bottom: 2px ${color.gray} solid;
+  }
+  tbody tr {
+    border-bottom: 1px #42484d solid;
+  }
+  th {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: start;
+    padding: 8px;
+  }
+  td {
+    font-size: 20px;
+    padding: 8px;
+    line-height: 36px;
+    a {
+      color: ${color.blue};
+    }
+  }
+`
 
 const ChartView = styled.div`
   width: 100%;
   height: 300px;
+`
+const Name = styled.div`
+  padding: 8px;
+  width: 40%;
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+  font-size: 32px;
+`
+
+const Title = styled.span`
+  font-size: 24px;
+  font-weight: bold;
+  padding: 8px;
+  color: ${color.gray};
 `

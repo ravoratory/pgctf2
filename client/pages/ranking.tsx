@@ -46,11 +46,14 @@ const Rankings = (props: any) => {
   )
 
   if (status === 'authenticated') {
-    console.log(data)
     return (
       <Container>
         <LeftColumn />
-        {!error && <RightColumn line={line} data={data ?? []} />}
+        {!error ? (
+          <RightColumn line={line} data={data ?? []} />
+        ) : (
+          <div>loading...</div>
+        )}
       </Container>
     )
   }
