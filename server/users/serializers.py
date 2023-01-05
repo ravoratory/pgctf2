@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from quizzes.serializers import QuizOverviewSerializer
+from quizzes.serializers import SolvedQuizSerializer
 
 from .models import User
 
@@ -16,7 +16,8 @@ class UserDetailSerializer(serializers.ModelSerializer):
         fields = ("username", "points", "solved_quiz_count", "last_solved", "solved_quizzes")
 
     def get_solved_quizzes(self, obj):
-        return QuizOverviewSerializer(obj.ranking_solved_quizzes(), many=True, context=self.context).data
+        quizzes = obj.ranking_solved_quizzes()
+        return SolvedQuizSerializer(quizzes, many=True, context=self.context).data
 
 
 class UserOverviewSerializer(serializers.ModelSerializer):

@@ -3,7 +3,7 @@ import uuid as uuid_lib
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.core.validators import MinLengthValidator, RegexValidator
 from django.db import models
-from django.db.models import Sum
+from django.db.models import F, Sum
 from django.utils import timezone
 from django.utils.deconstruct import deconstructible
 
@@ -133,7 +133,10 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def ranking_solved_quizzes(self):
         enable, freeze_time = Configuration.enable_ranking()
+        quizzes = (
+            self.solved_quizzes.filter(published=True).annotate(solved_at=F("solved__solved_at")).order_by("-solved_at")
+        )
         if enable:
-            return self.solved_quizzes.filter(published=True)
-
-        return self.solved_quizzes.filter(published=True, solved__solved_at__lt=freeze_time)
+            return quizzes
+        else:
+            return quizzes.filter(solved_at__lt=freeze_time)
