@@ -568,7 +568,7 @@ components:
         title:
           $ref: '#/components/schemas/QuizTitle'
         category:
-          $ref: '#/components/schemas/Category'
+          $ref: '#/components/schemas/CategoryName'
         difficulty:
           $ref: '#/components/schemas/Difficulty'
         points:
@@ -589,7 +589,7 @@ components:
         title:
           $ref: '#/components/schemas/QuizTitle'
         category:
-          $ref: '#/components/schemas/Category'
+          $ref: '#/components/schemas/CategoryName'
         statement:
           $ref: '#/components/schemas/QuizStatement'
         difficulty:
@@ -610,7 +610,7 @@ components:
         title:
           $ref: '#/components/schemas/QuizTitle'
         category:
-          $ref: '#/components/schemas/Category'
+          $ref: '#/components/schemas/CategoryName'
         difficulty:
           $ref: '#/components/schemas/Difficulty'
         points:
