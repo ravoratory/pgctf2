@@ -8,4 +8,4 @@ from .serializers import AnnouncementSerializer
 class AnnouncementView(ListAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = AnnouncementSerializer
-    queryset = Announcement.objects.all()
+    queryset = Announcement.objects.all().order_by("-created_at")
