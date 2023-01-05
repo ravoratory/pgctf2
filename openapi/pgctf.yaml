@@ -438,20 +438,14 @@ components:
       type: string
       description: クイズのタイトル
       example: 'Hello World!'
-    Category:
+    CategoryName:
       type: string
       description: クイズのカテゴリ
       example: Web
-    Categories:
-      type: array
-      items:
-        $ref: '#/components/schemas/Category'
-      example:
-        - Web
-        - Crypto
-        - PWN
-        - Steganography
-        - Reversing
+    QuizCount:
+      type: integer
+      description: 問題数
+      example: 3
     Difficulty:
       type: integer
       description: 難易度
@@ -672,6 +666,17 @@ components:
         detail:
           type: string
           example: 'Successfully logged out.'
+    Category:
+      type: object
+      properties:
+        name:
+          $ref: '#/components/schemas/CategoryName'
+        count:
+          $ref: '#/components/schemas/QuizCount'
+    Categories:
+      type: array
+      items:
+        $ref: '#/components/schemas/Category'
 
   parameters:
     UsernameParameter:
