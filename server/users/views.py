@@ -6,6 +6,7 @@ from rest_framework.generics import GenericAPIView, ListAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
+from django.contrib.auth.decorators import login_required
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db.models import Case, F, Max, NullBooleanField, Prefetch, Sum, When
 from django.db.models.expressions import Window
@@ -33,7 +34,7 @@ class UserDetailView(RetrieveAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = UserDetailSerializer
     lookup_field = "username"
-    queryset = User.objects.filter(is_active=True)  # , is_staff=False)
+    queryset = User.objects.filter(is_active=True, is_staff=False)
 
 
 class UserRadarChartView(GenericAPIView):
@@ -79,6 +80,7 @@ class RankingView(ListAPIView):
 
 
 @require_GET
+@login_required
 def ranking_chart(request: HttpRequest, *args, **kwargs):
     if not Configuration.ranking_viewable() and not request.user.is_staff:
         return HttpResponse(status=403)

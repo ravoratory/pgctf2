@@ -61,6 +61,11 @@ class QuizFlagSerializer(serializers.Serializer):
 
 
 class CategorySerializer(serializers.ModelSerializer):
+    count = serializers.SerializerMethodField()
+
     class Meta:
         model = QuizCategory
-        fields = ("name",)
+        fields = ("name", "count")
+
+    def get_count(self, obj):
+        return Quiz.objects.filter(category=obj).count()
