@@ -1,5 +1,3 @@
-from decouple import config  # noqa
-
 from .base import *  # noqa
 
 SECRET_KEY = "secret_key"
@@ -8,6 +6,21 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 CSRF_TRUSTED_ORIGINS = ["http://localhost:8080", "http://pgctf2.test"]
+
+INSTALLED_APPS += [  # noqa: F405
+    "debug_toolbar",
+]
+
+MIDDLEWARE += [  # noqa: F405
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
+]
+
+ROOT_URLCONF = "config.urls.development"
+
+DEBUG_TOOLBAR_CONFIG = {
+    "SHOW_TOOLBAR_CALLBACK": lambda request: True,
+}
+
 
 LOGGING = {
     "version": 1,

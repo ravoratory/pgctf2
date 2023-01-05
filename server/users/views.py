@@ -8,18 +8,32 @@ from rest_framework.response import Response
 
 from django.contrib.auth.decorators import login_required
 from django.core.serializers.json import DjangoJSONEncoder
-from django.db.models import Case, F, Max, NullBooleanField, Prefetch, Sum, When
+from django.db.models import (
+    Case,
+    Count,
+    F,
+    FilteredRelation,
+    FloatField,
+    IntegerField,
+    Max,
+    NullBooleanField,
+    Prefetch,
+    Q,
+    Sum,
+    When,
+)
 from django.db.models.expressions import Window
-from django.db.models.functions import Cast, Rank
+from django.db.models.functions import Cast, Rank, Round
 from django.http import HttpRequest
 from django.http.response import HttpResponse
+from django.shortcuts import get_object_or_404
 from django.views.decorators.http import require_GET
 
 from game_configurations.models import Configuration
-from quizzes.models import Solved
+from quizzes.models import Quiz, Solved
 
 from .models import User
-from .serializers import UserDetailSerializer, UserOverviewSerializer
+from .serializers import UserDetailSerializer, UserOverviewSerializer, UserRadarChartSerializer
 
 
 class UserSelfView(RetrieveAPIView):
@@ -37,11 +51,29 @@ class UserDetailView(RetrieveAPIView):
     queryset = User.objects.filter(is_active=True, is_staff=False)
 
 
-class UserRadarChartView(GenericAPIView):
+class UserRadarChartView(ListAPIView):
     permission_classes = (IsAuthenticated,)
+    serializer_class = UserRadarChartSerializer
 
-    def get(self, request, username):
-        return Response(status=status.HTTP_200_OK)
+    def get_queryset(self):
+        if self.request.user.username == self.kwargs["username"]:
+            user = self.request.user
+        else:
+            user = get_object_or_404(
+                User.objects.filter(is_active=True, is_staff=False), username=self.kwargs["username"]
+            )
+
+        queryset = (
+            Quiz.objects.filter(published=True)
+            .values("category")
+            .annotate(solved_user=FilteredRelation("solved", condition=Q(solved__user=user)))
+            .annotate(ratio=Round(Count("solved_user__user") / Cast(Count("category"), output_field=FloatField()), 2))
+            .annotate(fullmark=Cast(1, output_field=IntegerField()))
+            .values("category__name", "fullmark", "ratio")
+            .order_by("category__name")
+        )
+
+        return queryset
 
 
 class UserLineChartView(GenericAPIView):

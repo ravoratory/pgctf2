@@ -48,6 +48,15 @@ class QuizDetailSerializer(serializers.ModelSerializer):
         fields = ("number", "title", "category", "statement", "difficulty", "points", "author", "files", "urls")
 
 
+class SolvedQuizSerializer(serializers.ModelSerializer):
+    points = serializers.IntegerField(source="point")
+    solved_at = serializers.DateTimeField()
+
+    class Meta:
+        model = Quiz
+        fields = ("number", "title", "category", "difficulty", "points", "solved_at")
+
+
 class QuizWinnerSerializer(serializers.ModelSerializer):
     username = serializers.CharField(source="user.username")
 
