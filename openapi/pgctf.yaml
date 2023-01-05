@@ -521,6 +521,13 @@ components:
       type: string
       description: PG-CTF2認証キー
       example: fef7a451aaeca20ab1cc8f6e969605f60c27a4f1
+    CategorySolveRatio:
+      type: number
+      description: カテゴリごとの正解率
+      example: 0.5
+    Fullmark:
+      type: integer
+      example: 1
     UserOverview:
       type: object
       properties:
@@ -633,10 +640,23 @@ components:
           description: ユーザ名と各時刻における得点の配列
         username:
           $ref: '#/components/schemas/Username'
+    SolveRatio:
+      type: object
+      description: カテゴリの正解率
+      properties:
+        subject:
+          $ref: '#/components/schemas/CategoryName'
+        ratio:
+          $ref: '#/components/schemas/CategorySolveRatio'
+        Fullmark:
+          $ref: '#/components/schemas/Fullmark'
     UserLineChart:
       description: ユーザの得点推移グラフ用データ
     UserRadarChart:
       description: ユーザのカテゴリ別解答割合レーダーチャート用データ
+      type: array
+      items:
+        $ref: '#/components/schemas/SolveRatio'
     AnswerResult:
       type: object
       properties:

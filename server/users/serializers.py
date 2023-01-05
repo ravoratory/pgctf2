@@ -28,3 +28,9 @@ class UserOverviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ("username", "rank", "points", "last_solved")
+
+
+class UserRadarChartSerializer(serializers.Serializer):
+    subject = serializers.CharField(source="category__name")
+    ratio = serializers.FloatField()
+    fullmark = serializers.IntegerField()
