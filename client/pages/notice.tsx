@@ -1,4 +1,5 @@
 import { useSession } from 'next-auth/react'
+import Head from 'next/head'
 import { useRouter } from 'next/router'
 
 import styled from 'styled-components'
@@ -33,14 +34,19 @@ const NoticesPage = (props: any) => {
 
   if (status === 'authenticated') {
     return (
-      <Container>
-        <LeftColumn></LeftColumn>
-        {!error ? (
-          <Notices notices={data ?? []}></Notices>
-        ) : (
-          <div>loading...</div>
-        )}
-      </Container>
+      <>
+        <Head>
+          <title>Notice</title>
+        </Head>
+        <Container>
+          <LeftColumn></LeftColumn>
+          {!error ? (
+            <Notices notices={data ?? []}></Notices>
+          ) : (
+            <div>loading...</div>
+          )}
+        </Container>
+      </>
     )
   }
   return <div>loading...</div>

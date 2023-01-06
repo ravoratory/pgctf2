@@ -4,6 +4,7 @@ import { useSession } from 'next-auth/react'
 import useSWR from 'swr'
 import LeftColumn from '../components/organisms/left-column'
 import RightColumn from '../components/organisms/problems'
+import Head from 'next/head'
 
 const Problems = (props: any) => {
   const router = useRouter()
@@ -30,28 +31,33 @@ const Problems = (props: any) => {
   )
   if (status === 'authenticated' && !error) {
     return (
-      <Container>
-        <LeftColumn />
-        {
-          <RightColumn
-            problems={
-              data?.reduce(
-                (
-                  prev: { [x: string]: any[] },
-                  curr: { category: string | number },
-                ) => {
-                  if (prev[curr.category] === undefined) {
-                    prev[curr.category] = []
-                  }
-                  prev[curr.category].push(curr)
-                  return prev
-                },
-                {},
-              ) ?? []
-            }
-          />
-        }
-      </Container>
+      <>
+        <Head>
+          <title>Problems</title>
+        </Head>
+        <Container>
+          <LeftColumn />
+          {
+            <RightColumn
+              problems={
+                data?.reduce(
+                  (
+                    prev: { [x: string]: any[] },
+                    curr: { category: string | number },
+                  ) => {
+                    if (prev[curr.category] === undefined) {
+                      prev[curr.category] = []
+                    }
+                    prev[curr.category].push(curr)
+                    return prev
+                  },
+                  {},
+                ) ?? []
+              }
+            />
+          }
+        </Container>
+      </>
     )
   }
 

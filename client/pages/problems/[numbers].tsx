@@ -3,6 +3,8 @@ import { useRouter } from 'next/router'
 import styled from 'styled-components'
 import useSWR from 'swr'
 import LeftColumn from '../../components/organisms/left-column'
+import ProblemContent from '../../components/organisms/problem-content'
+
 const ProblemPage = () => {
   const router = useRouter()
   const { data: session, status } = useSession({
@@ -26,10 +28,11 @@ const ProblemPage = () => {
       return res.json()
     },
   )
-  console.log(data, error)
+  console.log(data)
   return (
     <Container>
       <LeftColumn />
+      {!error ? <ProblemContent {...data} /> : <div>loading...</div>}
     </Container>
   )
 }

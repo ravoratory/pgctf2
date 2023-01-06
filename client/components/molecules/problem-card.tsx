@@ -10,7 +10,7 @@ interface ProblemCardProps {
   difficulty: number
   points: number
   solved: boolean
-  onClick?: (e: MouseEvent) => {}
+  onClick?: (e: MouseEvent) => void
 }
 
 const ProblemCard = (props: ProblemCardProps) => {

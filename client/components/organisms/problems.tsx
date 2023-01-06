@@ -1,9 +1,12 @@
 import styled from 'styled-components'
 import ProblemCard from '../molecules/problem-card'
 import color from '../../theme/color'
+import { MouseEvent } from 'react'
+import { useRouter } from 'next/router'
 
 interface CategoryProps {
   [category: string]: {
+    number: string
     title: string
     difficulty: number
     points: number
@@ -16,6 +19,11 @@ interface ProblemProps {
 }
 
 const Problem = (props: ProblemProps) => {
+  const router = useRouter()
+  const onClick = (problemId: string) => (e: MouseEvent) => {
+    e.preventDefault()
+    router.push(`/problems/${problemId}`)
+  }
   return (
     <Container>
       {Object.entries(props.problems).map(([category, problems]) => {
@@ -25,6 +33,7 @@ const Problem = (props: ProblemProps) => {
             <Problems>
               {problems.map((problem, idx) => (
                 <ProblemCard
+                  onClick={onClick(problem.number)}
                   key={`${problem.title}-${idx}`}
                   {...problem}
                 ></ProblemCard>

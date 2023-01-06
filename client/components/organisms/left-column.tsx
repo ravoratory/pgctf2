@@ -12,28 +12,28 @@ interface LeftColumnProps {}
 const LeftColumn = (props: LeftColumnProps) => {
   const router = useRouter()
   const onclick = (label: string) => (event: MouseEvent<HTMLButtonElement>) => {
-    router.replace(label)
+    router.push(label)
   }
   const columnProps = [
     {
       text: 'PROBLEMS',
       icon: faFlag,
-      onClick: onclick('problems'),
+      onClick: onclick('/problems'),
     },
     {
       text: 'NOTICE',
       icon: faBullhorn,
-      onClick: onclick('notice'),
+      onClick: onclick('/notice'),
     },
     {
       text: 'RANKING',
       icon: faChartSimple,
-      onClick: onclick('ranking'),
+      onClick: onclick('/ranking'),
     },
     {
       text: 'PROFILE',
       icon: faUser,
-      onClick: onclick('profile'),
+      onClick: onclick('/profile'),
     },
   ]
 
