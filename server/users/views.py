@@ -6,9 +6,11 @@ from rest_framework.generics import GenericAPIView, ListAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
+from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db.models import (
+    BooleanField,
     Case,
     Count,
     F,
@@ -16,7 +18,6 @@ from django.db.models import (
     FloatField,
     IntegerField,
     Max,
-    NullBooleanField,
     Prefetch,
     Q,
     Sum,
@@ -32,8 +33,9 @@ from django.views.decorators.http import require_GET
 from game_configurations.models import Configuration
 from quizzes.models import Quiz, Solved
 
-from .models import User
 from .serializers import UserDetailSerializer, UserOverviewSerializer, UserRadarChartSerializer
+
+User = get_user_model()
 
 
 class UserSelfView(RetrieveAPIView):
@@ -97,7 +99,7 @@ class RankingView(ListAPIView):
         else:
             ranking = ranking.annotate(
                 points=Sum(Case(When(solved__solved_at__lt=freeze_datetime, then="solved__quiz__point")))
-            ).annotate(last_solve=Cast(None, output_field=NullBooleanField()))
+            ).annotate(last_solve=Cast(None, output_field=BooleanField(null=True)))
 
         return (
             ranking.annotate(

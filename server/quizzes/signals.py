@@ -1,11 +1,13 @@
 import math
 
+from django.contrib.auth import get_user_model
 from django.db.models.signals import post_delete, post_save
 from django.dispatch import receiver
 
 from game_configurations.models import Configuration
 from quizzes.models import Quiz, Solved
-from users.models import User
+
+User = get_user_model()
 
 
 def recalculate_quiz_score(quiz_id=None):
