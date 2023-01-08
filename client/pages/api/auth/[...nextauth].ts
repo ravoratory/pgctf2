@@ -1,4 +1,5 @@
 import NextAuth from 'next-auth'
+import { setCookie } from 'nookies'
 
 export default NextAuth({
   secret: 'secretNExt',
@@ -40,8 +41,11 @@ export default NextAuth({
           }),
         },
       ).then((r) => {
-        console.info(r.headers.get('set-cookie'))
         return r.json()
+      })
+      setCookie(null, 'accessToken', rep.key, {
+        maxAge: 30 * 24 * 60 * 60,
+        path: '/',
       })
       if (account) account.access_key = rep.key
       return true
@@ -49,7 +53,6 @@ export default NextAuth({
     async session({ session, user, token }) {
       session.accessKey = token.accessKey
       session.accessToken = token.accessToken
-      console.info('session info: ', session)
       return session
     },
     async jwt({ token, user, account, profile, isNewUser }) {

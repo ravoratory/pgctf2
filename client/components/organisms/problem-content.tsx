@@ -1,5 +1,9 @@
-import Head from 'next/head'
+import { FormEvent } from 'react'
 import styled from 'styled-components'
+import Head from 'next/head'
+import { useSession } from 'next-auth/react'
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 import color from '../../theme/color'
 
 interface ProblemProps {
@@ -9,14 +13,25 @@ interface ProblemProps {
   statement: string
   points: number
   solved: boolean
-  links: string[]
+  files: { file: string; title: string }[]
+  urls: { url: string; title: string }[]
 }
 
 const Problem = (props: ProblemProps) => {
+  const onSubmit = async (e: FormEvent) => {
+    e.preventDefault()
+    const res = await fetch('', {
+      credentials: 'include',
+      headers: {
+        Authorization: `Token`,
+      },
+    })
+    console.log(res)
+  }
   return (
     <>
       <Head>
-        <title>{props.title}</title>
+        <title>{props.number}</title>
       </Head>
       <Container>
         <Info>
@@ -25,10 +40,28 @@ const Problem = (props: ProblemProps) => {
         </Info>
         <Statement>
           <Title>{props.title}</Title>
-          {props.statement}
+          <ReactMarkdown remarkPlugins={[remarkGfm]}>
+            {props.statement}
+          </ReactMarkdown>
+          <Links>
+            {props.files?.map((link, idx) => {
+              return (
+                <a key={`link-${link.title}-${idx}`} href={link.file}>
+                  {link.title}
+                </a>
+              )
+            })}
+            {props.urls?.map((url, idx) => {
+              return (
+                <a key={`url-${url.title}-${idx}`} href={url.url}>
+                  {url.title}
+                </a>
+              )
+            })}
+          </Links>
         </Statement>
 
-        <form method="post">
+        <form method="post" onSubmit={onSubmit}>
           <label htmlFor="flag">Flag:</label>
           <input id="flag" name="flag" type="text" required />
           <button type="submit">Submit</button>
@@ -65,5 +98,17 @@ const Info = styled.div`
 const InfoText = styled.span`
   font-weight: bold;
 `
-const Statement = styled.div``
+const Statement = styled.div`
+  & a {
+    color: skyblue;
+  }
+  & code {
+    background-color: #727272;
+    color: ${color.orange};
+  }
+`
 const Title = styled.h2``
+const Links = styled.div`
+  display: flex;
+  gap: 8px;
+`

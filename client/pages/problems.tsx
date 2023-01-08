@@ -1,10 +1,10 @@
+import Head from 'next/head'
 import { useRouter } from 'next/router'
+import { getSession, GetSessionParams, useSession } from 'next-auth/react'
 import styled from 'styled-components'
-import { useSession } from 'next-auth/react'
-import useSWR from 'swr'
+
 import LeftColumn from '../components/organisms/left-column'
 import RightColumn from '../components/organisms/problems'
-import Head from 'next/head'
 
 const Problems = (props: any) => {
   const router = useRouter()
@@ -14,22 +14,7 @@ const Problems = (props: any) => {
       router.replace('/')
     },
   })
-  const { data, error } = useSWR(
-    `${process.env.NEXT_PUBLIC_RESTAPI_URL}/api/quizzes/`,
-    async (url: string) => {
-      const res = await fetch(url, {
-        credentials: 'include',
-        headers: {
-          Authorization: `Token ${session?.accessKey}`,
-        },
-      })
-      if (!res.ok) {
-        throw !res.ok
-      }
-      return res.json()
-    },
-  )
-  if (status === 'authenticated' && !error) {
+  if (status === 'authenticated') {
     return (
       <>
         <Head>
@@ -39,21 +24,19 @@ const Problems = (props: any) => {
           <LeftColumn />
           {
             <RightColumn
-              problems={
-                data?.reduce(
-                  (
-                    prev: { [x: string]: any[] },
-                    curr: { category: string | number },
-                  ) => {
-                    if (prev[curr.category] === undefined) {
-                      prev[curr.category] = []
-                    }
-                    prev[curr.category].push(curr)
-                    return prev
-                  },
-                  {},
-                ) ?? []
-              }
+              problems={props.data.reduce(
+                (
+                  prev: { [x: string]: any[] },
+                  curr: { category: string | number },
+                ) => {
+                  if (prev[curr.category] === undefined) {
+                    prev[curr.category] = []
+                  }
+                  prev[curr.category].push(curr)
+                  return prev
+                },
+                {},
+              )}
             />
           }
         </Container>
@@ -62,6 +45,29 @@ const Problems = (props: any) => {
   }
 
   return <div>loading...</div>
+}
+
+export const getServerSideProps = async (
+  context: GetSessionParams | undefined,
+) => {
+  const session = await getSession(context)
+  if (!session) {
+    return { props: { data: [] } }
+  }
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_RESTAPI_URL}/api/quizzes/`,
+    {
+      credentials: 'include',
+      headers: {
+        Authorization: `Token ${session.accessKey}`,
+      },
+    },
+  )
+  if (!res.ok) {
+    throw !res.ok
+  }
+  const data = await res.json()
+  return { props: { data } }
 }
 
 export default Problems

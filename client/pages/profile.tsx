@@ -1,4 +1,5 @@
 import { useSession } from 'next-auth/react'
+import Head from 'next/head'
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
 import useSWR from 'swr'
@@ -65,10 +66,15 @@ const ProblemPage = () => {
     }
   }
   return (
-    <Container>
-      <LeftColumn />
-      {!error ? <Mypage {...data} /> : <div>loading...</div>}
-    </Container>
+    <>
+      <Head>
+        <title>Profile</title>
+      </Head>
+      <Container>
+        <LeftColumn />
+        {!error ? <Mypage {...data} /> : <div>loading...</div>}
+      </Container>
+    </>
   )
 }
 

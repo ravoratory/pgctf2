@@ -4,12 +4,12 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   compiler: {
+    styledComponents: {
+      ssr: true,
+    },
     removeConsole: {
       exclude: ['error'],
     },
-  },
-  images: {
-    unoptimized: true,
   },
 }
 

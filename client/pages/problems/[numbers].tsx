@@ -1,4 +1,5 @@
 import { useSession } from 'next-auth/react'
+import Head from 'next/head'
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
 import useSWR from 'swr'
@@ -30,10 +31,15 @@ const ProblemPage = () => {
   )
   console.log(data)
   return (
-    <Container>
-      <LeftColumn />
-      {!error ? <ProblemContent {...data} /> : <div>loading...</div>}
-    </Container>
+    <>
+      <Head>
+        <title>Problems</title>
+      </Head>
+      <Container>
+        <LeftColumn />
+        {!error ? <ProblemContent {...data} /> : <div>loading...</div>}
+      </Container>
+    </>
   )
 }
 

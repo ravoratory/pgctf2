@@ -4,6 +4,7 @@ import { useSession } from 'next-auth/react'
 import useSWR from 'swr'
 import LeftColumn from '../components/organisms/left-column'
 import RightColumn from '../components/organisms/ranking'
+import Head from 'next/head'
 
 const Rankings = (props: any) => {
   const router = useRouter()
@@ -47,14 +48,19 @@ const Rankings = (props: any) => {
 
   if (status === 'authenticated') {
     return (
-      <Container>
-        <LeftColumn />
-        {!error ? (
-          <RightColumn line={line} data={data ?? []} />
-        ) : (
-          <div>loading...</div>
-        )}
-      </Container>
+      <>
+        <Head>
+          <title>Ranking</title>
+        </Head>
+        <Container>
+          <LeftColumn />
+          {!error ? (
+            <RightColumn line={line} data={data ?? []} />
+          ) : (
+            <div>loading...</div>
+          )}
+        </Container>
+      </>
     )
   }
 

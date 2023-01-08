@@ -1,4 +1,5 @@
 import { useSession } from 'next-auth/react'
+import Head from 'next/head'
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
 import useSWR from 'swr'
