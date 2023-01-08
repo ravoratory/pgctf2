@@ -1,8 +1,7 @@
 import NextAuth from 'next-auth'
-import { setCookie } from 'nookies'
 
 export default NextAuth({
-  secret: 'secretNExt',
+  secret: 'secretNext',
   providers: [
     {
       id: 'PGrit',
@@ -42,10 +41,6 @@ export default NextAuth({
         },
       ).then((r) => {
         return r.json()
-      })
-      setCookie(null, 'accessToken', rep.key, {
-        maxAge: 30 * 24 * 60 * 60,
-        path: '/',
       })
       if (account) account.access_key = rep.key
       return true
