@@ -1,4 +1,6 @@
-import NextAuth from 'next-auth'
+import { NextApiRequest, NextApiResponse } from 'next'
+import NextAuth, { NextAuthOptions } from 'next-auth'
+import { NextAuthHandlerParams } from 'next-auth/core'
 import { setCookie } from 'nookies'
 
 // export default NextAuth({
@@ -73,7 +75,10 @@ import { setCookie } from 'nookies'
 //     },
 //   },
 // })
-const nextAuthOptions = (req, res) => {
+const nextAuthOptions = (
+  req: NextApiRequest,
+  res: NextApiResponse,
+): NextAuthOptions => {
   return {
     secret: 'secretNext',
     providers: [
@@ -137,6 +142,6 @@ const nextAuthOptions = (req, res) => {
   }
 }
 
-export default (req, res) => {
+export default (req: NextApiRequest, res: NextApiResponse) => {
   return NextAuth(req, res, nextAuthOptions(req, res))
 }
