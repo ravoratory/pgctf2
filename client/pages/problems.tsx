@@ -54,6 +54,7 @@ export const getServerSideProps = async (
   if (!session) {
     return { props: { data: [] } }
   }
+  // console.log(context)
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_RESTAPI_URL}/api/quizzes/`,
     {

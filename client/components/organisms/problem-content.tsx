@@ -1,7 +1,8 @@
-import { FormEvent } from 'react'
 import styled from 'styled-components'
 import Head from 'next/head'
-import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/router'
+
+import { parseCookies } from 'nookies'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import color from '../../theme/color'
@@ -18,16 +19,8 @@ interface ProblemProps {
 }
 
 const Problem = (props: ProblemProps) => {
-  const onSubmit = async (e: FormEvent) => {
-    e.preventDefault()
-    const res = await fetch('', {
-      credentials: 'include',
-      headers: {
-        Authorization: `Token`,
-      },
-    })
-    console.log(res)
-  }
+  const cookies = parseCookies()
+  const router = useRouter()
   return (
     <>
       <Head>
@@ -60,9 +53,18 @@ const Problem = (props: ProblemProps) => {
             })}
           </Links>
         </Statement>
-
-        <form method="post" onSubmit={onSubmit}>
+        <form
+          method="POST"
+          id="solution"
+          action={`${process.env.NEXT_PUBLIC_RESTAPI_URL}/api/quizzes/${router.query.numbers}/answer`}
+        >
           <label htmlFor="flag">Flag:</label>
+          <input
+            type="hidden"
+            name="csrfmiddlewaretoken"
+            required
+            value={cookies.csrftoken}
+          />
           <input id="flag" name="flag" type="text" required />
           <button type="submit">Submit</button>
         </form>
@@ -70,7 +72,6 @@ const Problem = (props: ProblemProps) => {
     </>
   )
 }
-
 export default Problem
 
 const Container = styled.div`

@@ -1,14 +1,13 @@
 import { FormEvent } from 'react'
-import { getSession, GetSessionParams, useSession } from 'next-auth/react'
+import { NextPageContext } from 'next'
+import { getSession, useSession } from 'next-auth/react'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
-import useSWR from 'swr'
 import LeftColumn from '../../components/organisms/left-column'
 import ProblemContent from '../../components/organisms/problem-content'
-import { NextPageContext } from 'next'
 
-const ProblemPage = () => {
+const ProblemPage = (props: any) => {
   const router = useRouter()
   const { data: session, status } = useSession({
     required: true,
@@ -16,22 +15,6 @@ const ProblemPage = () => {
       router.replace('/')
     },
   })
-  const { data, error } = useSWR(
-    `${process.env.NEXT_PUBLIC_RESTAPI_URL}/api/quizzes/${router.query.numbers}`,
-    async (url: string) => {
-      const res = await fetch(url, {
-        credentials: 'include',
-        headers: {
-          Authorization: `Token ${session?.accessKey}`,
-        },
-      })
-      if (!res.ok) {
-        throw !res.ok
-      }
-      return res.json()
-    },
-  )
-  console.log(data)
   return (
     <>
       <Head>
@@ -39,7 +22,11 @@ const ProblemPage = () => {
       </Head>
       <Container>
         <LeftColumn />
-        {!error ? <ProblemContent {...data} /> : <div>loading...</div>}
+        {props.data ? (
+          <ProblemContent {...props.data} />
+        ) : (
+          <div>loading...</div>
+        )}
       </Container>
     </>
   )
