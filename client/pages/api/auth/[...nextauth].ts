@@ -43,9 +43,7 @@ const nextAuthOptions = (
             },
           },
         )
-        rep.headers['set-cookie']?.forEach((cookie) => {
-          res.setHeader('Set-Cookie', cookie)
-        })
+        res.setHeader('Set-Cookie', rep.headers['set-cookie'] ?? [])
         if (account) account.access_key = rep.data.key
         return true
       },
