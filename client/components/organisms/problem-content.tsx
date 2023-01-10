@@ -32,23 +32,21 @@ const Problem = (props: ProblemProps) => {
   const onSubmit = async (e: FormEvent): Promise<boolean | void> => {
     e.preventDefault()
     const form = e.currentTarget as HTMLFormElement
-    const data = new FormData()
-    data.append('flag', form.flag.value)
-    axios.defaults.withCredentials = true
+
     await axios
       .post(
         `${process.env.NEXT_PUBLIC_RESTAPI_URL}/api/quizzes/${router.query.numbers}/answer`,
-        data,
+        { flag: form.flag.value },
         {
+          withCredentials: true,
           headers: {
             Authorization: `Token: ${session.data?.accessToken}`,
-            'Content-Type': 'multipart/form-data',
+            'Content-Type': 'Application/json',
             'X-CSRFToken': `${cookies.csrftoken}`,
           },
         },
       )
       .then((e) => {
-        console.log(e)
         if (e.data.correct) {
           setSolved(true)
         } else {
