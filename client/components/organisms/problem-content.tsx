@@ -33,21 +33,22 @@ const Problem = (props: ProblemProps) => {
     e.preventDefault()
     const form = e.currentTarget as HTMLFormElement
 
-    await axios
-      .post(
-        `${process.env.NEXT_PUBLIC_RESTAPI_URL}/api/quizzes/${router.query.numbers}/answer`,
-        { flag: form.flag.value },
-        {
-          withCredentials: true,
-          headers: {
-            Authorization: `Token: ${session.data?.accessToken}`,
-            'Content-Type': 'Application/json',
-            'X-CSRFToken': `${cookies.csrftoken}`,
-          },
+    await fetch(
+      `${process.env.NEXT_PUBLIC_RESTAPI_URL}/api/quizzes/${router.query.numbers}/answer`,
+      {
+        method: 'post',
+        credentials: 'include',
+        headers: {
+          Authorization: `Token: ${session.data?.accessToken}`,
+          'Content-Type': 'Application/json',
+          'X-CSRFToken': `${cookies.csrftoken}`,
         },
-      )
-      .then((e) => {
-        if (e.data.correct) {
+        body: JSON.stringify({ flag: form.flag.value }),
+      },
+    )
+      .then(async (e) => {
+        const data = await e.json()
+        if (data.correct) {
           setSolved(true)
         } else {
           setSolved(false)
@@ -55,7 +56,7 @@ const Problem = (props: ProblemProps) => {
         }
       })
       .catch((err) => {
-        setError(err.response.data.flag.join())
+        console.error(err)
       })
   }
   return (
