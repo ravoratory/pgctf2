@@ -42,10 +42,25 @@ class QuizDetailSerializer(serializers.ModelSerializer):
     files = QuizFileSerializer(many=True, source="file")
     urls = QuizAppendedURLSerializer(many=True, source="url")
     points = serializers.IntegerField(source="point")
+    solved = serializers.SerializerMethodField()
 
     class Meta:
         model = Quiz
-        fields = ("number", "title", "category", "statement", "difficulty", "points", "author", "files", "urls")
+        fields = (
+            "number",
+            "title",
+            "category",
+            "statement",
+            "difficulty",
+            "points",
+            "author",
+            "files",
+            "urls",
+            "solved",
+        )
+
+    def get_solved(self, obj):
+        return Solved.objects.filter(quiz__number=obj.number, user=self.context["request"].user).exists()
 
 
 class SolvedQuizSerializer(serializers.ModelSerializer):
