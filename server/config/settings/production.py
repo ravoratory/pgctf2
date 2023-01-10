@@ -13,6 +13,8 @@ CORS_ORIGIN_WHITELIST = config("CORS_ORIGIN_WHITELIST", cast=Csv())
 CORS_ALLOW_CREDENTIALS = True
 SESSION_COOKIE_SAMESITE = "None"
 CSRF_COOKIE_SAMESITE = "None"
+SESSION_COOKIE_SECURE = True
+
 MIDDLEWARE += [  # noqa: F405
     "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
