@@ -1,9 +1,10 @@
-import { useSession } from 'next-auth/react'
-import Head from 'next/head'
+import { NextPageContext } from 'next'
+import { getSession, useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
 import useSWR from 'swr'
 import LeftColumn from '../../components/organisms/left-column'
+import Mypage from '../../components/organisms/mypage'
 const ProblemPage = () => {
   const router = useRouter()
   const { data: session, status } = useSession({
@@ -31,10 +32,10 @@ const ProblemPage = () => {
   return (
     <Container>
       <LeftColumn />
+      {!error ? <Mypage {...data} /> : <div>loading...</div>}
     </Container>
   )
 }
-
 export default ProblemPage
 
 const Container = styled.div`

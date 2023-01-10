@@ -7,7 +7,7 @@ interface MyPageProps {
   username: string
   points: number
   solved_quizzes: any[]
-  radar: any[]
+  chart: any[]
 }
 
 const Mypage = (props: MyPageProps) => {
@@ -20,7 +20,7 @@ const Mypage = (props: MyPageProps) => {
       <Title>Solved problems</Title>
       <ProblemsBox>
         <ChartView>
-          <ProblemsChart data={props.radar} />
+          <ProblemsChart data={props.chart} />
         </ChartView>
         <Table>
           <thead>
