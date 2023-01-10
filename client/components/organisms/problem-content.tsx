@@ -42,7 +42,7 @@ const Problem = (props: ProblemProps) => {
           withCredentials: true,
           headers: {
             Authorization: `Token: ${session.data?.accessToken}`,
-            'Access-Control-Allow-Credentials': 'true',
+            'Content-Type': 'multipart/form-data',
             'X-CSRFToken': `${cookies.csrftoken}`,
           },
         },
