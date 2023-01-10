@@ -7,6 +7,11 @@ info:
   version: 1.0.0
 
 servers:
+  - url: https://api.pgctf2.tkm.blue/{prefix}
+    description: 本番環境
+    variables:
+      prefix:
+        default: api
   - url: http://{host}:{port}/{prefix}
     description: ローカル開発用
     variables:

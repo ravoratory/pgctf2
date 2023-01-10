@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load socialaccount %}
+
+{% block title %}連携 - PG-CTF2{% endblock %}
+
+{% block content %}
+<form method="post">
+  {% csrf_token %}
+  <button type="submit">PGritでログイン</button>
+</form>
+<ul class="errorlist">
+  {{ auth_error }}
+  {% for key, value in form.errors.items %}
+  <li>{{ key }} {{ value }}</li>
+  {% endfor %}
+</ul>
+{% endblock %}

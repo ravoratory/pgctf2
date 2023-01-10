@@ -2,6 +2,7 @@ import json
 
 import requests
 
+from django.contrib.auth import get_user_model
 from django.core.signals import got_request_exception
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -9,9 +10,10 @@ from django.http import HttpRequest
 
 from game_configurations.models import Configuration
 from quizzes.models import Quiz, Solved
-from users.models import User
 
 from .models import Announcement
+
+User = get_user_model()
 
 
 def discord_webhook_sender(payload, webhook_url):

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="{{ LANGUAGE_CODE|default:'ja' }}">
+  <head>
+    <meta charset="utf-8">
+    <title>{% block title %}PG-CTF2{% endblock %}</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <meta name="description" content="PG CTF">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="disVill">
+    <link href="{% static 'css/normalize.css' %}" rel="stylesheet" type="text/css">
+    {% block extrastyle %}{% endblock %}
+  </head>
+  <body>
+    {% block content %}
+    {% endblock %}
+  </body>
+</html>
