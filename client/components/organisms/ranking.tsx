@@ -7,7 +7,7 @@ interface RankingProps {
   data: { rank: number; username: string; points: number }[]
   line: {
     datetime: string[]
-    points: { [name: string]: string[] }
+    points: { [name: string]: string | number[] }
     usernames: string[]
   }
 }
@@ -26,7 +26,6 @@ const Ranking = (props: RankingProps) => {
     const suffix = suffixes.get(rule)
     return `${n}${suffix}`
   }
-  console.log(props.line)
   return (
     <RankingBoard>
       <GraphContainer>

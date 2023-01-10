@@ -12,7 +12,7 @@ import {
 interface LineGraphProps {
   data?: {
     datetime: string[]
-    points: { [name: string]: string[] }
+    points: { [name: string]: string | number[] }
     usernames: string[]
   }
 }
@@ -33,13 +33,21 @@ const LineGraph = (props: LineGraphProps) => {
   const data = props.data?.datetime.map((d, idx) => {
     const r: { [key: string]: string | number | null | undefined } = { time: d }
     for (const user of props.data?.usernames ?? []) {
-      r[user] =
-        props.data?.points[user][idx] === 'NaN'
-          ? null
-          : props.data?.points[user][idx]
+      r[user] = props.data?.points[user][idx]
+      if (idx === 0 && r[user] === 'NaN') {
+        r[user] = 0
+        continue
+      }
+      if (
+        props.data?.points[user][idx] === 'NaN' ||
+        props.data?.points[user][idx] === 0
+      ) {
+        r[user] = null
+      }
     }
     return r
   })
+  console.log(data)
   return (
     <ResponsiveContainer width="100%" height="100%">
       <AreaChart
