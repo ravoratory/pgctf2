@@ -34,12 +34,12 @@ const Problem = (props: ProblemProps) => {
     const form = e.currentTarget as HTMLFormElement
     const data = new FormData()
     data.append('flag', form.flag.value)
+    axios.defaults.withCredentials = true
     await axios
       .post(
         `${process.env.NEXT_PUBLIC_RESTAPI_URL}/api/quizzes/${router.query.numbers}/answer`,
         data,
         {
-          withCredentials: true,
           headers: {
             Authorization: `Token: ${session.data?.accessToken}`,
             'Content-Type': 'multipart/form-data',
