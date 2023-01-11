@@ -11,7 +11,9 @@ export default class MyDocument extends Document {
   render() {
     return (
       <Html lang="ja">
-        <Head />
+        <Head>
+          <link rel="icon" href="/assets/ravoratory.svg" />
+        </Head>
         <body>
           <Main />
           <NextScript />
