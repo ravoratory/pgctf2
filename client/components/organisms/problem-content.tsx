@@ -32,7 +32,10 @@ const Problem = (props: ProblemProps) => {
   const onSubmit = async (e: FormEvent): Promise<boolean | void> => {
     e.preventDefault()
     const form = e.currentTarget as HTMLFormElement
-
+    if (form.flag.value.match(/^pgctf{\w*}$/) === null) {
+      setError('invalid flag!')
+      return false
+    }
     await fetch(
       `${process.env.NEXT_PUBLIC_RESTAPI_URL}/api/quizzes/${router.query.numbers}/answer`,
       {
