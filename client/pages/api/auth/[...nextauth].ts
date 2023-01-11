@@ -38,6 +38,7 @@ const nextAuthOptions = (
             access_token: account?.access_token,
           },
           {
+            withCredentials: true,
             headers: {
               'Content-Type': 'application/json',
             },
