@@ -1,5 +1,6 @@
 import { useState, FormEvent } from 'react'
 import { useSession } from 'next-auth/react'
+
 import styled from 'styled-components'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
@@ -43,7 +44,7 @@ const Problem = (props: ProblemProps) => {
         credentials: 'include',
         headers: {
           Authorization: `Token: ${session.data?.accessToken}`,
-          'Content-Type': 'multipart/form-data',
+          'Content-Type': 'application/json',
           'X-CSRFToken': `${cookies.csrftoken}`,
         },
         body: JSON.stringify({ flag: form.flag.value }),
