@@ -44,7 +44,7 @@ const Problem = (props: ProblemProps) => {
         credentials: 'include',
         referrerPolicy: 'origin-when-cross-origin',
         headers: {
-          Authorization: `Token: ${session.data?.accessToken}`,
+          Authorization: `Token ${session.data?.accessKey}`,
           'Content-Type': 'application/json',
           'X-CSRFToken': `${cookies.csrftoken}`,
         },
