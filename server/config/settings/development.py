@@ -5,7 +5,9 @@ SECRET_KEY = "secret_key"
 DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
-CSRF_TRUSTED_ORIGINS = ["http://localhost:8080", "http://pgctf2.test"]
+CSRF_TRUSTED_ORIGINS = ["http://localhost:8080", "http://pgctf2.test", "http://localhost:3000"]
+CORS_ALLOW_CREDENTIALS = True
+CORS_ORIGIN_WHITELIST = ["http://localhost:3000"]
 
 INSTALLED_APPS += [  # noqa: F405
     "debug_toolbar",
