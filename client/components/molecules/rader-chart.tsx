@@ -21,7 +21,7 @@ const ProblemsChart = (props: ProblemsChartProps) => {
         <PolarAngleAxis dataKey="subject" />
         <Radar
           name=""
-          dataKey="A"
+          dataKey="ratio"
           stroke={color.orange}
           fill={color.orange}
           fillOpacity={0}

@@ -1,4 +1,5 @@
-import { MouseEventHandler } from 'react'
+import { useRouter } from 'next/router'
+import { MouseEvent } from 'react'
 import styled from 'styled-components'
 import color from '../../theme/color'
 
@@ -6,12 +7,15 @@ interface RankingColumnProps {
   username: string
   points: number
   last_solved?: string
-  onClick?: MouseEventHandler<HTMLButtonElement>
 }
 
 const RankingColumn = (props: RankingColumnProps) => {
+  const router = useRouter()
+  const onClick = (e: MouseEvent) => {
+    router.push(`/users/${props.username}`)
+  }
   return (
-    <Button onClick={props.onClick} type="button">
+    <Button onClick={onClick} type="button">
       <User>{props.username}</User>
       <div>
         <Text>

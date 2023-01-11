@@ -5,7 +5,8 @@ import styled from 'styled-components'
 import useSWR from 'swr'
 import LeftColumn from '../../components/organisms/left-column'
 import Mypage from '../../components/organisms/mypage'
-const ProblemPage = () => {
+
+const ProblemPage = (props: any) => {
   const router = useRouter()
   const { data: session, status } = useSession({
     required: true,
@@ -28,7 +29,9 @@ const ProblemPage = () => {
       return res.json()
     },
   )
-  console.log(data, error)
+  if (data) {
+    data.chart = props.radar
+  }
   return (
     <Container>
       <LeftColumn />
@@ -36,6 +39,22 @@ const ProblemPage = () => {
     </Container>
   )
 }
+
+export const getServerSideProps = async (context: NextPageContext) => {
+  const session = await getSession(context)
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_RESTAPI_URL}/api/users/${context.query.username}/chart/radar`,
+    {
+      credentials: 'include',
+      headers: {
+        Authorization: `Token ${session?.accessKey}`,
+      },
+    },
+  )
+  const radar = await res.json()
+  return { props: { radar } }
+}
+
 export default ProblemPage
 
 const Container = styled.div`
