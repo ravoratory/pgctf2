@@ -40,10 +40,11 @@ const Problem = (props: ProblemProps) => {
       `${process.env.NEXT_PUBLIC_RESTAPI_URL}/api/quizzes/${router.query.numbers}/answer`,
       {
         method: 'post',
+        mode: 'cors',
         credentials: 'include',
         headers: {
           Authorization: `Token: ${session.data?.accessToken}`,
-          'Content-Type': 'Application/json',
+          'Content-Type': 'application/json',
           'X-CSRFToken': `${cookies.csrftoken}`,
         },
         body: JSON.stringify({ flag: form.flag.value }),
