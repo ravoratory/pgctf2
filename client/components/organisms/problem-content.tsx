@@ -42,6 +42,7 @@ const Problem = (props: ProblemProps) => {
         method: 'post',
         mode: 'cors',
         credentials: 'include',
+        referrerPolicy: 'origin-when-cross-origin',
         headers: {
           Authorization: `Token: ${session.data?.accessToken}`,
           'Content-Type': 'application/json',
