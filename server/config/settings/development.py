@@ -23,6 +23,9 @@ DEBUG_TOOLBAR_CONFIG = {
     "SHOW_TOOLBAR_CALLBACK": lambda request: True,
 }
 
+STATIC_URL = "static/"
+STATICFILES_DIRS = [BASE_DIR / "openapi"]  # noqa: F405
+
 
 LOGGING = {
     "version": 1,

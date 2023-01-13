@@ -22,8 +22,9 @@ services:
       dockerfile: ./docker/server/Dockerfile
     volumes:
       - ./server:/app
+      - ./openapi:/app/openapi
     ports:
-      - 8000
+      - "8080:8080"
     env_file:
       - ./server/.env
     depends_on:
@@ -31,22 +32,23 @@ services:
         condition: service_healthy
     command: >
       /bin/sh -c
-      'python manage.py runserver 0.0.0.0:8000'
+      'python manage.py runserver 0.0.0.0:8080'
 
-  nginx:
-    container_name: pgctf2_nginx
-    build:
-      context: .
-      dockerfile: ./docker/nginx/Dockerfile
-      target: dev
-    environment:
-      SERVER_HOST: web
-    volumes:
-      - ./openapi:/var/www/schema
-    ports:
-      - "8080:8080"
-    depends_on:
-      - web
+  # Swagger yamlの配信をDjango側に任せたので不要になった
+  # nginx:
+  #   container_name: pgctf2_nginx
+  #   build:
+  #     context: .
+  #     dockerfile: ./docker/nginx/Dockerfile
+  #     target: dev
+  #   environment:
+  #     SERVER_HOST: web
+  #   volumes:
+  #     - ./openapi:/var/www/schema
+  #   ports:
+  #     - "8080:8080"
+  #   depends_on:
+  #     - web
 
   minio:
     container_name: pgctf2_minio
