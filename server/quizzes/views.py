@@ -3,6 +3,8 @@ from rest_framework.generics import GenericAPIView, ListAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
+from django.shortcuts import get_object_or_404
+
 from .models import Quiz, QuizCategory, Solved, SubmitLog
 from .serializers import (
     CategorySerializer,
@@ -43,15 +45,17 @@ class AnswerView(GenericAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        quiz = Quiz.objects.get(number=number)
+        quiz = get_object_or_404(Quiz.objects.filter(published=True), number=number)
         user = request.user
 
         if Solved.objects.filter(quiz=quiz, user=user).exists():
             return Response({"detail": "すでに正解済みです"}, status=status.HTTP_400_BAD_REQUEST)
 
-        if quiz.flag == serializer.validated_data["flag"]:
+        if quiz.flag == serializer.validated_data["flag"].strip():
             solved = Solved.objects.create(quiz=quiz, user=user)
-            SubmitLog.objects.create(user=user, quiz=quiz, solved=solved, flag=serializer.validated_data["flag"])
+            SubmitLog.objects.create(
+                user=user, quiz=quiz, solved=solved, flag=serializer.validated_data["flag"].lower()
+            )
 
             return Response({"correct": True}, status=status.HTTP_200_OK)
 
