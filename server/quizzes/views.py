@@ -18,7 +18,7 @@ from .serializers import (
 class QuizListView(ListAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = QuizOverviewSerializer
-    queryset = Quiz.objects.filter(published=True)
+    queryset = Quiz.objects.filter(published=True).order_by("number")
 
 
 class QuizDetailView(RetrieveAPIView):
@@ -66,4 +66,4 @@ class AnswerView(GenericAPIView):
 class CategoriesView(ListAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = CategorySerializer
-    queryset = QuizCategory.objects.all()
+    queryset = QuizCategory.objects.all().order_by("name")
