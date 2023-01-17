@@ -9,3 +9,12 @@ updates:
       timezone: 'Asia/Tokyo'
     reviewers:
       - disVill
+  - package-ecosystem: npm
+    directory: '/client'
+    schedule:
+      interval: weekly
+      day: sunday
+      time: '12:00'
+      timezone: 'Asia/Tokyo'
+    reviewers:
+      - takumah
