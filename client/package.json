@@ -45,7 +45,7 @@
     "@types/react-dom": "18.0.9",
     "@types/styled-components": "^5.1.26",
     "babel-loader": "^9.1.2",
-    "eslint": "8.29.0",
+    "eslint": "8.32.0",
     "eslint-config-next": "13.0.6",
     "eslint-plugin-storybook": "^0.6.10",
     "storybook": "^6.5.15",
