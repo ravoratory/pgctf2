@@ -31,7 +31,7 @@
     "swr": "^2.0.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.5",
+    "@babel/core": "^7.20.12",
     "@storybook/addon-actions": "^6.5.14",
     "@storybook/addon-essentials": "^6.5.15",
     "@storybook/addon-interactions": "^6.5.15",
