@@ -21,7 +21,7 @@ MIDDLEWARE += [  # noqa: F405
 ]
 
 STATIC_URL = "static/"
-STATICFILES_DIRS = [BASE_DIR / "openapi"]  # noqa: F405
+STATICFILES_DIRS = [BASE_DIR.parent / "openapi"]  # noqa: F405
 STATIC_ROOT = BASE_DIR / "staticfiles"  # noqa: F405
 # キャッシュが悪さしてるっぽいので一旦Off
 # STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
