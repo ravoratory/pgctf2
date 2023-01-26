@@ -24,7 +24,7 @@ services:
       - ./server:/app
       - ./openapi:/app/openapi
     ports:
-      - "8080:8080"
+      - '8080:8080'
     env_file:
       - ./server/.env
     depends_on:
@@ -33,22 +33,6 @@ services:
     command: >
       /bin/sh -c
       'python manage.py runserver 0.0.0.0:8080'
-
-  # Swagger yamlの配信をDjango側に任せたので不要になった
-  # nginx:
-  #   container_name: pgctf2_nginx
-  #   build:
-  #     context: .
-  #     dockerfile: ./docker/nginx/Dockerfile
-  #     target: dev
-  #   environment:
-  #     SERVER_HOST: web
-  #   volumes:
-  #     - ./openapi:/var/www/schema
-  #   ports:
-  #     - "8080:8080"
-  #   depends_on:
-  #     - web
 
   minio:
     container_name: pgctf2_minio
@@ -60,7 +44,7 @@ services:
       - minio-data:/data:delegated
     command: ['server', '--console-address', ':9001', '--compat', '/data']
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      test: ['CMD', 'curl', '-f', 'http://localhost:9000/minio/health/live']
       interval: 1s
       retries: 10
 
@@ -70,12 +54,12 @@ services:
       minio:
         condition: service_healthy
     entrypoint: >
-      /bin/sh -c "
+      /bin/sh -c '
       until (/usr/bin/mc alias set myminio http://minio:9000 minioadmin minioadmin) do echo '...waiting...' && sleep 1; done;
       /usr/bin/mc mb myminio/pgctf-bucket;
       /usr/bin/mc policy set public myminio/pgctf-bucket;
       exit 0;
-      "
+      '
 
 volumes:
   db-data:

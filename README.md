@@ -80,3 +80,10 @@ echo "http://localhost:8080" > ~/.puma-dev/pgctf2
 ```
 
 [http://pgctf2.test](http://pgctf2.test)にアクセスできるようになります
+
+
+# fixture
+ダミーデータをdbにロードします
+```sh
+make loaddata
+```
