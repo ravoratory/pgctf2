@@ -42,6 +42,7 @@ export default Home
 
 const Container = styled.div`
   margin-top: 100px;
+  height: 80vh;
   display: flex;
   gap: 60px;
   flex-direction: column;
