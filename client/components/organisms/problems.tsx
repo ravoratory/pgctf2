@@ -46,9 +46,9 @@ const Problem = (props: ProblemProps) => {
           </Category>
         )
       })}
-      <Modal width="80%" noPadding {...bindings}>
+      <Modal width="800px" noPadding {...bindings}>
         <Modal.Body>
-          <iframe src={`/problems/${pid}`} height="800px"></iframe>
+          <iframe src={`/problems/${pid}`} height="600px"></iframe>
         </Modal.Body>
       </Modal>
     </Container>
