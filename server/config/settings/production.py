@@ -27,7 +27,7 @@ STATIC_ROOT = BASE_DIR / "staticfiles"  # noqa: F405
 # STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
 
-AWS_S3_BUCKET_AUTH = False
+AWS_QUERYSTRING_AUTH = False
 
 LOGGING = {
     "version": 1,
