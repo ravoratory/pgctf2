@@ -91,6 +91,7 @@ const Problem = (props: ProblemProps) => {
                   href={link.file}
                   target="_blank"
                   rel="noreferrer noopener"
+                  download
                 >
                   {link.title}
                 </a>
