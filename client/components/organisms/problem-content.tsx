@@ -8,6 +8,7 @@ import { useRouter } from 'next/router'
 import { parseCookies } from 'nookies'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
+import rehypeRaw from 'rehype-raw'
 import color from '../../theme/color'
 
 interface ProblemProps {
@@ -76,7 +77,10 @@ const Problem = (props: ProblemProps) => {
         </Info>
         <Statement>
           <Title>{props.title}</Title>
-          <ReactMarkdown remarkPlugins={[remarkGfm]}>
+          <ReactMarkdown
+            remarkPlugins={[remarkGfm]}
+            rehypePlugins={[rehypeRaw]}
+          >
             {props.statement}
           </ReactMarkdown>
           <Links>
