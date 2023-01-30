@@ -60,7 +60,7 @@ export default Problem
 const Container = styled.div`
   display: flex;
   width: 100%;
-  flex-direction: column;
+  flex-direction: column-reverse;
   align-items: flex-start;
   gap: 40px;
   iframe {
