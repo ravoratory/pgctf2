@@ -59,7 +59,6 @@ export default Problem
 
 const Container = styled.div`
   display: flex;
-  flex-direction: row-reverse;
   width: 100%;
   flex-direction: column;
   align-items: flex-start;
