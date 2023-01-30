@@ -1,9 +1,10 @@
+import { MouseEvent, useState } from 'react'
 import styled from 'styled-components'
+import { useRouter } from 'next/router'
+import { Modal, useModal, Button } from '@nextui-org/react'
+
 import ProblemCard from '../molecules/problem-card'
 import color from '../../theme/color'
-import { MouseEvent } from 'react'
-import { useRouter } from 'next/router'
-
 interface CategoryProps {
   [category: string]: {
     number: string
@@ -20,9 +21,12 @@ interface ProblemProps {
 
 const Problem = (props: ProblemProps) => {
   const router = useRouter()
+  const [pid, setPid] = useState<string>('')
+  const { setVisible, bindings } = useModal()
   const onClick = (problemId: string) => (e: MouseEvent) => {
     e.preventDefault()
-    router.push(`/problems/${problemId}`)
+    setPid(problemId)
+    setVisible(true)
   }
   return (
     <Container>
@@ -42,6 +46,11 @@ const Problem = (props: ProblemProps) => {
           </Category>
         )
       })}
+      <Modal width="800px" noPadding {...bindings}>
+        <Modal.Body>
+          <iframe src={`/problems/${pid}`} height="600px"></iframe>
+        </Modal.Body>
+      </Modal>
     </Container>
   )
 }
@@ -51,9 +60,12 @@ export default Problem
 const Container = styled.div`
   display: flex;
   width: 100%;
-  flex-direction: column;
+  flex-direction: column-reverse;
   align-items: flex-start;
   gap: 40px;
+  iframe {
+    border: none;
+  }
 `
 
 const Category = styled.div`

@@ -82,14 +82,24 @@ const Problem = (props: ProblemProps) => {
           <Links>
             {props.files?.map((link, idx) => {
               return (
-                <a key={`link-${link.title}-${idx}`} href={link.file}>
+                <a
+                  key={`link-${link.title}-${idx}`}
+                  href={link.file}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                >
                   {link.title}
                 </a>
               )
             })}
             {props.urls?.map((url, idx) => {
               return (
-                <a key={`url-${url.title}-${idx}`} href={url.url}>
+                <a
+                  key={`url-${url.title}-${idx}`}
+                  href={url.url}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                >
                   {url.title}
                 </a>
               )

@@ -6,12 +6,14 @@ import Document, {
   NextScript,
 } from 'next/document'
 import { ServerStyleSheet } from 'styled-components'
+import { CssBaseline } from '@nextui-org/react'
 
 export default class MyDocument extends Document {
   render() {
     return (
       <Html lang="ja">
         <Head>
+          {CssBaseline.flush()}
           <link rel="icon" href="/assets/ravoratory.svg" />
         </Head>
         <body>

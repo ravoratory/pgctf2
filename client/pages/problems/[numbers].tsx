@@ -17,11 +17,7 @@ const ProblemPage = (props: any) => {
   })
   return (
     <>
-      <Head>
-        <title>Problems</title>
-      </Head>
       <Container>
-        <LeftColumn />
         {props.data ? (
           <ProblemContent {...props.data} />
         ) : (
