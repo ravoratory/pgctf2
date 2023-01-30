@@ -154,7 +154,7 @@ const Statement = styled.div`
     color: skyblue;
   }
   & code {
-    background-color: #727272;
+    background-color: #4c4c4c;
     color: ${color.orange};
   }
 `
