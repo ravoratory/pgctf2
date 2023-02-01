@@ -98,4 +98,5 @@ const ProblemFrame = styled.iframe`
   background-color: ${color.black};
   border: none;
   border-radius: 8px;
+  padding-bottom: 32px;
 `
