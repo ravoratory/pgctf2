@@ -59,7 +59,7 @@ const ProblemPage = () => {
       data.chart = radar?.map((d: { [key: string]: any }) => {
         return {
           subject: d.name,
-          A: d.count !== 0 ? (solved[d.name] ?? 0) / d.count : 0,
+          ratio: d.count !== 0 ? (solved[d.name] ?? 0) / d.count : 0,
           fullmark: 1,
         }
       })

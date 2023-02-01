@@ -1,6 +1,5 @@
 import { MouseEvent, useState } from 'react'
 import styled from 'styled-components'
-import { useRouter } from 'next/router'
 import { Modal, useModal } from '@nextui-org/react'
 
 import ProblemCard from '../molecules/problem-card'
