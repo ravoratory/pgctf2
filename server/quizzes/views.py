@@ -45,7 +45,7 @@ class QuizListView(ListAPIView):
 class QuizDetailView(RetrieveAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = QuizDetailSerializer
-    queryset = Quiz.objects.filter(published=True)
+    queryset = Quiz.objects.filter(published=True).select_related("category")
     lookup_field = "number"
 
 
@@ -87,4 +87,15 @@ class AnswerView(GenericAPIView):
 class CategoriesView(ListAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = CategorySerializer
-    queryset = QuizCategory.objects.all().order_by("name")
+    queryset = (
+        QuizCategory.objects.all()
+        .annotate(
+            count=Subquery(
+                Quiz.objects.filter(category=OuterRef("pk"))
+                .values("category")
+                .annotate(count=Count("category"))
+                .values("count")
+            )
+        )
+        .order_by("name")
+    )

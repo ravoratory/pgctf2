@@ -31,6 +31,7 @@ class QuizDetailSerializer(serializers.ModelSerializer):
     urls = QuizAppendedURLSerializer(many=True, source="url")
     points = serializers.IntegerField(source="point")
     solved = serializers.SerializerMethodField()
+    category = serializers.CharField(source="category.name")
 
     class Meta:
         model = Quiz
@@ -73,11 +74,8 @@ class QuizFlagSerializer(serializers.Serializer):
 
 
 class CategorySerializer(serializers.ModelSerializer):
-    count = serializers.SerializerMethodField()
+    count = serializers.IntegerField()
 
     class Meta:
         model = QuizCategory
         fields = ("name", "count")
-
-    def get_count(self, obj):
-        return Quiz.objects.filter(category=obj).count()
