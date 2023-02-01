@@ -29,7 +29,6 @@ const Problem = (props: ProblemProps) => {
   const cookies = parseCookies()
   const router = useRouter()
   const session = useSession()
-
   const [error, setError] = useState<string>('')
   const [solved, setSolved] = useState<boolean>(props.solved)
   const onSubmit = async (e: FormEvent): Promise<boolean | void> => {
@@ -76,6 +75,7 @@ const Problem = (props: ProblemProps) => {
         <Info>
           <InfoText>Level: {props.difficulty}</InfoText>
           <InfoText>Point: {props.points}pt</InfoText>
+          <InfoText>Solved: {props.solved} 12</InfoText>
         </Info>
         <Statement>
           <Title>{props.title}</Title>
@@ -156,6 +156,7 @@ const Container = styled.div`
   flex-direction: column;
   align-items: flex-start;
   gap: 40px;
+  padding: 16px;
 `
 const Info = styled.div`
   display: flex;
@@ -163,7 +164,7 @@ const Info = styled.div`
   padding: 8px 12px;
   gap: 32px;
 
-  width: 240px;
+  width: 350px;
   height: 38px;
 
   background: ${color.black};

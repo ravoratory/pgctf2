@@ -56,7 +56,6 @@ const ProblemPage = () => {
       {},
     )
     if (data) {
-      console.log(solved)
       data.chart = radar?.map((d: { [key: string]: any }) => {
         return {
           subject: d.name,

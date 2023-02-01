@@ -1,7 +1,7 @@
 import { MouseEvent, useState } from 'react'
 import styled from 'styled-components'
 import { useRouter } from 'next/router'
-import { Modal, useModal, Button } from '@nextui-org/react'
+import { Modal, useModal } from '@nextui-org/react'
 
 import ProblemCard from '../molecules/problem-card'
 import color from '../../theme/color'
@@ -20,7 +20,6 @@ interface ProblemProps {
 }
 
 const Problem = (props: ProblemProps) => {
-  const router = useRouter()
   const [pid, setPid] = useState<string>('')
   const { setVisible, bindings } = useModal()
   const onClick = (problemId: string) => (e: MouseEvent) => {
@@ -48,7 +47,7 @@ const Problem = (props: ProblemProps) => {
       })}
       <Modal width="800px" noPadding {...bindings}>
         <Modal.Body>
-          <iframe src={`/problems/${pid}`} height="600px"></iframe>
+          <ProblemFrame src={`/problems/${pid}`} />
         </Modal.Body>
       </Modal>
     </Container>
@@ -92,4 +91,11 @@ const Text = styled.span<{ size?: number; textColor?: string }>`
   -webkit-box-orient: vertical;
   text-overflow: ellipsis;
   -webkit-line-clamp: 2;
+`
+
+const ProblemFrame = styled.iframe`
+  height: 600px;
+  background-color: ${color.black};
+  border: none;
+  border-radius: 8px;
 `

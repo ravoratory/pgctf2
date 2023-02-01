@@ -14,7 +14,7 @@ interface ProblemsChartProps {
 const ProblemsChart = (props: ProblemsChartProps) => {
   const data = props.data
   console.log(data)
-  return (
+  return data ? (
     <ResponsiveContainer width="100%" height="100%">
       <RadarChart cx="50%" cy="50%" outerRadius="80%" data={data}>
         <PolarGrid color={color.white} />
@@ -29,6 +29,8 @@ const ProblemsChart = (props: ProblemsChartProps) => {
         />
       </RadarChart>
     </ResponsiveContainer>
+  ) : (
+    <></>
   )
 }
 

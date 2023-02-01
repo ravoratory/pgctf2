@@ -1,11 +1,10 @@
 import { FormEvent } from 'react'
 import { NextPageContext } from 'next'
 import { getSession, useSession } from 'next-auth/react'
-import Head from 'next/head'
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
-import LeftColumn from '../../components/organisms/left-column'
 import ProblemContent from '../../components/organisms/problem-content'
+import color from '../../theme/color'
 
 const ProblemPage = (props: any) => {
   const router = useRouter()
@@ -48,6 +47,7 @@ export const getServerSideProps = async (context: NextPageContext) => {
     throw !res.ok
   }
   const data = await res.json()
+  console.log(data)
   return { props: { data } }
 }
 export default ProblemPage
@@ -58,4 +58,5 @@ const Container = styled.div`
   padding: 32px;
   width: 100%;
   height: 100vh;
+  background-color: ${color.black};
 `
