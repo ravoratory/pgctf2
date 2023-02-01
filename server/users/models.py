@@ -134,7 +134,10 @@ class User(AbstractBaseUser, PermissionsMixin):
     def ranking_solved_quizzes(self):
         enable, freeze_time = Configuration.enable_ranking()
         quizzes = (
-            self.solved_quizzes.filter(published=True).annotate(solved_at=F("solved__solved_at")).order_by("-solved_at")
+            self.solved_quizzes.filter(published=True)
+            .annotate(solved_at=F("solved__solved_at"))
+            .order_by("-solved_at")
+            .select_related("category")
         )
         if enable:
             return quizzes

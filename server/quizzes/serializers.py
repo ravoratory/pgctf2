@@ -54,6 +54,7 @@ class QuizDetailSerializer(serializers.ModelSerializer):
 
 class SolvedQuizSerializer(serializers.ModelSerializer):
     points = serializers.IntegerField(source="point")
+    category = serializers.CharField(source="category.name")
     solved_at = serializers.DateTimeField()
 
     class Meta:
