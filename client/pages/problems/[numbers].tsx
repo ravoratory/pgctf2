@@ -47,7 +47,6 @@ export const getServerSideProps = async (context: NextPageContext) => {
     throw !res.ok
   }
   const data = await res.json()
-  console.log(data)
   return { props: { data } }
 }
 export default ProblemPage

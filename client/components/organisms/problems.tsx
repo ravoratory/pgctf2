@@ -27,6 +27,11 @@ const Problem = (props: ProblemProps) => {
     setPid(problemId)
     setVisible(true)
   }
+  const [showing, setShowing] = useState<boolean>(false)
+  const onClose = () => {
+    setVisible(false)
+    setShowing(false)
+  }
   return (
     <Container>
       {Object.entries(props.problems).map(([category, problems]) => {
@@ -45,9 +50,13 @@ const Problem = (props: ProblemProps) => {
           </Category>
         )
       })}
-      <Modal width="800px" noPadding {...bindings}>
+      <Modal width="800px" noPadding {...bindings} onClose={onClose}>
         <Modal.Body>
-          <ProblemFrame src={`/problems/${pid}`} />
+          <ProblemFrame
+            src={`/problems/${pid}`}
+            showing={showing}
+            onLoad={() => setShowing(true)}
+          />
         </Modal.Body>
       </Modal>
     </Container>
@@ -93,7 +102,8 @@ const Text = styled.span<{ size?: number; textColor?: string }>`
   -webkit-line-clamp: 2;
 `
 
-const ProblemFrame = styled.iframe`
+const ProblemFrame = styled.iframe<{ showing: boolean }>`
+  display: ${({ showing }) => (showing ? 'block' : 'none')};
   height: 600px;
   background-color: ${color.black};
   border: none;
