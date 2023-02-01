@@ -38,9 +38,7 @@ const Mypage = (props: MyPageProps) => {
               return (
                 <tr key={`${d.title}-${d.number}`}>
                   <td>{d.number}</td>
-                  <td>
-                    <a>{d.title}</a>
-                  </td>
+                  <td>{d.title}</td>
                   <td>{new Date(d.solved_at).toLocaleString()}</td>
                   <td>{d.category}</td>
                   <td>{d.difficulty}</td>
