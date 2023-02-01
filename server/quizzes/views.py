@@ -3,6 +3,7 @@ from rest_framework.generics import GenericAPIView, ListAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
+from django.db.models import Count, Exists, OuterRef, Subquery
 from django.shortcuts import get_object_or_404
 
 from .models import Quiz, QuizCategory, Solved, SubmitLog
@@ -18,7 +19,27 @@ from .serializers import (
 class QuizListView(ListAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = QuizOverviewSerializer
-    queryset = Quiz.objects.filter(published=True).order_by("number")
+
+    def get_queryset(self):
+        user = self.request.user
+
+        return (
+            Quiz.objects.filter(published=True)
+            .select_related("category")
+            .annotate(
+                is_solved=Exists(
+                    Solved.objects.filter(quiz=OuterRef("pk"), user=user).values("id"),
+                ),
+                # 一旦ランキングのフリーズは考えないことにする
+                winners=Subquery(
+                    Solved.objects.filter(quiz=OuterRef("pk"), user__is_staff=False)
+                    .values("quiz_id")
+                    .annotate(count=Count("quiz_id"))
+                    .values("count")
+                ),
+            )
+            .order_by("number")
+        )
 
 
 class QuizDetailView(RetrieveAPIView):

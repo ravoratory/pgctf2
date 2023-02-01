@@ -1,29 +1,17 @@
 from rest_framework import serializers
 
-from game_configurations.models import Configuration
-
 from .models import Quiz, QuizAppendedUrl, QuizCategory, QuizFile, Solved
 
 
 class QuizOverviewSerializer(serializers.ModelSerializer):
     points = serializers.IntegerField(source="point")
-    solved = serializers.SerializerMethodField()
-    winners = serializers.SerializerMethodField()
+    solved = serializers.BooleanField(source="is_solved")
+    winners = serializers.IntegerField()
     category = serializers.CharField(source="category.name")
 
     class Meta:
         model = Quiz
         fields = ("number", "title", "category", "difficulty", "points", "winners", "solved")
-
-    def get_winners(self, obj):
-        enable, freeze_time = Configuration.enable_ranking()
-        solved = Solved.objects.filter(quiz__number=obj.number, user__is_staff=False, user__is_superuser=False)
-        if enable:
-            return solved.count()
-        return solved.filter(solved_at_lt=freeze_time).count()
-
-    def get_solved(self, obj):
-        return Solved.objects.filter(quiz__number=obj.number, user=self.context["request"].user).exists()
 
 
 class QuizFileSerializer(serializers.ModelSerializer):
