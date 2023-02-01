@@ -8,7 +8,7 @@ makemigrations:
 .PHONY: migrate
 migrate:
 	./bin/docker-compose-exec-or-run web \
-	python manage.py makemigrations
+	python manage.py migrate
 
 .PHONY: startapp
 startapp:
