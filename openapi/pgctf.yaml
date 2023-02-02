@@ -616,6 +616,8 @@ components:
           $ref: '#/components/schemas/QuizAppendedURLs'
         solved:
           $ref: '#/components/schemas/Solved'
+        winners:
+          $ref: '#/components/schemas/Winners'
     SolvedQuiz:
       type: object
       properties:
