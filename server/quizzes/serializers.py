@@ -32,6 +32,7 @@ class QuizDetailSerializer(serializers.ModelSerializer):
     points = serializers.IntegerField(source="point")
     solved = serializers.SerializerMethodField()
     category = serializers.CharField(source="category.name")
+    winners = serializers.IntegerField()
 
     class Meta:
         model = Quiz
@@ -46,6 +47,7 @@ class QuizDetailSerializer(serializers.ModelSerializer):
             "files",
             "urls",
             "solved",
+            "winners",
         )
 
     def get_solved(self, obj):

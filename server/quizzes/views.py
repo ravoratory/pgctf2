@@ -45,7 +45,18 @@ class QuizListView(ListAPIView):
 class QuizDetailView(RetrieveAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = QuizDetailSerializer
-    queryset = Quiz.objects.filter(published=True).select_related("category")
+    queryset = (
+        Quiz.objects.filter(published=True)
+        .select_related("category")
+        .annotate(
+            winners=Subquery(
+                Solved.objects.filter(quiz=OuterRef("pk"), user__is_staff=False)
+                .values("quiz_id")
+                .annotate(count=Count("quiz_id"))
+                .values("count")
+            )
+        )
+    )
     lookup_field = "number"
 
 
