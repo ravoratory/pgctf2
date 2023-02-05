@@ -76,7 +76,7 @@ const Problem = (props: ProblemProps) => {
         <Info>
           <InfoText>Level: {props.difficulty}</InfoText>
           <InfoText>Point: {props.points}pt</InfoText>
-          <InfoText>Solved: {props.winners}</InfoText>
+          <InfoText>Solved: {props.winners ?? 0}</InfoText>
         </Info>
         <Statement>
           <Title>{props.title}</Title>
