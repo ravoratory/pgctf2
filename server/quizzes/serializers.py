@@ -6,12 +6,15 @@ from .models import Quiz, QuizAppendedUrl, QuizCategory, QuizFile, Solved
 class QuizOverviewSerializer(serializers.ModelSerializer):
     points = serializers.IntegerField(source="point")
     solved = serializers.BooleanField(source="is_solved")
-    winners = serializers.IntegerField()
+    winners = serializers.SerializerMethodField()
     category = serializers.CharField(source="category.name")
 
     class Meta:
         model = Quiz
         fields = ("number", "title", "category", "difficulty", "points", "winners", "solved")
+
+    def get_winners(self, obj):
+        return obj.winners or 0
 
 
 class QuizFileSerializer(serializers.ModelSerializer):
@@ -32,7 +35,7 @@ class QuizDetailSerializer(serializers.ModelSerializer):
     points = serializers.IntegerField(source="point")
     solved = serializers.SerializerMethodField()
     category = serializers.CharField(source="category.name")
-    winners = serializers.IntegerField()
+    winners = serializers.SerializerMethodField()
 
     class Meta:
         model = Quiz
@@ -52,6 +55,9 @@ class QuizDetailSerializer(serializers.ModelSerializer):
 
     def get_solved(self, obj):
         return Solved.objects.filter(quiz__number=obj.number, user=self.context["request"].user).exists()
+
+    def get_winners(self, obj):
+        return obj.winners or 0
 
 
 class SolvedQuizSerializer(serializers.ModelSerializer):
