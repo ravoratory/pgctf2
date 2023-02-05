@@ -23,6 +23,7 @@ interface ProblemProps {
   solved: boolean
   files: { file: string; title: string }[]
   urls: { url: string; title: string }[]
+  winners: number
 }
 
 const Problem = (props: ProblemProps) => {
@@ -75,7 +76,7 @@ const Problem = (props: ProblemProps) => {
         <Info>
           <InfoText>Level: {props.difficulty}</InfoText>
           <InfoText>Point: {props.points}pt</InfoText>
-          <InfoText>Solved: {props.solved} 12</InfoText>
+          <InfoText>Solved: {props.winners}</InfoText>
         </Info>
         <Statement>
           <Title>{props.title}</Title>
