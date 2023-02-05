@@ -30,7 +30,7 @@ class QuizListView(ListAPIView):
                 is_solved=Exists(
                     Solved.objects.filter(quiz=OuterRef("pk"), user=user).values("id"),
                 ),
-                # 一旦ランキングのフリーズは考えないことにする
+                # select count(*) from (select ... from ... group by ...)の書き方ができない?ので0件の場合はnullになる
                 winners=Subquery(
                     Solved.objects.filter(quiz=OuterRef("pk"), user__is_staff=False)
                     .values("quiz_id")
