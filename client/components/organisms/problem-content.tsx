@@ -9,10 +9,14 @@ import { parseCookies } from 'nookies'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import rehypeRaw from 'rehype-raw'
+import remarkMath from 'remark-math'
+import rehypeKatex from 'rehype-katex'
+import 'katex/dist/katex.min.css'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { oneDark } from 'react-syntax-highlighter/dist/cjs/styles/prism'
 
 import color from '../../theme/color'
+
 
 interface ProblemProps {
   number: string
@@ -82,8 +86,8 @@ const Problem = (props: ProblemProps) => {
           <Title>{props.title}</Title>
           <ReactMarkdown
             children={props.statement}
-            remarkPlugins={[remarkGfm]}
-            rehypePlugins={[rehypeRaw]}
+            remarkPlugins={[remarkGfm, remarkMath]}
+            rehypePlugins={[rehypeRaw, rehypeKatex]}
             components={{
               code({ node, inline, className, children, style, ...props }) {
                 const match = /language-(\w+)/.exec(className || '')
