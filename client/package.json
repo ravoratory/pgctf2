@@ -55,6 +55,6 @@
     "eslint-config-next": "13.0.6",
     "eslint-plugin-storybook": "^0.6.10",
     "storybook": "^6.5.15",
-    "typescript": "4.9.4"
+    "typescript": "4.9.5"
   }
 }
