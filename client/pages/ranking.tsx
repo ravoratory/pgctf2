@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
-import { useSession } from 'next-auth/react'
+import { getSession, GetSessionParams, useSession } from 'next-auth/react'
 import useSWR from 'swr'
 import LeftColumn from '../components/organisms/left-column'
 import RightColumn from '../components/organisms/ranking'
@@ -14,21 +14,6 @@ const Rankings = (props: any) => {
       router.replace('/')
     },
   })
-  const { data, error } = useSWR(
-    `${process.env.NEXT_PUBLIC_RESTAPI_URL}/api/ranking`,
-    async (url: string) => {
-      const res = await fetch(url, {
-        credentials: 'include',
-        headers: {
-          Authorization: `Token ${session?.accessKey}`,
-        },
-      })
-      if (!res.ok) {
-        throw !res.ok
-      }
-      return res.json()
-    },
-  )
 
   const { data: line, error: lineError } = useSWR(
     `${process.env.NEXT_PUBLIC_RESTAPI_URL}/api/ranking/chart/line`,
@@ -54,8 +39,8 @@ const Rankings = (props: any) => {
         </Head>
         <Container>
           <LeftColumn />
-          {!error ? (
-            <RightColumn line={line} data={data ?? []} />
+          {!lineError ? (
+            <RightColumn line={line} data={props.data ?? []} />
           ) : (
             <div>loading...</div>
           )}
@@ -65,6 +50,29 @@ const Rankings = (props: any) => {
   }
 
   return <div>loading...</div>
+}
+
+export const getServerSideProps = async (
+  context: GetSessionParams | undefined,
+) => {
+  const session = await getSession(context)
+  if (!session) {
+    return { props: { data: [] } }
+  }
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_RESTAPI_URL}/api/ranking`,
+    {
+      credentials: 'include',
+      headers: {
+        Authorization: `Token ${session.accessKey}`,
+      },
+    },
+  )
+  if (!res.ok) {
+    throw !res.ok
+  }
+  const data = await res.json()
+  return { props: { data } }
 }
 
 export default Rankings
