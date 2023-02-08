@@ -4,6 +4,7 @@ import { Modal, useModal } from '@nextui-org/react'
 
 import ProblemCard from '../molecules/problem-card'
 import color from '../../theme/color'
+import ProblemContent, { ProblemProps } from './problem-content'
 interface CategoryProps {
   [category: string]: {
     number: string
@@ -14,22 +15,26 @@ interface CategoryProps {
   }[]
 }
 
-interface ProblemProps {
+interface ProblemsProps {
   problems: CategoryProps
+  problemContent?: ProblemProps
+  setProblemId: (pid: string) => void
 }
 
-const Problem = (props: ProblemProps) => {
+const Problem = (props: ProblemsProps) => {
   const [pid, setPid] = useState<string>('')
   const { setVisible, bindings } = useModal()
-  const onClick = (problemId: string) => (e: MouseEvent) => {
-    e.preventDefault()
-    setPid(problemId)
-    setVisible(true)
-  }
+
   const [showing, setShowing] = useState<boolean>(false)
   const onClose = () => {
     setVisible(false)
     setShowing(false)
+  }
+  const onClick = (problemId: string) => (e: MouseEvent) => {
+    e.preventDefault()
+    props.setProblemId(problemId)
+    setPid(problemId)
+    setVisible(true)
   }
   return (
     <Container>
@@ -51,11 +56,13 @@ const Problem = (props: ProblemProps) => {
       })}
       <Modal width="800px" noPadding {...bindings} onClose={onClose}>
         <Modal.Body>
-          <ProblemFrame
-            src={`/problems/${pid}`}
-            showing={showing}
-            onLoad={() => setShowing(true)}
-          />
+          <ProblemContainer>
+            {props.problemContent ? (
+              <ProblemContent {...props.problemContent} />
+            ) : (
+              <></>
+            )}
+          </ProblemContainer>
         </Modal.Body>
       </Modal>
     </Container>
@@ -86,7 +93,7 @@ const Problems = styled.div`
   width: 100%;
   display: grid;
   grid-template-columns: repeat(auto-fill, 290px);
-  gap: 12px;
+  gap: 8px;
 `
 
 const Text = styled.span<{ size?: number; textColor?: string }>`
@@ -101,11 +108,12 @@ const Text = styled.span<{ size?: number; textColor?: string }>`
   -webkit-line-clamp: 2;
 `
 
-const ProblemFrame = styled.iframe<{ showing: boolean }>`
-  display: ${({ showing }) => (showing ? 'block' : 'none')};
-  height: 600px;
+const ProblemContainer = styled.div`
+  display: flex;
+  gap: 40px;
+  padding: 32px;
+  width: 100%;
+  height: 100%;
   background-color: ${color.black};
-  border: none;
-  border-radius: 8px;
-  padding-bottom: 32px;
+  color: white;
 `

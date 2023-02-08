@@ -1,7 +1,9 @@
+import { useState } from 'react'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { getSession, GetSessionParams, useSession } from 'next-auth/react'
 import styled from 'styled-components'
+import useSWR from 'swr'
 
 import LeftColumn from '../components/organisms/left-column'
 import RightColumn from '../components/organisms/problems'
@@ -14,6 +16,25 @@ const Problems = (props: any) => {
       router.replace('/')
     },
   })
+
+  const [problemId, setProblemId] = useState<string>('')
+  const { data, error } = useSWR(
+    problemId !== ''
+      ? `${process.env.NEXT_PUBLIC_RESTAPI_URL}/api/quizzes/${problemId}`
+      : null,
+    async (url: string) => {
+      const res = await fetch(url, {
+        credentials: 'include',
+        headers: {
+          Authorization: `Token ${session?.accessKey}`,
+        },
+      })
+      if (!res.ok) {
+        throw !res.ok
+      }
+      return res.json()
+    },
+  )
   if (status === 'authenticated') {
     return (
       <>
@@ -37,6 +58,8 @@ const Problems = (props: any) => {
                 },
                 {},
               )}
+              problemContent={data}
+              setProblemId={setProblemId}
             />
           }
         </Container>

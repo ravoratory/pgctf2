@@ -17,8 +17,7 @@ import { oneDark } from 'react-syntax-highlighter/dist/cjs/styles/prism'
 
 import color from '../../theme/color'
 
-
-interface ProblemProps {
+export interface ProblemProps {
   number: string
   title: string
   difficulty: number
