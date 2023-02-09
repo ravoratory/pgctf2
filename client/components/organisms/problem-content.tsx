@@ -242,6 +242,7 @@ const Title = styled.h2``
 
 const Links = styled.div`
   display: flex;
+  flex-direction: column;
   gap: 8px;
 `
 const Solved = styled.p`
