@@ -116,83 +116,82 @@ class RankingView(RankingViewableMixin, ListAPIView):
 
 @require_GET
 @login_required
-class RankingChartView(RankingViewableMixin, GenericAPIView):
-    def get(request: HttpRequest, *args, **kwargs):
-        if not Configuration.ranking_viewable() and not request.user.is_staff:
-            return HttpResponse(status=403)
+def ranking_chart(request: HttpRequest, *args, **kwargs):
+    if not Configuration.ranking_viewable() and not request.user.is_staff:
+        return HttpResponse(status=403)
 
-        enable, freeze_datetime = Configuration.enable_ranking()
-        limit = request.GET.get("limit", 10)
+    enable, freeze_datetime = Configuration.enable_ranking()
+    limit = request.GET.get("limit", 10)
 
-        ranking = User.objects.filter(is_active=True, is_staff=False)
-        if enable:
-            ranking = ranking.prefetch_related("solved")
-        else:
-            ranking = ranking.prefetch_related(
-                Prefetch(
-                    "solved",
-                    queryset=Solved.objects.filter(solved_at__lt=freeze_datetime),
-                    to_attr="solved",
-                )
+    ranking = User.objects.filter(is_active=True, is_staff=False)
+    if enable:
+        ranking = ranking.prefetch_related("solved")
+    else:
+        ranking = ranking.prefetch_related(
+            Prefetch(
+                "solved",
+                queryset=Solved.objects.filter(solved_at__lt=freeze_datetime),
+                to_attr="solved",
             )
-        ranking = (
-            ranking.annotate(points=Sum("solved__quiz__point"))
-            .annotate(
-                rank=Window(
-                    expression=Rank(),
-                    order_by=F("points").desc(nulls_last=True),
-                )
-            )
-            .annotate(last_solve=Max("solved__solved_at"))
-            .order_by("rank", "last_solve")
-            .values("id")
-        )[:limit]
-        solved = Solved.objects.filter(user__in=ranking)
-        if not enable:
-            solved = solved.filter(solved_at__lt=freeze_datetime)
-        solved = (
-            solved.annotate(date_joined=F("user__date_joined"))
-            .annotate(username=F("user__username"))
-            .annotate(point=F("quiz__point"))
-            .values("username", "point", "solved_at", "date_joined")
-            .order_by("solved_at")
         )
+    ranking = (
+        ranking.annotate(points=Sum("solved__quiz__point"))
+        .annotate(
+            rank=Window(
+                expression=Rank(),
+                order_by=F("points").desc(nulls_last=True),
+            )
+        )
+        .annotate(last_solve=Max("solved__solved_at"))
+        .order_by("rank", "last_solve")
+        .values("id")
+    )[:limit]
+    solved = Solved.objects.filter(user__in=ranking)
+    if not enable:
+        solved = solved.filter(solved_at__lt=freeze_datetime)
+    solved = (
+        solved.annotate(date_joined=F("user__date_joined"))
+        .annotate(username=F("user__username"))
+        .annotate(point=F("quiz__point"))
+        .values("username", "point", "solved_at", "date_joined")
+        .order_by("solved_at")
+    )
 
-        users = {}
-        times = []
-        for record in solved:
-            if users.get(record["username"]) is None:
-                users[record["username"]] = []
-                times.append(
-                    {
-                        "time": record["date_joined"].astimezone(pytz.timezone("Asia/Tokyo")),
-                        "username": record["username"],
-                        "point": 0,
-                    }
-                )
-
-            for t in times:
-                if t["username"] == record["username"]:
-                    point = t["point"]
-
+    users = {}
+    times = []
+    for record in solved:
+        if users.get(record["username"]) is None:
+            users[record["username"]] = []
             times.append(
                 {
-                    "time": record["solved_at"].astimezone(pytz.timezone("Asia/Tokyo")),
+                    "time": record["date_joined"].astimezone(pytz.timezone("Asia/Tokyo")),
                     "username": record["username"],
-                    "point": record["point"] + point,
+                    "point": 0,
                 }
             )
-        times.sort(key=lambda k: k["time"])
 
-        response = {"datetime": [], "points": users, "usernames": list(users.keys())}
-        for time in times:
-            response["datetime"].append(time["time"])
-            for u in users.keys():
-                if u == time["username"]:
-                    response["points"][u].append(time["point"])
-                else:
-                    response["points"][u].append("NaN")
+        for t in times:
+            if t["username"] == record["username"]:
+                point = t["point"]
 
-        response = json.dumps(response, cls=DjangoJSONEncoder)
+        times.append(
+            {
+                "time": record["solved_at"].astimezone(pytz.timezone("Asia/Tokyo")),
+                "username": record["username"],
+                "point": record["point"] + point,
+            }
+        )
+    times.sort(key=lambda k: k["time"])
 
-        return HttpResponse(response, content_type="application/json")
+    response = {"datetime": [], "points": users, "usernames": list(users.keys())}
+    for time in times:
+        response["datetime"].append(time["time"])
+        for u in users.keys():
+            if u == time["username"]:
+                response["points"][u].append(time["point"])
+            else:
+                response["points"][u].append("NaN")
+
+    response = json.dumps(response, cls=DjangoJSONEncoder)
+
+    return HttpResponse(response, content_type="application/json")
