@@ -6,6 +6,8 @@ from rest_framework.response import Response
 from django.db.models import Count, Exists, OuterRef, Subquery
 from django.shortcuts import get_object_or_404
 
+from common.mixins import CanSubmitFlagMixin, QuizViewableMixin
+
 from .models import Quiz, QuizCategory, Solved, SubmitLog
 from .serializers import (
     CategorySerializer,
@@ -16,7 +18,7 @@ from .serializers import (
 )
 
 
-class QuizListView(ListAPIView):
+class QuizListView(QuizViewableMixin, ListAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = QuizOverviewSerializer
 
@@ -42,7 +44,7 @@ class QuizListView(ListAPIView):
         )
 
 
-class QuizDetailView(RetrieveAPIView):
+class QuizDetailView(QuizViewableMixin, RetrieveAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = QuizDetailSerializer
     queryset = (
@@ -60,7 +62,7 @@ class QuizDetailView(RetrieveAPIView):
     lookup_field = "number"
 
 
-class QuizWinnersView(ListAPIView):
+class QuizWinnersView(QuizViewableMixin, ListAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = QuizWinnerSerializer
     lookup_field = "number"
@@ -69,7 +71,7 @@ class QuizWinnersView(ListAPIView):
         return Solved.objects.filter(quiz__number=self.kwargs["number"]).order_by("-solved_at")
 
 
-class AnswerView(GenericAPIView):
+class AnswerView(CanSubmitFlagMixin, GenericAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = QuizFlagSerializer
 

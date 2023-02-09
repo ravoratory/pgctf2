@@ -18,7 +18,7 @@ from django.urls import include, path
 from common.admin import site
 from common.views import HealthView
 from quizzes.views import CategoriesView
-from users.views import RankingView, ranking_chart
+from users.views import RankingChartView, RankingView
 
 # fmt: off
 urlpatterns = [
@@ -29,7 +29,7 @@ urlpatterns = [
         path("categories", CategoriesView.as_view(), name="categories"),
         path("health", HealthView.as_view(), name="health"),
         path("ranking", RankingView.as_view(), name="ranking"),
-        path("ranking/chart/line", ranking_chart, name="ranking_chart"),
+        path("ranking/chart/line", RankingChartView.as_view(), name="ranking_chart"),
         path("quizzes/", include("quizzes.urls")),
         path("users/", include("users.urls")),
     ])),
