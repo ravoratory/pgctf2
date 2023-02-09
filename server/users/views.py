@@ -7,6 +7,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db.models import (
     BooleanField,
@@ -27,6 +28,7 @@ from django.db.models.functions import Cast, Rank, Round
 from django.http import HttpRequest
 from django.http.response import HttpResponse
 from django.shortcuts import get_object_or_404
+from django.views.decorators.http import require_GET
 
 from common.mixins import RankingViewableMixin
 from game_configurations.models import Configuration
@@ -112,9 +114,9 @@ class RankingView(RankingViewableMixin, ListAPIView):
         )
 
 
+@require_GET
+@login_required
 class RankingChartView(RankingViewableMixin, GenericAPIView):
-    permission_classes = (IsAuthenticated,)
-
     def get(request: HttpRequest, *args, **kwargs):
         if not Configuration.ranking_viewable() and not request.user.is_staff:
             return HttpResponse(status=403)
