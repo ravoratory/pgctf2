@@ -38,22 +38,26 @@ const Problem = (props: ProblemsProps) => {
   }
   return (
     <Container>
-      {Object.entries(props.problems).map(([category, problems]) => {
-        return (
-          <Category key={category}>
-            <Text>{category}</Text>
-            <Problems>
-              {problems.map((problem, idx) => (
-                <ProblemCard
-                  onClick={onClick(problem.number)}
-                  key={`${problem.title}-${idx}`}
-                  {...problem}
-                ></ProblemCard>
-              ))}
-            </Problems>
-          </Category>
-        )
-      })}
+      {Object.keys(props.problems).length !== 0 ? (
+        Object.entries(props.problems).map(([category, problems]) => {
+          return (
+            <Category key={category}>
+              <Text>{category}</Text>
+              <Problems>
+                {problems.map((problem, idx) => (
+                  <ProblemCard
+                    onClick={onClick(problem.number)}
+                    key={`${problem.title}-${idx}`}
+                    {...problem}
+                  ></ProblemCard>
+                ))}
+              </Problems>
+            </Category>
+          )
+        })
+      ) : (
+        <div>競技時間外です。</div>
+      )}
       <Modal width="800px" noPadding {...bindings} onClose={onClose} scroll>
         <Modal.Body>
           <ProblemContainer>
@@ -76,10 +80,8 @@ const Container = styled.div`
   width: 100%;
   flex-direction: column-reverse;
   align-items: flex-start;
+  justify-content: flex-end;
   gap: 40px;
-  iframe {
-    border: none;
-  }
 `
 
 const Category = styled.div`

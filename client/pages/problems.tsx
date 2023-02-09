@@ -77,6 +77,7 @@ export const getServerSideProps = async (
   if (!session) {
     return { props: { data: [] } }
   }
+  console.log(session)
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_RESTAPI_URL}/api/quizzes/`,
     {
@@ -86,10 +87,7 @@ export const getServerSideProps = async (
       },
     },
   )
-  if (!res.ok) {
-    throw !res.ok
-  }
-  const data = await res.json()
+  const data = res.ok ? await res.json() : []
   return { props: { data } }
 }
 
