@@ -54,7 +54,7 @@ const Problem = (props: ProblemsProps) => {
           </Category>
         )
       })}
-      <Modal width="800px" noPadding {...bindings} onClose={onClose}>
+      <Modal width="800px" noPadding {...bindings} onClose={onClose} scroll>
         <Modal.Body>
           <ProblemContainer>
             {props.problemContent ? (
@@ -121,4 +121,5 @@ const ProblemContainer = styled.div`
 const LoadingText = styled.div`
   display: flex;
   align-items: center;
+  justify-content: center;
 `
