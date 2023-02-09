@@ -15,7 +15,9 @@ const ProblemPage = (props: any) => {
     },
   })
   const { data: radar, error } = useSWR(
-    `${process.env.NEXT_PUBLIC_RESTAPI_URL}/api/categories`,
+    session?.user?.name
+      ? `${process.env.NEXT_PUBLIC_RESTAPI_URL}/api/users/${session?.user?.name}/chart/radar`
+      : null,
     async (url: string) => {
       const res = await fetch(url, {
         credentials: 'include',
@@ -29,27 +31,7 @@ const ProblemPage = (props: any) => {
       return res.json()
     },
   )
-  if (!error) {
-    const solved = props.data?.solved_quizzes.reduce(
-      (prev: { [key: string]: number }, curr: { [key: string]: any }) => {
-        if (!prev[curr.category]) {
-          prev[curr.category] = 0
-        }
-        prev[curr.category]++
-        return prev
-      },
-      {},
-    )
-    if (props.data) {
-      props.data.chart = radar?.map((d: { [key: string]: any }) => {
-        return {
-          subject: d.name,
-          ratio: d.count !== 0 ? (solved[d.name] ?? 0) / d.count : 0,
-          fullmark: 1,
-        }
-      })
-    }
-  }
+  props.data.chart = radar ?? []
   return (
     <>
       <Head>
