@@ -60,7 +60,7 @@ const Problem = (props: ProblemsProps) => {
             {props.problemContent ? (
               <ProblemContent {...props.problemContent} />
             ) : (
-              <></>
+              <LoadingText>Loading...</LoadingText>
             )}
           </ProblemContainer>
         </Modal.Body>
@@ -116,4 +116,9 @@ const ProblemContainer = styled.div`
   height: 100%;
   background-color: ${color.black};
   color: white;
+`
+
+const LoadingText = styled.div`
+  display: flex;
+  align-items: center;
 `
