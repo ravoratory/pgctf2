@@ -43,7 +43,7 @@ const Problem = (props: ProblemProps) => {
       return false
     }
     await fetch(
-      `${process.env.NEXT_PUBLIC_RESTAPI_URL}/api/quizzes/${router.query.numbers}/answer`,
+      `${process.env.NEXT_PUBLIC_RESTAPI_URL}/api/quizzes/${props.number}/answer`,
       {
         method: 'post',
         mode: 'cors',
@@ -58,12 +58,19 @@ const Problem = (props: ProblemProps) => {
       },
     )
       .then(async (e) => {
-        const data = await e.json()
-        if (data.correct) {
-          setSolved(true)
+        console.log(e)
+        if (e.ok) {
+          const data = await e.json()
+          if (data.correct) {
+            setSolved(true)
+          } else {
+            setSolved(false)
+            setError('Flag is not correct!')
+          }
+        } else if (e.status === 403) {
+          setError('競技時間外またはメンテナンス中のため提出できませんでした')
         } else {
-          setSolved(false)
-          setError('Flag is not correct!')
+          setError('想定外のエラーが出ています')
         }
       })
       .catch((err) => {
