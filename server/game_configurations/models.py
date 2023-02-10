@@ -10,7 +10,7 @@ from django.utils import timezone
 
 class Configuration(models.Model):
     field = models.CharField(max_length=100, unique=True)
-    value = models.CharField(max_length=100, default="0")
+    value = models.CharField(max_length=1000, default="0")
     description = models.TextField()
 
     created_at = models.DateTimeField(default=timezone.now, editable=False)
