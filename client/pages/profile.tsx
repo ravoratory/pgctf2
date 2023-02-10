@@ -1,4 +1,4 @@
-import { useSession } from 'next-auth/react'
+import { getSession, GetSessionParams, useSession } from 'next-auth/react'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
@@ -6,7 +6,7 @@ import useSWR from 'swr'
 import LeftColumn from '../components/organisms/left-column'
 import Mypage from '../components/organisms/mypage'
 
-const ProblemPage = () => {
+const ProblemPage = (props: any) => {
   const router = useRouter()
   const { data: session, status } = useSession({
     required: true,
@@ -14,8 +14,10 @@ const ProblemPage = () => {
       router.replace('/')
     },
   })
-  const { data, error } = useSWR(
-    `${process.env.NEXT_PUBLIC_RESTAPI_URL}/api/users/self`,
+  const { data: radar, error } = useSWR(
+    session?.user?.name
+      ? `${process.env.NEXT_PUBLIC_RESTAPI_URL}/api/users/${session?.user?.name}/chart/radar`
+      : null,
     async (url: string) => {
       const res = await fetch(url, {
         credentials: 'include',
@@ -29,42 +31,7 @@ const ProblemPage = () => {
       return res.json()
     },
   )
-  const { data: radar, error: err2 } = useSWR(
-    `${process.env.NEXT_PUBLIC_RESTAPI_URL}/api/categories`,
-    async (url: string) => {
-      const res = await fetch(url, {
-        credentials: 'include',
-        headers: {
-          Authorization: `Token ${session?.accessKey}`,
-        },
-      })
-      if (!res.ok) {
-        throw !res.ok
-      }
-      return res.json()
-    },
-  )
-  if (!error && !err2) {
-    const solved = data?.solved_quizzes.reduce(
-      (prev: { [key: string]: number }, curr: { [key: string]: any }) => {
-        if (!prev[curr.category]) {
-          prev[curr.category] = 0
-        }
-        prev[curr.category]++
-        return prev
-      },
-      {},
-    )
-    if (data) {
-      data.chart = radar?.map((d: { [key: string]: any }) => {
-        return {
-          subject: d.name,
-          ratio: d.count !== 0 ? (solved[d.name] ?? 0) / d.count : 0,
-          fullmark: 1,
-        }
-      })
-    }
-  }
+  props.data.chart = radar ?? []
   return (
     <>
       <Head>
@@ -72,10 +39,33 @@ const ProblemPage = () => {
       </Head>
       <Container>
         <LeftColumn />
-        {!error ? <Mypage {...data} /> : <div>loading...</div>}
+        {!error ? <Mypage {...props.data} /> : <div>loading...</div>}
       </Container>
     </>
   )
+}
+
+export const getServerSideProps = async (
+  context: GetSessionParams | undefined,
+) => {
+  const session = await getSession(context)
+  if (!session) {
+    return { props: { data: [] } }
+  }
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_RESTAPI_URL}/api/users/self`,
+    {
+      credentials: 'include',
+      headers: {
+        Authorization: `Token ${session.accessKey}`,
+      },
+    },
+  )
+  if (!res.ok) {
+    throw !res.ok
+  }
+  const data = await res.json()
+  return { props: { data } }
 }
 
 export default ProblemPage
