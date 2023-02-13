@@ -56,7 +56,10 @@ const Problem = (props: ProblemsProps) => {
           )
         })
       ) : (
-        <div>競技時間外です。</div>
+        <div>
+          <p>競技時間外です。</p>
+          <p>競技時間は2023/02/15 0:00~2023/03/08 0:00 です。</p>
+        </div>
       )}
       <Modal width="800px" noPadding {...bindings} onClose={onClose} scroll>
         <Modal.Body>
