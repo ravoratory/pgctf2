@@ -46,8 +46,8 @@ class User(AbstractBaseUser, PermissionsMixin):
         "Username",
         max_length=30,
         unique=True,
-        help_text="ユーザー名は4~30文字の英数字と'_'が使用できます",
-        validators=[username_validator, MinLengthValidator(4)],
+        help_text="ユーザー名は1~30文字の英数字と'_'が使用できます",
+        validators=[username_validator, MinLengthValidator(1)],
         error_messages={
             "unique": "このユーザー名は既に使用されています",
         },
