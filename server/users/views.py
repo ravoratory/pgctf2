@@ -2,14 +2,12 @@ import json
 
 import pytz
 from rest_framework import status
-from rest_framework.authtoken.models import Token
 from rest_framework.generics import GenericAPIView, ListAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import user_passes_test
-from django.contrib.auth.models import AnonymousUser
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db.models import (
     BooleanField,
