@@ -2,12 +2,14 @@ import json
 
 import pytz
 from rest_framework import status
+from rest_framework.authtoken.models import Token
 from rest_framework.generics import GenericAPIView, ListAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from django.contrib.auth import get_user_model
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth.models import AnonymousUser
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db.models import (
     BooleanField,
@@ -114,12 +116,23 @@ class RankingView(RankingViewableMixin, ListAPIView):
         )
 
 
-@require_GET
-@login_required
-def ranking_chart(request: HttpRequest, *args, **kwargs):
-    if not Configuration.ranking_viewable() and not request.user.is_staff:
-        return HttpResponse(status=403)
+def ranking_chart_viewable(self):
+    user = _get_user_from_token(self.request)
+    return user.is_staff or Configuration.ranking_viewable()
 
+
+def _get_user_from_token(self, request):
+    token = request.META.get("HTTP_AUTHORIZATION", " ").split(" ")[1]
+    try:
+        valid_data = Token.objects.get(key=token)
+        return valid_data.user
+    except Token.DoesNotExist:
+        return AnonymousUser()
+
+
+@require_GET
+@user_passes_test(ranking_chart_viewable)
+def ranking_chart(request: HttpRequest, *args, **kwargs):
     enable, freeze_datetime = Configuration.enable_ranking()
     limit = request.GET.get("limit", 10)
 
