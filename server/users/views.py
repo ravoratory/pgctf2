@@ -116,18 +116,8 @@ class RankingView(RankingViewableMixin, ListAPIView):
         )
 
 
-def ranking_chart_viewable(self):
-    user = _get_user_from_token(self.request)
+def ranking_chart_viewable(user):
     return user.is_staff or Configuration.ranking_viewable()
-
-
-def _get_user_from_token(self, request):
-    token = request.META.get("HTTP_AUTHORIZATION", " ").split(" ")[1]
-    try:
-        valid_data = Token.objects.get(key=token)
-        return valid_data.user
-    except Token.DoesNotExist:
-        return AnonymousUser()
 
 
 @require_GET
