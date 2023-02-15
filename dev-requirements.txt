@@ -1,5 +1,5 @@
 black
-django==4.1.6
+django==4.1.7
 flake8
 isort
 pre-commit
