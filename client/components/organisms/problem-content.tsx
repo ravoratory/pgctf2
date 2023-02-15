@@ -69,6 +69,10 @@ const Problem = (props: ProblemProps) => {
           }
         } else if (e.status === 403) {
           setError('競技時間外またはメンテナンス中のため提出できませんでした')
+        } else if (e.status === 429) {
+          setError(
+            '1分あたりの提出限界数を超えています 時間をおいてやり直してください',
+          )
         } else {
           setError('想定外のエラーが出ています')
         }
