@@ -33,4 +33,4 @@ sqlparse==0.4.3
 types-cryptography==3.3.23.2
 urllib3==1.26.14
 uWSGI==2.0.21
-whitenoise==6.3.0
+whitenoise==6.4.0
