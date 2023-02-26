@@ -9,7 +9,7 @@ defusedxml==0.7.1
 dj-rest-auth==2.2.7
 Django==4.1.7
 django-allauth==0.52.0
-django-cors-headers==3.13.0
+django-cors-headers==3.14.0
 django-debug-toolbar==3.8.1
 django-import-export==3.0.2
 django-material-admin==1.8.6
