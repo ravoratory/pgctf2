@@ -62,6 +62,13 @@ def quiz_solved_receiver(sender, instance, created, **kwargs):
     }
     discord_webhook_sender(payload, Configuration.webhook_solved_notify_url())
 
+    # 全問解かれたかどうかをチェック
+    quiz_count = Quiz.objects.filter(published=True).count()
+    solved_count = Solved.objects.filter(user=instance.user).values("quiz").distinct().count()
+    if quiz_count == solved_count:
+        payload = {"content": f":tada: @{instance.user.username}がすべての問題に正解しました"}
+        discord_webhook_sender(payload, Configuration.webhook_solved_notify_url())
+
 
 # Announcementが作成された際の通知
 @receiver(post_save, sender=Announcement)
