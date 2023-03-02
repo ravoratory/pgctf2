@@ -5,6 +5,7 @@ from rest_framework.response import Response
 
 from django.db.models import Count, Exists, OuterRef, Subquery
 from django.shortcuts import get_object_or_404
+from django.utils import timezone
 
 from common.mixins import CanSubmitFlagMixin, QuizViewableMixin
 
@@ -75,12 +76,24 @@ class AnswerView(CanSubmitFlagMixin, GenericAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = QuizFlagSerializer
 
+    def check_brute_force(self, user):
+        # 1分以内に20回以上お手つきしたら429 to many requests
+        return (
+            SubmitLog.objects.filter(
+                user=user, solved__isnull=True, created_at__gte=timezone.now() - timezone.timedelta(minutes=1)
+            ).count()
+            >= 20
+        )
+
     def post(self, request, number):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
         quiz = get_object_or_404(Quiz.objects.filter(published=True), number=number)
         user = request.user
+
+        if self.check_brute_force(user):
+            return Response(status=status.HTTP_429_TOO_MANY_REQUESTS)
 
         if Solved.objects.filter(quiz=quiz, user=user).exists():
             return Response({"detail": "すでに正解済みです"}, status=status.HTTP_400_BAD_REQUEST)
