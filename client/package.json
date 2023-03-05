@@ -34,7 +34,7 @@
     "remark-gfm": "^3.0.1",
     "remark-math": "^5.1.1",
     "styled-components": "^5.3.6",
-    "swr": "^2.0.1"
+    "swr": "^2.0.4"
   },
   "devDependencies": {
     "@babel/core": "^7.20.12",
