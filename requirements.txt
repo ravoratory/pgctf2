@@ -1,5 +1,5 @@
 asgiref==3.6.0
-boto3==1.26.79
+boto3==1.26.89
 botocore==1.29.89
 certifi==2022.12.7
 cffi==1.15.1
