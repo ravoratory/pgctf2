@@ -1,6 +1,6 @@
 asgiref==3.6.0
 boto3==1.26.89
-botocore==1.29.99
+botocore==1.29.160
 certifi==2022.12.7
 cffi==1.15.1
 charset-normalizer==2.1.1
